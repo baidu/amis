@@ -16,6 +16,9 @@ export const ColorPicker = React.lazy(
  * Color 颜色选择框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/color
  */
+/**
+ * Color 颜色选择框组件，支持选择和自定义各种格式的颜色，包含预设颜色、清除按钮、以及弹出层相关配置。
+ */
 export interface AMISInputColorSchema extends AMISFormItem {
   /**
    * 指定为 color 组件

@@ -44,6 +44,9 @@ export interface StatusSource {
  * 状态展示组件，用于显示各种状态信息
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/status
  */
+/**
+ * 状态组件，用于显示状态点/标签等。支持多状态映射与颜色标识。
+ */
 export interface AMISStatusSchema extends AMISSchemaBase {
   /**
    * 指定为 status 组件

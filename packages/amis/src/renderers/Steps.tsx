@@ -48,6 +48,9 @@ export interface StepSchema extends AMISSchemaBase {
   description?: string | AMISSchemaCollection;
 }
 
+/**
+ * 步骤条组件，用于展示流程步骤。支持垂直/水平与可点击。
+ */
 export interface AMISStepsSchema extends AMISSchemaBase {
   /**
    * 指定为 steps 组件

@@ -18,6 +18,9 @@ import cx from 'classnames';
  * TextArea 多行文本输入框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/textarea
  */
+/**
+ * TextArea 多行文本输入框组件，支持最大/最小行数、只读、边框模式、最大长度、字符统计和清除等功能。
+ */
 export interface AMISTextareaSchema extends AMISFormItem {
   /**
    * 指定为 textarea 组件

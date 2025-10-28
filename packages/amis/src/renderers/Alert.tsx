@@ -16,8 +16,7 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import type {AlertProps} from 'amis-ui/lib/components/Alert2';
 
 /**
- * Alert 提示渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/alert
+ * 信息提示组件，用于展示通知、警告或成功/失败消息。支持标题、图标、操作按钮。
  */
 export interface AMISAlertSchema extends AMISSchemaBase {
   /**

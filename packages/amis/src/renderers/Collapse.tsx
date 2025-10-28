@@ -102,6 +102,9 @@ export interface AMISCollapseSchemaBase extends AMISSchemaBase {
  * Collapse 折叠渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */
+/**
+ * 折叠面板组件，用于展开/收起内容区域。支持默认展开与禁用。
+ */
 export interface AMISCollapseSchema extends AMISCollapseSchemaBase {
   /**
    * 指定为折叠器类型

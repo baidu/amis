@@ -11,6 +11,9 @@ import {BaseSchema, SchemaUrlPath} from '../Schema';
  * Audio 音频渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/audio
  */
+/**
+ * 音频播放器组件，用于播放音频。支持自动播放、循环与控制栏。
+ */
 export interface AMISAudioSchema extends AMISSchemaBase {
   /**
    * 指定为 audio 组件

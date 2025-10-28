@@ -13,6 +13,9 @@ import {BadgeObject, withBadge} from 'amis-ui';
 import {BaseSchema, AMISClassName} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter, autobind} from 'amis-core';
 
+/**
+ * 头像组件，用于展示用户头像或图标。
+ */
 export interface AMISAvatarSchema extends AMISSchemaBase {
   // 指定类型
   type: 'avatar';

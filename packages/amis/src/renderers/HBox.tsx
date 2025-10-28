@@ -73,6 +73,9 @@ export type HBoxColumn = AMISHBoxColumn;
  * Hbox 水平布局渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/hbox
  */
+/**
+ * 水平布局组件，用于横向排列子元素。支持列比例与间距设置。
+ */
 export interface AMISHBoxSchema extends AMISSchemaBase {
   /**
    * 指定为 hbox 组件

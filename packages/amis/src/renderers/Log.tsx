@@ -49,6 +49,9 @@ export type LogOperation =
  * 日志展示组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/log
  */
+/**
+ * 日志组件，用于展示实时/历史日志流。支持自动滚动与级别过滤。
+ */
 export interface AMISLogSchema extends AMISSchemaBase {
   /**
    * 指定为 log 组件

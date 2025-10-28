@@ -43,8 +43,7 @@ export type InputTextAddOnObject = {
 export type InputTextAddOn = ActionSchema & InputTextAddOnObject;
 
 /**
- * Text 文本输入框。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-text
+ * 文本输入框，支持建议、校验与多种展示模式。支持异步联想、前后缀、密码显隐、计数、大小写转换。
  */
 export interface AMISInputTextSchema extends AMISFormItemWithOptions {
   /**

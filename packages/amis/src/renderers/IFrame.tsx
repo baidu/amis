@@ -21,6 +21,9 @@ import {dataMapping, resolveVariableAndFilter} from 'amis-core';
  * IFrame 渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/iframe
  */
+/**
+ * IFrame 组件，用于嵌入外部页面。支持高度/边框/沙箱设置。
+ */
 export interface AMISIFrameSchema extends AMISSchemaBase {
   type: 'iframe';
 

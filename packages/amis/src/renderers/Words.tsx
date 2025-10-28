@@ -22,6 +22,9 @@ type Words = string | string[];
 /**
  * Words
  */
+/**
+ * 词云组件，用于展示关键词权重。支持形状、配色与尺寸。
+ */
 export interface AMISWordsSchema extends AMISSchemaBase {
   type: 'words';
 

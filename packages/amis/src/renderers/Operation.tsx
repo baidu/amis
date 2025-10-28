@@ -17,6 +17,9 @@ import {ActionSchema} from './Action';
  * 操作栏渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/operation
  */
+/**
+ * 操作列组件，用于表格中的操作按钮区域。支持多按钮配置与条件显示。
+ */
 export interface AMISOperationSchema extends AMISSchemaBase {
   /**
    * 指定为 operation 组件

@@ -81,6 +81,9 @@ export interface AMISInputDateSchemaBase extends AMISFormItem {
  * Date日期选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date
  */
+/**
+ * 日期选择器，支持选择日期并自定义显示和存储格式，支持时间禁用、快捷键、边框模式等配置。
+ */
 export interface AMISInputDateSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为 date 组件
@@ -133,6 +136,13 @@ export interface AMISInputDateSchema extends AMISInputDateSchemaBase {
 /**
  * Datetime日期时间选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/datetime
+ */
+/**
+ * InputDate 日期选择控件
+ * 用于表单中选择日期数据。支持设置日期格式、最大/最小日期、选择后自动关闭弹窗等功能，适用于各种需要日期输入的场景。
+ *
+ * @schemaType input-date
+ * @displayName 日期选择器（InputDate）
  */
 export interface AMISInputDateTimeSchema extends AMISInputDateSchemaBase {
   /**
@@ -194,6 +204,13 @@ export interface AMISInputDateTimeSchema extends AMISInputDateSchemaBase {
  * Time 时间选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/time
  */
+/**
+ * InputTime 时间选择控件
+ * 用于表单中选择时间数据。支持设置时间格式、时间输入范围限制、选择后自动关闭弹窗等功能，适用于各种需要时间输入的场景。
+ *
+ * @schemaType input-time
+ * @displayName 时间选择器（InputTime）
+ */
 export interface AMISInputTimeSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为日期时间选择控件
@@ -238,6 +255,9 @@ export interface AMISInputTimeSchema extends AMISInputDateSchemaBase {
 /**
  * Month 月份选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/Month
+ */
+/**
+ * 时间选择组件，用于表单中选择时间，可设置时间格式、输入范围、自动关闭等功能，适用于需要输入时间的场景。
  */
 export interface AMISInputMonthSchema extends AMISInputDateSchemaBase {
   /**

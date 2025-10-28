@@ -72,9 +72,6 @@ export type AMISCardFieldBase = {
 export type AMISCardField = AMISSchema & AMISCardFieldBase;
 
 export interface AMISCardSchemaBase extends AMISSchemaBase {
-  /**
-   * 卡片头部配置
-   */
   header?: {
     /**
      * 头部容器CSS类名
@@ -256,6 +253,9 @@ export interface AMISCardSchemaBase extends AMISSchemaBase {
 /**
  * Card 卡片渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
+ */
+/**
+ * 卡片组件，用于展示信息块。支持头部、内容区域、操作按钮等配置。
  */
 export interface AMISCardSchema extends AMISCardSchemaBase {
   /**

@@ -9,6 +9,9 @@ import {AMISFormItem} from 'amis-core';
  * 公式功能控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/formula
  */
+/**
+ * 用于根据公式自动计算并赋值给指定字段的表单控件。
+ */
 export interface AMISFormulaSchema extends AMISFormItem {
   /**
    * 指定为 formula 组件

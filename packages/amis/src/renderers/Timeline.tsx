@@ -97,6 +97,9 @@ export interface TimelineItemSchema extends AMISSchemaBase {
   cardSchema?: AMISCardSchema;
 }
 
+/**
+ * 时间轴组件，用于按时间顺序展示事件。支持方向、颜色与标签。
+ */
 export interface AMISTimelineSchema extends AMISSchemaBase {
   /**
    * 指定为 Timeline 时间轴渲染器

@@ -16,8 +16,7 @@ import {BaseSchema, FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 /**
- * Radio 单选框。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
+ * 单选框组件，用于单选场景。支持多个选项中的唯一选择。
  */
 export interface AMISRadioSchema extends AMISFormItem {
   /**

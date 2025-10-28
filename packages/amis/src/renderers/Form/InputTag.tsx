@@ -31,6 +31,9 @@ import {AMISFormItemWithOptions} from 'amis-core';
  * Tag 输入框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tag
  */
+/**
+ * Tag输入组件，支持自定义标签、下拉选择、最大标签数、标签文本长度限制及批量添加。
+ */
 export interface AMISInputTagSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 tag 组件

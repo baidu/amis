@@ -33,7 +33,9 @@ import {
   ChainNodeParser,
   ExpressionWithTypeArgumentsNodeParser,
   IntersectionNodeParser,
-  FunctionType
+  DefinitionTypeFormatter,
+  FunctionType,
+  DefinitionType
 } from 'ts-json-schema-generator';
 import ts, {TypeOperatorNode, TypeReferenceNode} from 'typescript';
 import mkdirp from 'mkdirp';
@@ -93,6 +95,9 @@ async function main() {
         );
         fmt.addTypeFormatter(
           new MyIntersectionTypeFormatter(circularReferenceTypeFormatter)
+        );
+        fmt.addTypeFormatter(
+          new MyDefinitionTypeFormatter(circularReferenceTypeFormatter, true)
         );
       }
     );
@@ -329,6 +334,30 @@ class MyFunctionTypeFormatter implements SubTypeFormatter {
   }
   getDefinition(type: FunctionType): Definition {
     return {type: 'string', description: 'function'};
+  }
+}
+
+class MyDefinitionTypeFormatter extends DefinitionTypeFormatter {
+  getDefinition(type: DefinitionType) {
+    if (
+      type.getName() === 'AMISFunction<function>' ||
+      type.getName() === 'AMISFunction'
+    ) {
+      return {
+        type: 'string'
+      } as any;
+    }
+
+    return super.getDefinition(type);
+  }
+  getChildren(type: DefinitionType) {
+    if (
+      type.getName() === 'AMISFunction<function>' ||
+      type.getName() === 'AMISFunction'
+    ) {
+      return [];
+    }
+    return super.getChildren(type);
   }
 }
 

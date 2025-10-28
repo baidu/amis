@@ -14,8 +14,7 @@ export const JsonView = React.lazy(() =>
   import('react-json-view').then(importLazyComponent)
 );
 /**
- * JSON 数据展示控件。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/json
+ * JSON 数据查看/编辑控件。用于展示或编辑 JSON 数据，支持复制、折叠、键排序等。
  */
 export interface AMISJsonSchema extends AMISSchemaBase {
   /**

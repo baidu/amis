@@ -36,6 +36,9 @@ import {filter} from 'amis-core';
  * File 文件上传控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
  */
+/**
+ * 文件上传控件，支持选择文件、上传文件、下载文件等操作，适用于需要文件上传的场景。
+ */
 export interface AMISInputFileSchema extends AMISFormItem {
   /**
    * 指定为 file 组件

@@ -7,6 +7,9 @@ import {AMISSchemaBase} from 'amis-core';
  * Wrapper 容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/wrapper
  */
+/**
+ * 包装器组件，为子组件提供统一样式与容器结构。
+ */
 export interface AMISWrapperSchema extends AMISSchemaBase {
   /**
    * 指定为 container 类型

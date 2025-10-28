@@ -73,6 +73,9 @@ export interface CustomLang {
  * 代码高亮组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/code
  */
+/**
+ * 代码展示组件，用于高亮显示代码片段。
+ */
 export interface AMISCodeSchema extends AMISSchemaBase {
   type: 'code';
 

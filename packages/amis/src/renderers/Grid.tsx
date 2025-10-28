@@ -89,6 +89,9 @@ export interface ColumnArray extends Array<ColumnNode> {}
  * Grid 网格布局组件，用于创建响应式网格系统
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/grid
  */
+/**
+ * 栅格布局组件，用于按列布局子元素。支持响应式断点与列间距配置。
+ */
 export interface AMISGridSchema extends AMISSchemaBase {
   /**
    * 指定为 grid 组件

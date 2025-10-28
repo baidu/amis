@@ -49,6 +49,9 @@ import {AMISFormItemWithOptions} from 'amis-core';
  * Nested Select
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
  */
+/**
+ * NestedSelect 组件用于多层级数据的选择，支持级联、父子节点独立选择、只选叶子节点等多种配置，适用于复杂层级结构的表单场景。
+ */
 export interface AMISNestedSelectSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 nested-select 组件

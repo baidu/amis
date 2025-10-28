@@ -17,8 +17,7 @@ import {supportStatic} from './StaticHoc';
 import type {SpinnerExtraProps} from 'amis-ui';
 
 /**
- * Switch
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/switch
+ * 开关组件，用于布尔值切换。支持开启/关闭状态的切换操作。
  */
 
 export interface AMISSwitchSchema extends AMISFormItem {

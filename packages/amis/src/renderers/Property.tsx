@@ -44,6 +44,9 @@ export type PropertyItem = PropertyItemProps & SchemaObject;
  * Property 属性列表
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/property
  */
+/**
+ * 属性列表组件，用于展示键值对信息。支持分组、搜索与复制。
+ */
 export interface AMISPropertySchema extends AMISSchemaBase {
   /**
    * 指定为 property 组件

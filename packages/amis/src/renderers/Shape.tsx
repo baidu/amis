@@ -17,6 +17,9 @@ import {Shape, IShapeType} from 'amis-ui';
 import cx from 'classnames';
 import {BaseSchema} from '../Schema';
 
+/**
+ * 形状组件，用于绘制矩形/圆形等图形或分隔。
+ */
 export interface AMISIShapeSchema extends AMISSchemaBase {
   type: 'shape';
   /**

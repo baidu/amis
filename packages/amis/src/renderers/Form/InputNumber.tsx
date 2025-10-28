@@ -33,6 +33,9 @@ import {supportStatic} from './StaticHoc';
  * 数字输入框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-number
  */
+/**
+ * InputNumber 数字输入框，用于在表单中录入、修改和展示数字，支持步长、精度、最大最小值、单位选择等功能。
+ */
 export interface AMISInputNumberSchema extends AMISFormItem {
   /**
    * 指定为 number 组件

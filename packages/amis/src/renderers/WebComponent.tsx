@@ -13,6 +13,9 @@ import mapValues from 'lodash/mapValues';
  * WebComponent 容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/web-component
  */
+/**
+ * Web 组件，用于集成自定义 WebComponent。支持属性与事件绑定。
+ */
 export interface AMISWebComponentSchema extends AMISSchemaBase {
   /**
    * 指定为 web-component 组件

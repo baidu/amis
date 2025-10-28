@@ -23,8 +23,7 @@ import {BaseSchema, AMISClassName, SchemaUrlPath} from '../Schema';
 import {AMISSchemaBase} from 'amis-core';
 
 /**
- * 视频播放器组件，用于播放视频内容
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/video
+ * 视频播放器组件，用于播放视频内容。支持封面、自动播放、倍速、弹幕等配置。
  */
 export interface AMISVideoSchema extends AMISSchemaBase {
   /**

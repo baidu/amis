@@ -33,7 +33,8 @@ import {
   applyFilters,
   evalExpression,
   injectObjectChain,
-  AMISSchemaCollection
+  AMISSchemaCollection,
+  AMISFunction
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -55,6 +56,9 @@ export type TableDataItem = {
   [x: string | number]: any;
 };
 
+/**
+ * InputTable 组件用于在表单中以表格形式收集和管理结构化数据，支持增删改查、拖拽排序、批量操作等功能。
+ */
 export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
   type: 'input-table';
 
@@ -266,7 +270,13 @@ export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
    *  * `options.matchSorter` 系统默认的排序方法
    * @since 6.10.0
    */
-  matchFunc?: string | any;
+  matchFunc?: AMISFunction<
+    (
+      items: Array<any>,
+      itemsRaw: Array<any>,
+      options: {query: string; columns: Array<any>; matchSorter: Function}
+    ) => Array<any>
+  >;
 }
 
 export interface TableProps

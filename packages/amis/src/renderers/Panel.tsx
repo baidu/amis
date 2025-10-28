@@ -19,6 +19,9 @@ import {Icon} from 'amis-ui';
  * Panel渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/panel
  */
+/**
+ * 面板组件，用于分组展示内容区域。支持头部、工具栏与脚部。
+ */
 export interface AMISPanelSchema extends AMISSchemaBase {
   /**
    * 指定为 panel 组件

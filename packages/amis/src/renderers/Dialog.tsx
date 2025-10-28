@@ -38,6 +38,9 @@ import {BaseSchema, AMISClassName, SchemaName, SchemaTpl} from '../Schema';
 import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 
+/**
+ * 对话框组件，用于弹窗展示内容。支持确认/取消操作、自定义内容等。
+ */
 export interface AMISDialogSchema extends AMISDialogSchemaBase {
   type: 'dialog';
 }

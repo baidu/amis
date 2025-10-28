@@ -24,6 +24,9 @@ import {filter} from 'amis-core';
  * Radio 单选框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
  */
+/**
+ * Radios 单选框组件，用于在多个选项中选择一个，支持自定义列数与选项样式。
+ */
 export interface AMISRadiosSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 radios 组件

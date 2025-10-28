@@ -23,6 +23,9 @@ import {
  * Static
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/static
  */
+/**
+ * Static 静态内容展示控件，支持模板渲染、内容复制、快速编辑和详情弹窗配置，一般用于只读显示表单项内容。
+ */
 export interface AMISStaticSchema extends AMISFormItem {
   type: 'static';
 

@@ -52,8 +52,7 @@ export interface ImageToolbarAction {
 }
 
 /**
- * 图片展示组件，用于显示图片内容
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/image
+ * 图片展示组件，用于显示图片内容。支持点击放大、工具栏操作、懒加载等功能。
  */
 export interface AMISImageSchema extends AMISSchemaBase {
   /**

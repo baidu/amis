@@ -6,6 +6,9 @@ import {AMISSchemaBase, AMISSchemaCollection} from 'amis-core';
 /**
  * 分页容器功能性渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/pagination-wrapper
  */
+/**
+ * 分页包装器组件，为子组件提供分页能力。支持外部数据源。
+ */
 export interface AMISPaginationWrapperSchema extends AMISSchemaBase {
   /**
    * 指定为 pagination-wrapper 组件

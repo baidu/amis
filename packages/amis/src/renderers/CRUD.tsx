@@ -549,6 +549,15 @@ export interface AMISCRUDTable extends AMISCRUDBase, AMISTableBase {
  * CRUD 增删改查渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/crud
  */
+/**
+ * 列表组件：CRUD 增删改查渲染器。支持表格（table）、卡片（cards）、列表（list）等多种展示模式，同时整合了筛选、排序、批量操作、分页等常用功能。
+ * 支持灵活的数据源配置、列配置、行操作、自定义工具栏、选择与批量操作、异步加载、懒加载、无限滚动，以及多种事件分发机制。
+ * 适合用于复杂业务场景下的数据增删改查页面的快速搭建。
+ *
+ * @schemaType crud
+ * @displayName 增删改查（CRUD）
+ */
+
 export type AMISCRUDSchema =
   | AMISCRUDTable
   | AMISCRUDCards

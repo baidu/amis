@@ -10,6 +10,9 @@ import {AMISSchemaBase} from 'amis-core';
  * Plain 纯文本渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/plain
  */
+/**
+ * 纯文本组件，用于展示文本内容。支持模板渲染与样式控制。
+ */
 export interface AMISPlainSchema extends AMISSchemaBase {
   /**
    * 指定为 plain 组件

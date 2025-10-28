@@ -149,6 +149,9 @@ export interface AMISCardsBase extends AMISSchemaBase, AMISSpinnerConfig {
 }
 export type BaseCardsSchema = AMISCardsBase;
 
+/**
+ * 卡片集合组件，以卡片形式展示列表数据。
+ */
 export interface AMISCardsSchema extends AMISCardsBase {
   /**
    * 指定为 cards 类型

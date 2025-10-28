@@ -37,6 +37,9 @@ export type DropdownButton =
  * 下拉按钮渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dropdown-button
  */
+/**
+ * 下拉按钮组件，结合按钮与下拉菜单。支持分组操作与权限控制。
+ */
 export interface AMISDropdownButtonSchema extends AMISSchemaBase {
   /**
    * 指定为 dropdown-button 组件

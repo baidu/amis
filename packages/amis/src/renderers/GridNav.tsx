@@ -55,6 +55,12 @@ export interface ListItemSchema extends AMISSchemaBase {
  * List 列表展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
+/**
+ * 网格导航组件，用于宫格样式的导航入口。支持图标与描述。
+ */
+/**
+ * 网格导航组件，用于宫格样式的导航入口。支持图标与描述。
+ */
 export interface AMISGridNavSchema extends AMISSchemaBase {
   /**
    * 指定为 List 列表展示控件。

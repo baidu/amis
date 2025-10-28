@@ -8,7 +8,7 @@ import {
 import {AMISAlertSchema} from './renderers/Alert';
 import {AMISFlexSchema} from './renderers/Flex';
 import {AMISTplSchema} from './renderers/Tpl';
-import {RemarkSchema, SchemaRemark} from './renderers/Remark';
+import {AMISRemarkSchema, RemarkSchema, SchemaRemark} from './renderers/Remark';
 import {AMISAudioSchema} from './renderers/Audio';
 import {AMISButtonGroupSchema} from './renderers/ButtonGroup';
 import {AMISButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
@@ -290,7 +290,7 @@ declare module 'amis-core' {
     /** 条形码组件，用于生成和显示条形码 */
     'barcode': AMISBarCodeSchema;
     /** 备注组件，用于显示提示信息 */
-    'remark': RemarkSchema;
+    'remark': AMISRemarkSchema;
     /** 搜索框组件，用于搜索功能 */
     'search-box': AMISSearchBoxSchema;
     /** 迷你图表组件，用于显示小型图表 */

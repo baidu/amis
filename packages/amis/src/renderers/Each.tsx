@@ -45,6 +45,9 @@ function EachItem(props: EachExtraProps) {
  * Each 循环功能渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/each
  */
+/**
+ * 循环渲染组件，用于遍历数组并渲染子内容。
+ */
 export interface AMISEachSchema extends AMISSchemaBase {
   /**
    * 指定为 each 组件

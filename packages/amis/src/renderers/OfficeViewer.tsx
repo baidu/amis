@@ -21,6 +21,9 @@ import {Spinner} from 'amis-ui';
 import {Payload} from '../types';
 import {AMISSchemaBase} from 'amis-core';
 
+/**
+ * Office 文档查看器组件，用于预览 Word/Excel/PPT 等文档。
+ */
 export interface AMISOfficeViewerSchema extends AMISSchemaBase {
   type: 'office-viewer';
   /**

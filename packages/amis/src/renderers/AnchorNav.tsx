@@ -33,8 +33,7 @@ export interface AnchorNavSectionSchema extends AMISSchemaBase {
 }
 
 /**
- * AnchorNav 锚点导航渲染器
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
+ * 锚点导航组件，用于页面内导航跳转。支持吸顶、自动高亮对应区域。
  */
 export interface AMISAnchorNavSchema extends AMISSchemaBase {
   /**

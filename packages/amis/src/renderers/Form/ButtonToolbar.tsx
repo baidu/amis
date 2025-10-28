@@ -12,6 +12,9 @@ import {
  * Button Toolar 渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/button-toolbar
  */
+/**
+ * ButtonToolbar 用于在表单中展示多个操作按钮的工具条组件，通常用于批量操作或表单按钮组合。
+ */
 export interface AMISButtonToolbarSchema
   extends BaseSchema,
     FormBaseControlWithoutSize {

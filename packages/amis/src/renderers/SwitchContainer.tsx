@@ -32,6 +32,9 @@ export interface AMISStatusSchemaBase extends AMISSchemaBase {
  * SwitchContainer 状态容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/state-container
  */
+/**
+ * 开关容器组件，根据条件切换渲染不同内容区域。
+ */
 export interface AMISSwitchContainerSchema extends AMISSchemaBase {
   /**
    * 指定为 container 类型

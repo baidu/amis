@@ -62,8 +62,7 @@ interface CSSRule {
 }
 
 /**
- * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page
- * 一个页面只允许有一个 Page 渲染器。
+ * 页面容器组件，用于组织页面结构与数据加载。支持头部/工具栏/主体/边栏布局，初始化数据拉取与轮询，页面级样式。
  */
 export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   /**

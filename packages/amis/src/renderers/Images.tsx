@@ -26,6 +26,9 @@ import {AMISSchemaBase} from 'amis-core';
  * 图片集展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
  */
+/**
+ * 图片集组件，用于列表方式展示多张图片。支持查看大图与工具栏。
+ */
 export interface AMISImagesSchema extends AMISSchemaBase {
   /**
    * 指定为 images 组件

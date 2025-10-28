@@ -22,6 +22,9 @@ import {supportStatic} from './StaticHoc';
  * 按钮组控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/button-group
  */
+/**
+ * 按钮组选择器表单项，用于在表单中通过按钮组样式选择单个或多个选项。
+ */
 export interface AMISButtonGroupSelectSchema
   extends AMISFormItemWithOptions,
     AMISButtonGroupSchemaBase {

@@ -29,6 +29,9 @@ import {
  * Mapping 映射展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/mapping
  */
+/**
+ * 数据映射组件，用于将输入值映射成标签/文本展示。
+ */
 export interface AMISMappingSchema extends AMISSchemaBase {
   /**
    * 指定为 mapping 组件

@@ -93,6 +93,9 @@ export interface AMISAppPage extends SpinnerExtraProps {
  * App 渲染器，适合 JSSDK 用来做多页渲染。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/app
  */
+/**
+ * 应用容器组件，提供全局配置与布局。用于承载多页面/路由场景。
+ */
 export interface AMISAppSchema extends AMISSchemaBase, SpinnerExtraProps {
   /**
    * 指定为 app 组件

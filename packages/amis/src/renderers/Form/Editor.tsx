@@ -20,6 +20,9 @@ import type {ListenerAction} from 'amis-core';
  * Editor 代码编辑器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/editor
  */
+/**
+ * Editor 代码编辑器表单组件，支持多种编程语言和高亮显示，用于输入和编辑代码内容，常用作表单中的代码输入项
+ */
 export interface AMISCodeEditorSchema
   extends BaseSchemaWithoutType,
     FormBaseControlWithoutSize {

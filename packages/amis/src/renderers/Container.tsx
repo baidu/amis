@@ -69,6 +69,9 @@ export interface ContainerDraggableConfig {
  * Container 容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/container
  */
+/**
+ * 容器组件，用于包裹与布局内容区域。支持标题、工具栏与样式控制。
+ */
 export interface AMISContainerSchema extends AMISSchemaBase {
   /**
    * 指定为 container 组件

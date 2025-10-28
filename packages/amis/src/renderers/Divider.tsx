@@ -14,6 +14,9 @@ import {
  * Divider 分割线渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/divider
  */
+/**
+ * 分割线组件，用于分隔内容区域。支持水平/垂直、文字与样式。
+ */
 export interface AMISDividerSchema extends AMISSchemaBase {
   /**
    * 指定为 divider 组件

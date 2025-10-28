@@ -127,6 +127,9 @@ export interface AMISDateRangeSchemaBase extends AMISFormItem {
  * DateRange 日期范围控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date-range
  */
+/**
+ * 日期范围控件，支持选择开始和结束日期，可配置快捷键、占位符、时间格式等，适用于表单中的时间段选择
+ */
 export interface AMISInputDateRangeSchema extends AMISDateRangeSchemaBase {
   /**
    * 指定为日期范围控件

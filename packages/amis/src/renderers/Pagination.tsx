@@ -13,6 +13,9 @@ import {BaseSchema} from '../Schema';
 import {Pagination as BasicPagination} from 'amis-ui';
 import type {MODE_TYPE} from 'amis-ui/lib/components/Pagination';
 
+/**
+ * 分页组件，用于数据分页跳转。支持页码、页大小与快速跳转。
+ */
 export interface AMISPaginationSchema extends AMISSchemaBase {
   type: 'pagination';
 

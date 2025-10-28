@@ -39,6 +39,9 @@ import {AutoFoldedList} from 'amis-ui';
  * Picker
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/picker
  */
+/**
+ * Picker 选择器组件，用于表单中弹窗选择数据，可通过弹窗（Dialog/Drawer）或内嵌模式展示配置的选择内容，支持自定义标签显示与选项描述。
+ */
 export interface AMISPickerSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 picker 组件

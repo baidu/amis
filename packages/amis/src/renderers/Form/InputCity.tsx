@@ -23,6 +23,9 @@ import type {AMISFormItem, AMISSpinnerConfig, TestIdBuilder} from 'amis-core';
  * City 城市选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/city
  */
+/**
+ * 城市选择框组件，用于省市区街道等多级城市信息的选择，支持提取编码、拼接值、自定义级别和搜索等功能。
+ */
 export interface AMISInputCitySchema extends AMISFormItem, AMISSpinnerConfig {
   /**
    * 指定为 city 组件

@@ -19,6 +19,9 @@ import {BaseSchema, SchemaObject} from '../Schema';
  * Flex 弹性布局组件，简化版 Flex 布局，主要用于不熟悉 CSS 的开发者
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/flex
  */
+/**
+ * 弹性布局组件，基于 Flexbox 布局子元素。支持方向、换行与对齐配置。
+ */
 export interface AMISFlexSchema extends AMISSchemaBase {
   /**
    * 指定为 flex 组件

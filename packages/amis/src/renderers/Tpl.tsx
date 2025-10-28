@@ -19,6 +19,9 @@ import {AMISSchemaBase} from 'amis-core';
 /**
  * tpl 渲染器
  */
+/**
+ * 模板组件，用于渲染 HTML/文本模板。支持变量插值与表达式。
+ */
 export interface AMISTplSchema extends AMISSchemaBase {
   /**
    * 指定为 tpl 组件

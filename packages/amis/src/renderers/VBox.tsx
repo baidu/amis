@@ -13,6 +13,9 @@ export type HboxRow = SchemaObject & {
  * 垂直布局控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/vbox
  */
+/**
+ * 垂直布局组件，用于纵向排列子元素。支持区块间距与对齐配置。
+ */
 export interface AMISVBoxSchema extends AMISSchemaBase {
   type: 'vbox';
 

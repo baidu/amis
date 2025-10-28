@@ -11,8 +11,7 @@ import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
  */
-
-export interface AMISRemark extends AMISRemarkBase {
+export interface AMISRemarkSchema extends AMISRemarkBase {
   /**
    * 指定为提示类型
    */
@@ -21,7 +20,7 @@ export interface AMISRemark extends AMISRemarkBase {
 
 // 保留原来的叫法
 export type BaseRemarkSchema = AMISRemarkBase;
-export type RemarkSchema = AMISRemark;
+export type RemarkSchema = AMISRemarkSchema;
 export type SchemaRemark = AMISRemarkObject;
 export type AMISRemarkObject = string | AMISRemarkBase;
 

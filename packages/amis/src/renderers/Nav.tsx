@@ -43,7 +43,12 @@ import type {NavigationItem} from 'amis-ui/lib/components/menu/index';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
 import {HorizontalScroll} from 'amis-ui/lib/components/HorizontalScroll';
 
-import type {AMISSchemaBase, BaseSchemaWithoutType, Payload} from 'amis-core';
+import type {
+  AMISFunction,
+  AMISSchemaBase,
+  BaseSchemaWithoutType,
+  Payload
+} from 'amis-core';
 import type {
   BaseSchema,
   SchemaObject,
@@ -163,6 +168,9 @@ export interface NavOverflow {
 /**
  * Nav 导航渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/nav
+ */
+/**
+ * 导航组件，用于页面导航与菜单展示。支持分组、图标与选中态。
  */
 export interface AMISNavSchema extends AMISSchemaBase {
   /**
@@ -297,7 +305,7 @@ export interface AMISNavSchema extends AMISSchemaBase {
     /**
      * 搜索匹配函数
      */
-    matchFunc?: string | any;
+    matchFunc?: AMISFunction;
 
     /**
      * 占位符

@@ -22,6 +22,9 @@ import type {ColorMapType} from 'amis-ui/lib/components/Progress';
  * 进度展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/progress
  */
+/**
+ * 进度条组件，用于显示任务进度。支持条形/环形、多状态与格式化显示。
+ */
 export interface AMISProgressSchema extends AMISSchemaBase {
   type: 'progress';
 

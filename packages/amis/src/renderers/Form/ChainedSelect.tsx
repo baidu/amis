@@ -25,6 +25,9 @@ import isEmpty from 'lodash/isEmpty';
  * 链式下拉框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/chain-select
  */
+/**
+ * 链式下拉框组件，用于根据前一次选择动态加载和展示下一级选项，支持多级联动选择，常用于省市区等多层级数据选择场景。
+ */
 export interface AMISChainedSelectSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 chained-select 组件

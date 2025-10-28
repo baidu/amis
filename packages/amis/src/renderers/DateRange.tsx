@@ -12,6 +12,9 @@ import {getPropValue} from 'amis-core';
 /**
  * DateRange 展示渲染器。
  */
+/**
+ * 日期范围展示组件，用于显示开始-结束时间段。
+ */
 export interface AMISDateRangeSchema extends AMISSchemaBase {
   /**
    * 指定为 date-range 组件

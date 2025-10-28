@@ -9,6 +9,9 @@ import {Icon} from 'amis-ui';
 /**
  * Password
  */
+/**
+ * 密码展示组件，用于安全显示或校验密码字段。
+ */
 export interface AMISPasswordSchema extends AMISSchemaBase {
   type: 'password';
 

@@ -23,6 +23,9 @@ export const PdfView = React.lazy(
   () => import('amis-ui/lib/components/PdfViewer')
 );
 
+/**
+ * PDF 查看器组件，用于在线预览 PDF 文档。
+ */
 export interface AMISPdfViewerSchema extends AMISSchemaBase {
   type: 'pdf-viewer';
   /**

@@ -16,6 +16,9 @@ import {AMISSchemaBase} from 'amis-core';
  * Date 展示渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/date
  */
+/**
+ * 日期展示组件，用于格式化显示日期/时间。支持多格式与相对时间。
+ */
 export interface AMISDateSchema extends AMISSchemaBase {
   /**
    * 指定为 date 组件

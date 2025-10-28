@@ -21,6 +21,9 @@ import {AMISSchemaBase} from 'amis-core';
  * Icon 图标渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/icon
  */
+/**
+ * 图标组件，用于展示图标或符号。支持字体图标、SVG 与样式控制。
+ */
 export interface AMISIconSchema extends AMISSchemaBase {
   type: 'icon';
 

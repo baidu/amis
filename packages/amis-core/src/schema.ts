@@ -249,8 +249,7 @@ export interface AMISConditionGroupValue {
 export interface AMISConditionValue extends AMISConditionGroupValue {}
 
 /**
- * 按钮渲染器，展示一个按钮同时支持多种行为定义。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/action
+ * 按钮组件，用于触发各种动作。支持点击事件、API调用、页面跳转等操作。
  */
 export type AMISButtonSchema = AMISLegacyActionSchema | AMISButton;
 

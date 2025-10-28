@@ -12,6 +12,9 @@ const BarCode = React.lazy(() => import('amis-ui/lib/components/BarCode'));
  * BarCode 显示渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/barcode
  */
+/**
+ * 条形码组件，用于生成和显示条形码。支持内容、格式与尺寸。
+ */
 export interface AMISBarCodeSchema extends AMISSchemaBase {
   /**
    * 指定为 barcode 组件

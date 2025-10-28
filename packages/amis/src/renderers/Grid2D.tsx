@@ -58,6 +58,9 @@ export type Grid = GridObject & SchemaObject;
  * 二维布局渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/grid-2d
  */
+/**
+ * 二维网格布局组件，用于二维坐标网格排布内容。
+ */
 export interface AMISGrid2DSchema extends AMISSchemaBase {
   /**
    * 指定为 grid-2d 展示类型

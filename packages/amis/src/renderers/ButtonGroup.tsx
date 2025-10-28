@@ -71,6 +71,9 @@ export interface AMISButtonGroupSchemaBase extends AMISSchemaBase {
   visibleOn?: AMISExpression;
 }
 
+/**
+ * 按钮组组件，将多个按钮组合展示。
+ */
 export interface AMISButtonGroupSchema extends AMISButtonGroupSchemaBase {
   /**
    * 指定为 button-group 组件

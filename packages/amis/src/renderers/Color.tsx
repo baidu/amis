@@ -10,6 +10,9 @@ import {getPropValue} from 'amis-core';
  * Color 显示渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/color
  */
+/**
+ * 颜色展示组件，用于显示颜色块或文本。支持取色器触发。
+ */
 export interface AMISColorSchema extends AMISSchemaBase {
   /**
    * 指定为 color 组件

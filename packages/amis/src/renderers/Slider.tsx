@@ -9,6 +9,9 @@ import {Slider} from 'amis-ui';
 import React from 'react';
 import {BaseSchema} from '../Schema';
 
+/**
+ * 滑块组件，用于选择范围或数值。支持步长、范围与提示。
+ */
 export interface AMISSliderSchema extends AMISSchemaBase {
   type: 'slider';
   // 主体内容

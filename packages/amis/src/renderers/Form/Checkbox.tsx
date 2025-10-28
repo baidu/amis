@@ -24,8 +24,7 @@ export interface SchemaMap {
 }
 
 /**
- * Checkbox 勾选框。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkbox
+ * 复选框组件，用于多选场景。支持单个或多个选项的勾选状态。
  */
 export interface AMISCheckboxSchema extends AMISFormItem {
   /**

@@ -12,6 +12,9 @@ import {isMobile} from 'amis-core';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/month-range
  */
 
+/**
+ * MonthRange 月范围控件，用于选择起止月份区间，支持格式化、校验以及移动端样式。
+ */
 export interface AMISInputMonthRangeSchema extends AMISDateRangeSchemaBase {
   type: 'input-month-range';
 }

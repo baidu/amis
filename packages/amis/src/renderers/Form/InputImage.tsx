@@ -51,6 +51,9 @@ import Sortable from 'sortablejs';
  * Image 图片上传控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/image
  */
+/**
+ * 图片上传控件，支持图片选择、预览、裁剪、拖拽排序和多种上传自定义配置。
+ */
 export interface AMISInputImageSchema extends AMISFormItem {
   /**
    * 格式校验失败是否显示弹窗

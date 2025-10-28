@@ -64,13 +64,9 @@ export type DataProvider = string;
 export type ComposedDataProvider = DataProvider | DataProviderCollection;
 
 /**
- * Service 服务类控件。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/service
+ * 服务组件，用于数据获取和处理。支持 API 调用、数据转换、条件渲染等。
  */
 export interface AMISServiceSchema extends BaseSchema, SpinnerExtraProps {
-  /**
-   * 指定为 service 组件
-   */
   type: 'service';
 
   /**

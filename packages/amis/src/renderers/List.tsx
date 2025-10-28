@@ -148,10 +148,6 @@ export interface AMISListItemBase extends AMISSchemaBase {
   subTitle?: AMISTemplate;
 }
 
-/**
- * List 列表展示控件。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
- */
 export interface AMISListBase extends AMISSchemaBase {
   /**
    * 标题
@@ -268,6 +264,9 @@ export interface AMISListBase extends AMISSchemaBase {
   indexBarOffset?: number;
 }
 
+/**
+ * 列表展示组件，用于展示数据列表。支持拖拽排序、选择、操作按钮等功能。
+ */
 export interface AMISListSchema extends AMISListBase {
   /**
    * 指定为 List 列表展示控件。

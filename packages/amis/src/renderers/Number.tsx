@@ -22,6 +22,9 @@ import getMiniDecimal, {
  * Number 展示渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/number
  */
+/**
+ * 数字显示组件，用于格式化显示数值。支持千分位、小数位与单位。
+ */
 export interface AMISNumberSchema extends AMISSchemaBase {
   /**
    * 指定为 number 组件

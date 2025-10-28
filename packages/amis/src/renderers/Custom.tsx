@@ -10,6 +10,9 @@ import isEqual from 'lodash/isEqual';
 /**
  * 自定义组件
  */
+/**
+ * 自定义组件，占位用于扩展自渲染逻辑。支持传入自定义渲染器。
+ */
 export interface AMISCustomSchema extends AMISSchemaBase {
   /**
    * 指定为 custom 组件

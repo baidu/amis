@@ -297,6 +297,9 @@ export interface AMISComboSchemaBase extends AMISFormItem {
   updatePristineAfterStoreDataReInit?: boolean;
 }
 
+/**
+ * Combo 组合输入控件，可动态增减、编辑子项或多组表单项，支持多行、分页、懒加载、自定义提示及字段同步。
+ */
 export interface AMISComboSchema extends AMISComboSchemaBase {
   /**
    * 指定为组合输入框类型

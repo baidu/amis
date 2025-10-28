@@ -18,6 +18,9 @@ import {AMISFormItem} from 'amis-core';
  * Rating
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/rating
  */
+/**
+ * 评分组件，用于展示和录入评分，支持自定义分数、半星、只读模式、颜色和提示文字等配置。
+ */
 export interface AMISInputRatingSchema extends AMISFormItem {
   type: 'input-rating';
 

@@ -11,6 +11,9 @@ interface AMISScheduleItem {
   className?: AMISClassName;
 }
 
+/**
+ * 日历组件，用于日期选择与事件展示。支持自定义渲染与多视图。
+ */
 export interface AMISCalendarSchema extends AMISSchemaBase {
   /**
    * 指定为 calendar 组件

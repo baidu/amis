@@ -10,6 +10,9 @@ import {AMISSchemaBase} from 'amis-core';
  * Card2 新卡片渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card2
  */
+/**
+ * 卡片组件（新版），用于展示信息块，支持更多布局能力。
+ */
 export interface AMISCard2Schema extends AMISSchemaBase {
   /**
    * 指定为 card2 组件

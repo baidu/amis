@@ -37,6 +37,9 @@ export interface QRCodeImageSettings {
  * 二维码展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/qrcode
  */
+/**
+ * 二维码组件，用于生成和显示二维码。支持内容、尺寸与容错级别配置。
+ */
 export interface AMISQRCodeSchema extends AMISSchemaBase {
   type: 'qrcode' | 'qr-code';
 

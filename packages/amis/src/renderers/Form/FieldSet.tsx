@@ -10,6 +10,9 @@ import {AMISFormItemBase} from 'amis-core';
  * FieldSet 表单项集合
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/fieldset
  */
+/**
+ * FieldSet 表单项集合组件，用于将表单项分组展示，支持折叠、标题自定义、内容区域自定义，常用于表单布局和分段展示。
+ */
 export interface AMISFieldSetSchema
   extends AMISFormItemBase,
     AMISCollapseSchemaBase {

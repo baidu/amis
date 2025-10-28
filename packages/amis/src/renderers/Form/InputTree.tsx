@@ -37,6 +37,9 @@ type NodeBehaviorType = 'unfold' | 'check';
  * Tree 下拉选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree
  */
+/**
+ * Tree 下拉选择框，用于在表单中以树形结构展示和选择数据，支持多选、搜索、级联选择等功能。
+ */
 export interface AMISInputTreeSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 tree 组件

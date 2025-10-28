@@ -13,6 +13,9 @@ import {resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema, AMISClassName} from '../Schema';
 import {ActionSchema} from './Action';
 
+/**
+ * 迷你图组件，用于紧凑展示趋势数据。支持折线、柱状等类型。
+ */
 export interface AMISSparkLineSchema extends AMISSchemaBase {
   type: 'sparkline';
 

@@ -18,6 +18,9 @@ import {supportStatic} from './StaticHoc';
  * List 复选框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list-select
  */
+/**
+ * ListSelect 组件用于多选列表展示和选择，支持图片、模板自定义和双击提交等功能。
+ */
 export interface AMISListSelectSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 list-select 组件

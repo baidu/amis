@@ -19,6 +19,9 @@ import type {FormBaseControlSchema, SchemaApi} from '../../Schema';
  * RichText
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-rich-text
  */
+/**
+ * 富文本输入框，支持 Froala 和 TinyMCE 编辑器，配置灵活，支持图片、视频、文件上传及多种边框模式。
+ */
 export interface AMISInputRichTextSchema extends AMISFormItem {
   /**
    * 指定为 rich-text 组件

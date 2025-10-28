@@ -70,6 +70,9 @@ export interface PortletTabSchema extends AMISSchemaBase {
   unmountOnExit?: boolean;
 }
 
+/**
+ * 门户组件，用于可拖拽的多面板布局。
+ */
 export interface AMISPortletSchema extends AMISSchemaBase {
   /**
    * 指定为 portlet 类型

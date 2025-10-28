@@ -113,8 +113,7 @@ export interface TabSchema extends AMISSchemaBase {
 }
 
 /**
- * 选项卡控件。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tabs
+ * 选项卡组件，用于分隔内容区域。支持多 Tab 切换、可关闭、可拖拽等能力。
  */
 export interface AMISTabsSchema extends AMISSchemaBase {
   /**

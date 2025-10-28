@@ -65,6 +65,9 @@ const DEFAULT_EVENT_PARAMS = [
  * Chart 图表渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/chart
  */
+/**
+ * 图表组件，用于可视化数据展示。支持多图表类型与异步数据源。
+ */
 export interface AMISChartSchema extends AMISSchemaBase {
   /**
    * 指定为 chart 组件

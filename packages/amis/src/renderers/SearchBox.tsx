@@ -22,6 +22,9 @@ import type {SpinnerExtraProps} from 'amis-ui';
 /**
  * 搜索框渲染器
  */
+/**
+ * 搜索框组件，用于关键字搜索与表单查询。支持占位提示与快捷操作。
+ */
 export interface AMISSearchBoxSchema extends AMISSchemaBase {
   /**
    * 指定为 search-box 组件

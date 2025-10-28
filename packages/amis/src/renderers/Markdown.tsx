@@ -10,8 +10,7 @@ import {getPropValue} from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 
 /**
- * Markdown 渲染
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/markdown
+ * Markdown 渲染组件，用于渲染 Markdown 内容。支持代码高亮、数学公式等扩展语法。
  */
 export interface AMISMarkdownSchema extends AMISSchemaBase {
   /**

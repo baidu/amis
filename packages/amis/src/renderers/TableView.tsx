@@ -120,6 +120,9 @@ export type ColObject = {
  * 表格展现渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table-view
  */
+/**
+ * 表格视图组件，用于简化展示表格数据的只读视图。
+ */
 export interface AMISTableViewSchema extends AMISSchemaBase {
   /**
    * 指定为 table-view 展示类型

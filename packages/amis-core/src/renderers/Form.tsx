@@ -383,8 +383,7 @@ export interface AMISFormBase extends AMISSchemaBase {
 export type FormSchemaBase = AMISFormBase;
 
 /**
- * 表单渲染器
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/index
+ * 表单容器组件，用于收集和提交用户输入数据。支持字段验证、数据提交、布局配置等。
  */
 export interface AMISFormSchema extends AMISFormBase {
   /**

@@ -88,8 +88,7 @@ export interface WizardStepSchema extends AMISFormBase, StepSchema {
 }
 
 /**
- * 表单向导
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/wizard
+ * 表单向导组件，用于分步表单流程。支持步骤切换、校验与提交控制。
  */
 export interface AMISWizardSchema extends BaseSchema, SpinnerExtraProps {
   /**

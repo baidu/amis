@@ -57,6 +57,9 @@ export type ItemPlace = 'start' | 'middle' | 'end';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/breadcrumb
  */
 
+/**
+ * 面包屑组件，用于展示当前位置路径。支持分隔符与图标。
+ */
 export interface AMISBreadcrumbSchema extends AMISSchemaBase {
   /**
    * 指定为 breadcrumb 组件

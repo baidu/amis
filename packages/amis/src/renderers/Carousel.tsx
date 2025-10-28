@@ -28,8 +28,7 @@ import Image from '../renderers/Image';
 import {ScopedContext, IScopedContext} from 'amis-core';
 
 /**
- * Carousel 轮播图渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/carousel
+ * 轮播图组件，用于图片或内容的轮播展示。支持自动播放、指示器、切换动画等。
  */
 export interface AMISCarouselSchema extends AMISSchemaBase {
   /**

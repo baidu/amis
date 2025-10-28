@@ -245,8 +245,7 @@ export type AMISAutoFillHeightObject = Record<'height' | 'maxHeight', number>;
 type AutoFillHeightObject = AMISAutoFillHeightObject;
 
 /**
- * Table 表格渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table
+ * 数据表格，支持排序、筛选、搜索、固定列、拖拽、快速编辑等。通过列配置控制单元格渲染与交互。
  */
 export interface AMISTableBase extends AMISSchemaBase {
   /**
@@ -403,7 +402,9 @@ export interface AMISTableBase extends AMISSchemaBase {
   persistKey?: string;
 }
 export type BaseTableSchema = AMISTableBase;
-
+/**
+ * 表格基础配置，用于展示和操作结构化数据，支持分页、排序、筛选、可编辑、列设置等功能
+ */
 export interface AMISTableSchema extends AMISTableBase {
   /**
    * 指定为表格渲染器。

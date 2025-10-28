@@ -17,6 +17,9 @@ import type {
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 
+/**
+ * 工具提示包装器，为子元素提供悬浮提示。支持触发方式与位置。
+ */
 export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   /**
    * 指定为 tooltip-wrapper 组件

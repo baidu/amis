@@ -28,6 +28,9 @@ export type AMISGroupSubItem = SchemaObject & {
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/group
  */
+/**
+ * Group 表单集合渲染器，支持多个表单项横向或纵向布局，子项可配置名称、宽度比例及样式，用于在一行或一列展示多个表单控件。
+ */
 export interface AMISGroupSchema extends AMISFormItem {
   type: 'group';
 

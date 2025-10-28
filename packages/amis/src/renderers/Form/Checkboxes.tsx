@@ -29,6 +29,9 @@ import debounce from 'lodash/debounce';
  * 复选框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
  */
+/**
+ * 复选框组组件，用于在表单中通过多个复选框选择多个选项，支持全选、默认全选、自定义选项展示和多列排列等功能。
+ */
 export interface AMISCheckboxesSchema extends AMISFormItemWithOptions {
   /**
    * 指定为 checkboxes 组件

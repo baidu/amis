@@ -16,6 +16,9 @@ import {MultilineText} from 'amis-ui';
 /**
  * MultilineText
  */
+/**
+ * 多行文本组件，用于展示长文本内容。支持折叠与省略号。
+ */
 export interface AMISMultilineTextSchema extends AMISSchemaBase {
   type: 'multiline-text';
 

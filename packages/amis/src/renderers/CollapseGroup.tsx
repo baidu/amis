@@ -19,6 +19,9 @@ import cx from 'classnames';
  * CollapseGroup 折叠渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */
+/**
+ * 折叠面板组组件，用于管理多个折叠面板。支持手风琴模式。
+ */
 export interface AMISCollapseGroupSchema extends AMISSchemaBase {
   /**
    * 指定为 collapse-group 组件

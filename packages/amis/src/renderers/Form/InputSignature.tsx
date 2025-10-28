@@ -20,6 +20,9 @@ import pick from 'lodash/pick';
 import {FormBaseControlSchema, SchemaApi} from '../../Schema';
 import {base64ToBlob} from 'file64';
 import {AMISFormItem} from 'amis-core';
+/**
+ * InputSignature 签名输入组件，支持手写签名、撤销、清空及确认操作，可自定义宽高、线条颜色和背景色，适用于表单签名需求。
+ */
 export interface AMISInputSignatureSchema extends AMISFormItem {
   type: 'input-signature';
   /**

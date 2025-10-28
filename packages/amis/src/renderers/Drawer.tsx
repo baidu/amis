@@ -33,8 +33,7 @@ import {isAlive} from 'mobx-state-tree';
 import {AMISDrawerSchemaBase, AMISSchemaCollection} from 'amis-core';
 
 /**
- * Drawer 抽屉式弹窗组件，用于从侧边弹出内容
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
+ * 抽屉组件，用于侧边弹窗展示内容。支持从左右两侧滑出、自定义内容等。
  */
 export interface AMISDrawerSchema extends AMISDrawerSchemaBase {
   /**

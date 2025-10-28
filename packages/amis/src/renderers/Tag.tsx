@@ -19,6 +19,9 @@ import {AMISSchemaBase} from 'amis-core';
 /**
  * Tag
  */
+/**
+ * 标签组件，用于展示标记或状态。支持多色彩与关闭操作。
+ */
 export interface AMISTagSchema extends AMISSchemaBase {
   type: 'tag';
   /**
