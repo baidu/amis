@@ -15,10 +15,32 @@ import {findDOMNode} from 'react-dom';
 import LazyComponent from './components/LazyComponent';
 import {hasAsyncRenderers, loadAsyncRenderersByType} from './factory';
 import {dispatchEvent} from './utils/renderer-event';
+import {GlobalVariableItem} from 'amis-core';
 
 export interface RootRendererProps extends RootProps {
+  /**
+   * 当前页面的路径信息，用于路由识别
+   */
   location?: any;
+
+  /**
+   * 当前页面的参数信息，用于路由识别
+   */
+  params?: Record<string, any>;
+
+  /**
+   * 数据对象，推荐用 context 代替，context 数据在弹窗中也会被继承
+   */
   data?: Record<string, any>;
+
+  /**
+   * 全局变量清单，只有这里面定义的变量才会被作为全局变量注入到各个组件中
+   */
+  globalVars?: Array<GlobalVariableItem>;
+
+  /**
+   * 上下文环境变量，所有组件都能获取得到
+   */
   context?: Record<string, any>;
   render: (region: string, schema: any, props: any) => React.ReactNode;
 }
@@ -39,6 +61,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     this.store.updateContext(props.context, true);
     this.store.initData(props.data);
     this.store.updateLocation(props.location, this.props.env?.parseLocation);
+    this.store.updateParams(props.params);
 
     // 将数据里面的函数批量的绑定到 this 上
     bulkBindFunctions<RootRenderer /*为毛 this 的类型自动识别不出来？*/>(this, [
@@ -119,6 +142,10 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
     if (props.location !== prevProps.location) {
       this.store.updateLocation(props.location, this.props.env?.parseLocation);
+    }
+
+    if (props.params !== prevProps.params) {
+      this.store.updateParams(props.params);
     }
 
     let contextChanged = false;

@@ -99,7 +99,11 @@ import type {
   AMISFormItemWithOptions
 } from './renderers/Options';
 import {Schema} from './types';
-import ScopedRootRenderer, {addRootWrapper, RootRenderProps} from './Root';
+import ScopedRootRenderer, {
+  addRootWrapper,
+  RootRenderProps,
+  AMISPartialPropsContext
+} from './Root';
 import {envOverwrite} from './envOverwrite';
 import {EnvContext} from './env';
 import type {RendererEnv} from './env';
@@ -177,6 +181,7 @@ export {
   EnvContextProvider,
   useEnvContext,
   RenderOptionsContextProvider,
+  AMISPartialPropsContext,
   useRenderOptionsContext,
   RegisterStore,
   registerStore,
@@ -403,9 +408,12 @@ function AMISSchema({
     return schema;
   }, [schema, locale, options.replaceText]);
 
+  const partialProps = React.useContext(AMISPartialPropsContext);
+
   return (
     <EnvContext.Provider value={env}>
       <ScopedRootRenderer
+        {...partialProps}
         {...props}
         schema={schema}
         pathPrefix={pathPrefix}
