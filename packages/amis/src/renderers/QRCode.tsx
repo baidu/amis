@@ -49,7 +49,7 @@ export interface AMISQRCodeSchema extends AMISSchemaBase {
   name?: string;
 
   /**
-   * css 类名
+   * CSS 类名
    */
   qrcodeClassName?: AMISClassName;
 
@@ -69,7 +69,7 @@ export interface AMISQRCodeSchema extends AMISSchemaBase {
   foregroundColor?: string;
 
   /**
-   * 二维码复杂级别
+   * 二维码容错级别
    */
   level?: 'L' | 'M' | 'Q' | 'H';
 

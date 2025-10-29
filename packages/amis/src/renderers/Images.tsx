@@ -82,7 +82,7 @@ export interface AMISImagesSchema extends AMISSchemaBase {
   originalSrc?: string; // 原图
 
   /**
-   * 是否启动放大功能
+   * 是否启用放大功能
    */
   enlargeAble?: boolean;
 
@@ -216,7 +216,7 @@ interface ImagesFieldProps {
   className: string;
   delimiter: string;
   defaultImage: string; // 这里的 defaultImage 类型应该是 string
-  placehoder: string;
+  placeholder: string;
   thumbMode: string;
   thumbRatio: string;
   displayMode: string;
@@ -227,7 +227,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     className: '',
     delimiter: ',',
     defaultImage: imagePlaceholder,
-    placehoder: '-',
+    placeholder: '-',
     thumbMode: 'cover',
     thumbRatio: '1:1',
     displayMode: 'thumb',

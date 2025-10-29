@@ -37,12 +37,12 @@ export type GridObject = {
   height?: number | string;
 
   /**
-   * 水平展示方式，用于内容宽度比 grid 小的情况，默认是 auto 自动撑满
+   * 水平展示方式，用于内容宽度比 grid 小的情况，默认为 auto 自动撑满
    */
   align?: 'left' | 'right' | 'center' | 'auto';
 
   /**
-   * 垂直展示方式，用于内容高度比 grid 小的情况，默认是 auto 自动撑满
+   * 垂直展示方式，用于内容高度比 grid 小的情况，默认为 auto 自动撑满
    */
   valign?: 'top' | 'bottom' | 'middle' | 'auto';
 
@@ -68,12 +68,12 @@ export interface AMISGrid2DSchema extends AMISSchemaBase {
   type: 'grid-2d';
 
   /**
-   * 列数量，默认是 12
+   * 列数量，默认为 12
    */
   cols?: number;
 
   /**
-   * grid 2d 容器宽度，默认是 auto
+   * grid 2d 容器宽度，默认为 auto
    */
   width?: number | string | 'auto';
 

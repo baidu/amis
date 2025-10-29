@@ -112,7 +112,7 @@ export interface AMISDropdownButtonSchema extends AMISSchemaBase {
   rightIcon?: SchemaIcon;
 
   /**
-   * 触发条件，默认是 click
+   * 触发条件，默认为 click
    */
   trigger?: 'click' | 'hover';
 

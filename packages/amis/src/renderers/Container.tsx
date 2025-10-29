@@ -60,7 +60,7 @@ export interface ContainerDraggableConfig {
   scale?: number;
 
   /**
-   * 默认设置容器内部为'user-select:none', 可以设置true关闭
+   * 默认设置容器内部为'user-select:none', 设置true关闭
    */
   enableUserSelect?: boolean;
 }

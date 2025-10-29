@@ -106,7 +106,7 @@ export interface AMISTransferSchemaBase
   searchable?: boolean;
 
   /**
-   * 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容
+   * 结果（右则）列表的检索功能，当设置为true时，通过输入检索模糊匹配检索内容
    */
   resultSearchable?: boolean;
 

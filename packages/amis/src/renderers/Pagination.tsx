@@ -30,7 +30,7 @@ export interface AMISPaginationSchema extends AMISSchemaBase {
   maxButtons?: number;
 
   /**
-   * 模式，默认normal，如果只想简单显示可以配置成 simple
+   * 模式，默认normal，如果只想简单显示配置成 simple
    */
   mode?: MODE_TYPE;
 

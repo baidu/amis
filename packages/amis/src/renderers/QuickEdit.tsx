@@ -35,7 +35,7 @@ export interface AMISQuickEditObject {
   resetOnFailed?: boolean;
 
   /**
-   * 配置刷新目标，默认就会刷新所属 crud 组件，
+   * 配置刷新目标，默认就会刷新所属 crud 组件
    * 如果不需要，请配置为 "none"
    */
   reload?: string;

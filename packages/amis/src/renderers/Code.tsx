@@ -54,7 +54,7 @@ export interface Token {
 // 自定义语言
 export interface CustomLang {
   /**
-   * 语言名字
+   * 语言名称
    */
   name: string;
 

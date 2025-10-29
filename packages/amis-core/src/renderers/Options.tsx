@@ -146,7 +146,7 @@ export interface AMISFormItemWithOptions extends AMISFormItem {
   deferField?: string;
 
   /**
-   * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
+   * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩展。
    */
   deferApi?: AMISApi;
 

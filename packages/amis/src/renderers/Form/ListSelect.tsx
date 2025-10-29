@@ -48,7 +48,7 @@ export interface AMISListSelectSchema extends AMISFormItemWithOptions {
   activeItemSchema?: AMISSchemaCollection;
 
   /**
-   * 支持配置 list div 的 css 类名
+   * 支持配置 list div 的 CSS 类名
    */
   listClassName?: AMISClassName;
 }

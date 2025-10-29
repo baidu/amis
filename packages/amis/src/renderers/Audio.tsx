@@ -46,7 +46,7 @@ export interface AMISAudioSchema extends AMISSchemaBase {
   rates?: Array<number>;
 
   /**
-   * 可以配置控制器
+   * 配置控制器
    */
   controls?: Array<'rates' | 'play' | 'time' | 'process' | 'volume'>;
 }

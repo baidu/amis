@@ -14,7 +14,7 @@ import {SchemaIcon, SchemaTpl} from '../Schema';
 
 export interface AMISCopyableObject {
   /**
-   * 可以配置图标
+   * 配置图标
    */
   icon?: SchemaIcon;
 

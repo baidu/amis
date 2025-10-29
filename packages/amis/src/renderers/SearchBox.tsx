@@ -32,12 +32,12 @@ export interface AMISSearchBoxSchema extends AMISSchemaBase {
   type: 'search-box';
 
   /**
-   * 外层 css 类名
+   * 外层 CSS 类名
    */
   className?: AMISClassName;
 
   /**
-   * 关键字名字
+   * 关键字字段名
    */
   name?: string;
 

@@ -212,7 +212,7 @@ export interface AMISTableColumnBase {
   unique?: boolean;
 
   /**
-   * 是否可以获取父级数据
+   * 是否可获取父级数据
    */
   canAccessSuperData?: boolean;
 
@@ -362,7 +362,7 @@ export interface AMISTableBase extends AMISSchemaBase {
   resizable?: boolean;
 
   /**
-   * 行样式表表达式
+   * 行样式表达式
    */
   rowClassNameExpr?: string;
 
@@ -377,7 +377,7 @@ export interface AMISTableBase extends AMISSchemaBase {
   autoGenerateFilter?: AMISAutoGenerateFilterObject | boolean;
 
   /**
-   * 表格是否可以获取父级数据域值，默认为false
+   * 表格是否可获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
 

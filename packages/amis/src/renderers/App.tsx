@@ -62,7 +62,7 @@ export interface AMISAppPage extends SpinnerExtraProps {
   schemaApi?: any;
 
   /**
-   * 单纯的地址。可以设置外部链接
+   * 单纯的地址。设置外部链接
    */
   link?: string;
 
@@ -82,7 +82,7 @@ export interface AMISAppPage extends SpinnerExtraProps {
   visible?: boolean;
 
   /**
-   * 默认是自动，即：自己选中或者有孩子节点选中则展开。
+   * 默认为自动，即：自己选中或者有孩子节点选中则展开。
    * 如果配置成 always 或者配置成 true 则永远展开。
    * 如果配置成 false 则永远不展开。
    */
@@ -140,7 +140,7 @@ export interface AMISAppSchema extends AMISSchemaBase, SpinnerExtraProps {
   footer?: AMISSchemaCollection;
 
   /**
-   * css 类名。
+   * CSS 类名。
    */
   className?: AMISClassName;
   /**

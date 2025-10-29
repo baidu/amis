@@ -130,7 +130,7 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   asideMaxWidth?: number;
 
   /**
-   * 边栏区 css 类名
+   * 边栏区 CSS 类名
    */
   asideClassName?: AMISClassName;
 
@@ -160,7 +160,7 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   headerClassName?: AMISClassName;
 
   /**
-   * 页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。
+   * 页面初始化的时候，设置一个 API 让其去拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取的数据会合并到 data 中，供组件内使用。
    */
   initApi?: AMISApi;
 
@@ -194,18 +194,18 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   interval?: number;
 
   /**
-   * 是否要静默加载，也就是说不显示进度
+   * 是否要静默加载，即不显示进度
    */
   silentPolling?: boolean;
 
   /**
-   * 配置停止轮询的条件。
+   * 配置停止轮询的条件
    */
   stopAutoRefreshWhen?: AMISExpression;
   // primaryField?: string, // 指定主键的字段名，默认为 `id`
 
   /**
-   * 是否显示错误信息，默认是显示的。
+   * 是否显示错误信息，默认为显示的
    */
   showErrorMsg?: boolean;
 
@@ -215,7 +215,7 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   cssVars?: any;
 
   /**
-   * 默认不设置自动感觉内容来决定要不要展示这些区域
+   * 默认不设置自动感知内容来决定要不要展示这些区域。
    * 如果配置了，以配置为主。
    */
   regions?: Array<'aside' | 'body' | 'toolbar' | 'header'>;
@@ -237,7 +237,7 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
   };
 
   /**
-   * 类似 json-schema 的定义，可以被其他组件引用
+   * 类似 json-schema 的定义，可以被其他组件引用。
    * 目前只有顶级组件可以定义，其他组件不能定义。
    */
   definitions?: AMISDefinitions;

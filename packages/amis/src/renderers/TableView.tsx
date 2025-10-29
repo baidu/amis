@@ -130,7 +130,7 @@ export interface AMISTableViewSchema extends AMISSchemaBase {
   type: 'table-view';
 
   /**
-   * table 容器宽度，默认是 auto
+   * table 容器宽度，默认为 auto
    */
   width?: number | string;
 

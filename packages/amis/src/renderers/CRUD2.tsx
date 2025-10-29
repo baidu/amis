@@ -107,12 +107,12 @@ export interface CRUD2CommonSchema extends AMISSchemaBase, AMISSpinnerConfig {
   loadDataOnce?: boolean;
 
   /**
-   * 是否可以选择数据，外部事件动作
+   * 是否可选择数据，外部事件动作
    */
   selectable?: boolean;
 
   /**
-   * 是否可以多选数据，仅当selectable为 true 时生效
+   * 是否可多选数据，仅当selectable为 true 时生效
    */
   multiple?: boolean;
 
@@ -197,7 +197,7 @@ export interface CRUD2CommonSchema extends AMISSchemaBase, AMISSpinnerConfig {
   keepItemSelectionOnPageChange?: boolean;
 
   /**
-   * 内容区域占满屏幕剩余空间
+   * 内容区域是否占满屏幕剩余空间
    */
   autoFillHeight?: boolean;
 

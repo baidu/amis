@@ -228,7 +228,7 @@ export interface AMISComboSchemaBase extends AMISFormItem {
   placeholder?: string;
 
   /**
-   * 是否可以访问父级数据
+   * 是否可访问父级数据
    * 正常 combo 已经关联到数组成员，是不能访问父级数据的
    */
   canAccessSuperData?: boolean;

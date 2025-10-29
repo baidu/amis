@@ -174,7 +174,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     if (['expand', 'collapse'].includes(action.actionType!)) {
       const targetState = action.actionType === 'collapse';
       /**
-       * 说明：changeCollapsedState 会执行 onCollapse 方法（间接执行handleCollapseChange），
+       * 说明：changeCollapsedState 会执行 onCollapse 方法（间接执行handleCollapseChange）
        * 所以这里不需要再重复调用。
        */
       // this.handleCollapseChange(targetState);

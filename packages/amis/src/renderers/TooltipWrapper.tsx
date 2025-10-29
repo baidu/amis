@@ -108,7 +108,7 @@ export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   };
 
   /**
-   * 是否可以移入浮层中, 默认true
+   * 是否可移入浮层中, 默认true
    */
   enterable?: boolean;
 

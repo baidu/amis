@@ -298,7 +298,7 @@ export interface AMISCRUDBase extends AMISSchemaBase, AMISSpinnerConfig {
   perPageField?: string;
 
   /**
-   * 设置分页方向的字段名。单位简单分页时清楚时向前还是向后翻页。
+   * 设置分页方向的字段名。用于简单分页时确定是向前还是向后翻页。
    * @default pageDir
    */
   pageDirectionField?: string;
@@ -351,7 +351,7 @@ export interface AMISCRUDBase extends AMISSchemaBase, AMISSpinnerConfig {
   >;
 
   /**
-   * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
+   * 每页显示多少条记录的配置如： [10, 20, 50, 100]。
    */
   perPageAvailable?: Array<number>;
 
@@ -449,7 +449,7 @@ export interface AMISCRUDBase extends AMISSchemaBase, AMISSpinnerConfig {
   source?: AMISLocalSource;
 
   /**
-   * 如果时内嵌模式，可以通过这个来配置默认的展开选项。
+   * 如果是内嵌模式，通过这个来配置默认的展开选项。
    */
   expandConfig?: {
     /**

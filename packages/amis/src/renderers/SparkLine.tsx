@@ -20,7 +20,7 @@ export interface AMISSparkLineSchema extends AMISSchemaBase {
   type: 'sparkline';
 
   /**
-   * css 类名
+   * CSS 类名
    */
   className?: AMISClassName;
 

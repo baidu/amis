@@ -123,7 +123,7 @@ export interface AMISCardsBase extends AMISSchemaBase, AMISSpinnerConfig {
   footer?: AMISSchemaCollection;
 
   /**
-   * 配置某项是否可以点选
+   * 配置某项是否可点选
    */
   itemCheckableOn?: AMISExpression;
 

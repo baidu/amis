@@ -29,7 +29,7 @@ export interface AMISMarkdownSchema extends AMISSchemaBase {
   className?: string;
 
   /**
-   * 名字映射
+   * 名称映射
    */
   name?: string;
 }

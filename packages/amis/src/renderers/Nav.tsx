@@ -189,7 +189,7 @@ export interface AMISNavSchema extends AMISSchemaBase {
   indentSize: number;
 
   /**
-   * 可以通过 API 拉取。
+   * 通过 API 拉取。
    */
   source?: SchemaApi;
 
@@ -776,7 +776,7 @@ export class Navigation extends React.Component<
   async handleSearch(keyword: string) {
     const {links, searchConfig = {}} = this.props;
     const originLinks = cloneDeep(links ?? []);
-    let matchFunc = searchConfig?.matchFunc;
+    let matchFunc: Function = searchConfig?.matchFunc as Function;
 
     if (!keyword) {
       this.setState({keyword: '', filteredLinks: []});
@@ -784,7 +784,7 @@ export class Navigation extends React.Component<
     }
 
     if (matchFunc && typeof matchFunc === 'string') {
-      matchFunc = str2function(matchFunc, 'link', 'keyword');
+      matchFunc = str2function(matchFunc, 'link', 'keyword')!;
     } else if (typeof matchFunc === 'function') {
       /** 使用props下发的函数 */
     } else {

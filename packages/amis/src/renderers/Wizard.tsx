@@ -75,7 +75,7 @@ export interface WizardStepSchema extends AMISFormBase, StepSchema {
   actions?: Array<AMISButtonSchema>;
 
   /**
-   * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
+   * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时通过 $xxx 使用变量
    */
   redirect?: string;
 
@@ -154,7 +154,7 @@ export interface AMISWizardSchema extends BaseSchema, SpinnerExtraProps {
   readOnly?: boolean;
 
   /**
-   * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
+   * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时通过 $xxx 使用变量
    */
   redirect?: string;
 

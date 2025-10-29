@@ -7,7 +7,7 @@
 export type AMISExpression = string;
 
 /**
- * AMISClassName 支持表达式，或者对象形式，key 为css类名，value 为布尔值或者表达式
+ * AMISClassName 支持表达式，或者对象形式，key 为 CSS 类名，value 为布尔值或者表达式
  */
 export type AMISClassName =
   | string
@@ -32,7 +32,7 @@ export type AMISVariableName = string;
 export type AMISLocalSource = AMISTokenizeableString;
 
 /**
- * 配置刷新动作，这个动作通常在完成渲染器本省的固定动作后出发。
+ * 配置刷新动作，这个动作通常在完成渲染器本身的固定动作后触发。
  *
  * 一般用来配置目标组件的 name 属性。多个目标可以用逗号隔开。
  *
@@ -62,7 +62,7 @@ export interface AMISSchemaBase {
   id?: string | undefined;
 
   /**
-   * 容器 css 类名
+   * 容器 CSS 类名
    */
   className?: AMISClassName;
 
@@ -168,7 +168,7 @@ export interface AMISSchemaBase {
   };
 
   /**
-   * 可以组件级别用来关闭移动端样式
+   * 可以在组件级别用来关闭移动端样式
    */
   useMobileUI?: boolean;
   animations?: AMISAnimations;
@@ -254,7 +254,7 @@ export interface AMISConditionValue extends AMISConditionGroupValue {}
 export type AMISButtonSchema = AMISLegacyActionSchema | AMISButton;
 
 /**
- * 可通过以下方式扩充 AMIS 渲染器组件
+ * 可通过以下方式扩展 AMIS 渲染器组件
  *
  * ```ts
  * declare module 'amis-core' {
@@ -352,7 +352,7 @@ export interface AMISApiObject {
    *
    * 如果想通过 body 发送给后端，那么请把这个配置成 false。
    *
-   * 但是，浏览器还不支持啊，设置了只是摆设。除非服务端支持 method-override
+   * 但是，浏览器还不支持，设置了只是摆设。除非服务端支持 method-override
    */
   attachDataToQuery?: boolean;
 
@@ -386,7 +386,7 @@ export interface AMISApiObject {
   /**
    * 是否将两次返回的数据字段，做一个合并。配置返回对象中的字段名，支持配置多个。
    *
-   * 比如：同时返回 log 字段，第一次返回 {log: '1'}，第二次返回 {log: '2'}，合并后的结果是 {log: ['1', '2']]}
+   * 比如：同时返回 log 字段，第一次返回 {log: '1'}，第二次返回 {log: '2'}，合并后的结果是 {log: ['1', '2']}
    * 再比如：同时返回 items 字段，第一次返回 {items: [1, 2]}，第二次返回 {items: [3, 4]}，合并后的结果是 {items: [1, 2, 3, 4]}
    */
   concatDataFields?: string | Array<string>;
@@ -621,7 +621,7 @@ export interface AMISDialogSchemaBase extends AMISSchemaBase {
   closeOnEsc?: boolean;
 
   /**
-   * 是否支持点其它区域关闭 Dialog
+   * 是否支持点击其他区域关闭 Dialog
    */
   closeOnOutside?: boolean;
 
@@ -983,7 +983,7 @@ export interface AMISButton extends AMISSchemaBase {
   icon?: AMISIcon;
 
   /**
-   * icon 上的css 类名
+   * icon 上的 CSS 类名
    */
   iconClassName?: AMISClassName;
 
@@ -993,12 +993,12 @@ export interface AMISButton extends AMISSchemaBase {
   rightIcon?: AMISIcon;
 
   /**
-   * 右侧 icon 上的 css 类名
+   * 右侧 icon 上的 CSS 类名
    */
   rightIconClassName?: AMISClassName;
 
   /**
-   * loading 上的css 类名
+   * loading 上的 CSS 类名
    */
   loadingClassName?: AMISClassName;
 
@@ -1065,7 +1065,7 @@ export interface AMISButton extends AMISSchemaBase {
   close?: boolean | string;
 
   /**
-   * 当按钮时批量操作按钮时，默认必须有勾选元素才能可点击，如果此属性配置成 false，则没有点选成员也能点击。
+   * 当按钮是批量操作按钮时，默认必须有勾选元素才能点击，如果此属性配置成 false，则没有点选成员也能点击。
    */
   requireSelected?: boolean;
 
@@ -1463,7 +1463,7 @@ export type AMISLegacyActionButtonType = keyof AMISLegacyActionSchemaRegistry;
  */
 export interface AMISActionBase {
   /**
-   * 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
+   * 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩展的组件动作
    */
   actionType: string;
 
@@ -1574,7 +1574,7 @@ export interface AMISSpinnerConfig {
  *  c: '${b}'
  * }
  *
- * 表示将所有输入数据写入到顶层输出数据，同时扩充 a 和 b 字段, 假如上层数据为 {a: 1, b: 2}，则最终结果为
+ * 表示将所有输入数据写入到顶层输出数据，同时扩展 a 和 b 字段, 假如上层数据为 {a: 1, b: 2}，则最终结果为
  *
  * {a: '123', b: 2, c: 2}
  */

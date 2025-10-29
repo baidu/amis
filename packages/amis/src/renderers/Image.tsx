@@ -116,20 +116,20 @@ export interface AMISImageSchema extends AMISSchemaBase {
   width?: number;
 
   /**
-   * 外层 css 类名
+   * 外层 CSS 类名
    */
   className?: AMISClassName;
 
-  /** 组件内层 css 类名 */
+  /** 组件内层 CSS 类名 */
   innerClassName?: AMISClassName;
 
   /**
-   * 图片 css 类名
+   * 图片 CSS 类名
    */
   imageClassName?: AMISClassName;
 
   /**
-   * 图片缩略图外层 css 类名
+   * 图片缩略图外层 CSS 类名
    */
   thumbClassName?: AMISClassName;
 
@@ -142,7 +142,7 @@ export interface AMISImageSchema extends AMISSchemaBase {
   caption?: SchemaTpl;
 
   /**
-   * 图片展示模式，默认为缩略图模式、可以配置成原图模式
+   * 图片展示模式，默认为缩略图模式、配置成原图模式
    */
   imageMode?: 'thumb' | 'original';
 

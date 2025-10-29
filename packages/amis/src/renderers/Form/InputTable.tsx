@@ -68,7 +68,7 @@ export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
   addable?: boolean | string;
 
   /**
-   * 是否可以新增子项
+   * 是否可新增子项
    */
   childrenAddable?: boolean | string;
 
@@ -98,7 +98,7 @@ export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
   copyData?: Record<string, any>;
 
   /**
-   * 是否可以拖拽排序
+   * 是否可拖拽排序
    */
   draggable?: boolean;
 
@@ -208,7 +208,7 @@ export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
   needConfirm?: boolean;
 
   /**
-   * 是否可以访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
+   * 是否可访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
    */
   canAccessSuperData?: boolean;
 

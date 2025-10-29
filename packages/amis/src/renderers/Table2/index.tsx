@@ -190,7 +190,7 @@ export interface ColumnSchema {
   width?: string | number;
 
   /**
-   * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
+   * 表格列单元格是否可获取父级数据域值，默认为true，该配置对当前列内单元格生效
    */
   canAccessSuperData?: boolean;
 }
@@ -430,7 +430,7 @@ export interface BaseTableSchema2 extends AMISSchemaBase {
   autoFillHeight?: boolean | AutoFillHeightObject;
 
   /**
-   * 表格是否可以获取父级数据域值，默认为false
+   * 表格是否可获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
 

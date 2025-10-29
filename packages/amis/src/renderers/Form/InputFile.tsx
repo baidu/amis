@@ -169,9 +169,9 @@ export interface AMISInputFileSchema extends AMISFormItem {
   multiple?: boolean;
 
   /**
-   * 1. 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，
+   * 1. 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交
    * 否则，整个选项对象都会作为该表单项的值提交。
-   * 2. 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，
+   * 2. 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来
    * 否则直接将以数组的形式提交值。
    */
   joinValues?: boolean;

@@ -102,7 +102,7 @@ export interface AMISInputTreeSchema extends AMISFormItemWithOptions {
   onlyLeaf?: boolean;
 
   /**
-   * 顶级节点是否可以创建子节点
+   * 顶级节点是否可创建子节点
    */
   rootCreatable?: boolean;
 

@@ -113,7 +113,7 @@ export interface AMISListItemBase extends AMISSchemaBase {
   actions?: Array<AMISButtonSchema>;
 
   /**
-   * 操作位置，默认在右侧，可以设置成左侧。
+   * 操作位置，默认在右侧，设置成左侧。
    */
   actionsPosition?: 'left' | 'right';
 
@@ -219,7 +219,7 @@ export interface AMISListBase extends AMISSchemaBase {
   affixFooter?: boolean;
 
   /**
-   * 配置某项是否可以点选
+   * 配置某项是否可点选
    */
   itemCheckableOn?: AMISExpression;
 
