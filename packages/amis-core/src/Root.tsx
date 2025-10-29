@@ -28,6 +28,10 @@ export interface RootRenderProps {
   [propName: string]: any;
 }
 
+export const AMISPartialPropsContext = React.createContext<
+  Partial<RootRenderProps>
+>({});
+
 export interface RootProps extends StatusScopedProps {
   schema: SchemaNode;
   rootStore: IRendererStore;

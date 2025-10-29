@@ -29,6 +29,7 @@ export const RootStore = ServiceStore.named('RootStore')
     runtimeError: types.frozen(),
     runtimeErrorStack: types.frozen(),
     query: types.frozen(),
+    params: types.frozen(),
     ready: false,
 
     // 临时变更，等 react 完成一轮渲染后，将临时变更切成正式变更
@@ -139,10 +140,12 @@ export const RootStore = ServiceStore.named('RootStore')
       chain.unshift(self.globalData);
 
       self.context && chain.unshift(self.context);
-      self.query &&
+      (self.query || self.params) &&
         chain.splice(chain.length - 1, 0, {
-          ...self.query,
-          __query: self.query
+          ...self.params,
+          ...self.query, // query 里面的优先，页面中建议还是用 __query 和 __params 来访问，避免冲突
+          __query: self.query,
+          __params: self.params
         });
 
       return createObjectFromChain(chain);
@@ -722,6 +725,11 @@ export const RootStore = ServiceStore.named('RootStore')
         const query = parseFn ? parseFn(location) : parseQuery(location);
         if (isObjectShallowModified(query, self.query, false)) {
           self.query = query;
+        }
+      },
+      updateParams(params?: any) {
+        if (params && isObjectShallowModified(params, self.params, false)) {
+          self.params = params;
         }
       },
       init: init,
