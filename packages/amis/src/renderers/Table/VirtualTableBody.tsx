@@ -99,19 +99,28 @@ function VirtualTableBody(props: VirtualTableBodyProps) {
     const wrap = table.parentElement!;
     const rootDom = wrap.closest(`.${classPrefix}Table`)!;
 
-    const header =
-      rootDom?.querySelector(`:scope > .${classPrefix}Table-fixedTop`) ||
-      table.querySelector(':scope > thead')!;
+    const fixedHeader = rootDom?.querySelector(`:scope > .${classPrefix}Table-fixedTop`);
+    const header = fixedHeader || table.querySelector(':scope > thead')!;
     const firstRow = leadingPlaceholderRef.current!;
     const isAutoFill = rootDom.classList.contains(
       `${classPrefix}Table--autoFillHeight`
     );
     const toDispose: Array<() => void> = [];
-
     const check = () => {
-      const rect = header.getBoundingClientRect();
-      const rect2 = firstRow.getBoundingClientRect();
-      const scrollTop = rect.bottom - rect2.top;
+      let scrollTop = 0;
+      // 判断 header 是否是固定表头
+      if (fixedHeader) {
+        // 固定表头：用 getBoundingClientRect 计算
+        const rect = header.getBoundingClientRect();
+        const rect2 = firstRow.getBoundingClientRect();
+        scrollTop = rect.bottom - rect2.top;
+      } else {
+        // 普通 thead：直接读取滚动容器的 scrollTop
+        const scrollContainer: any = isAutoFill ? wrap : 
+          (getScrollParent(rootDom as HTMLElement) === document.body ? 
+            document.documentElement : getScrollParent(rootDom as HTMLElement));
+        scrollTop = scrollContainer.scrollTop || 0;
+      }
       setScrollTop(scrollTop);
       if (scrollTop && store.tableLayout !== 'fixed') {
         store.switchToFixedLayout();
