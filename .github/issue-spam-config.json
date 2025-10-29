@@ -1,5 +1,5 @@
 {
-  "dry_run": true,
+  "dry_run": false,
   "min_account_age_days": 3,
   "max_urls_for_spam": 1,
   "min_body_len_for_links": 40,
