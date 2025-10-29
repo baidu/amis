@@ -2,9 +2,25 @@ import type {Plugin} from 'vite';
 import fs from 'fs';
 import path from 'path';
 
-export interface AMISROptions {}
+export interface AMISROptions {
+  jsTemplate?: string;
+}
 
-export default function vitePluginAmisR({}: AMISROptions = {}): Plugin {
+const defaultJsTemplate = [
+  `import React from 'react';`,
+  `import {useRenderOptionsContext, render} from 'amis-core';`,
+  `import {useParams} from "react-router-dom";`,
+  `const schema = {{JSON_CODE}}`,
+  `export default function AMISPage(props) {`,
+  `  const options = useRenderOptionsContext();`,
+  `  const params = useParams();`,
+  `  return React.createElement(React.Fragment, null, render(schema, {params, ...props}, options));`,
+  `}`
+].join('\n');
+
+export default function vitePluginAmisR({
+  jsTemplate = defaultJsTemplate
+}: AMISROptions = {}): Plugin {
   const match = (id: string) => {
     return /(?:amis|dslpage)\.json(?:$|\?)/.test(id);
   };
@@ -38,20 +54,13 @@ export default function vitePluginAmisR({}: AMISROptions = {}): Plugin {
         ? real
         : path.resolve(process.cwd(), real);
 
-      const code = await fs.promises.readFile(filePath, 'utf8');
-
-      const codes = [
-        `import React from 'react';`,
-        `import {useRenderOptionsContext, render} from 'amis-core';`,
-        `const schema = ${code};`,
-        `export default function AMISPage(props) {`,
-        `  const options = useRenderOptionsContext();`,
-        `  return React.createElement(React.Fragment, null, render(schema, props, options));`,
-        `}`
-      ];
+      const jsonCode = await fs.promises.readFile(filePath, 'utf8');
+      const code = jsTemplate
+        .replace('{{JSON_CODE}}', jsonCode)
+        .replace('{{JSON_CONTENTS}}', jsonCode);
 
       return {
-        code: codes.join('\n')
+        code: code
       };
     }
   };
