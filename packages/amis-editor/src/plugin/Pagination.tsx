@@ -15,7 +15,7 @@ export class PaginationPlugin extends BasePlugin {
   static id = 'PaginationPlugin';
   // 关联渲染器名字
   rendererName = 'pagination';
-  $schema = '/schemas/PaginationSchema.json';
+  $schema = '/schemas/AMISPaginationSchema.json';
 
   // 组件名称
   name = '分页组件';

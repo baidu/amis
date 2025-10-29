@@ -24,7 +24,7 @@ export class RadiosControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'radios';
-  $schema = '/schemas/RadiosControlSchema.json';
+  $schema = '/schemas/AMISRadiosSchema.json';
 
   // 组件名称
   name = '单选框';

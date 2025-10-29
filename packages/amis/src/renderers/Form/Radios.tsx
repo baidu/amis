@@ -11,7 +11,8 @@ import {
   getVariable,
   setThemeClassName,
   CustomStyle,
-  formateCheckThemeCss
+  formateCheckThemeCss,
+  AMISFormItemWithOptions
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -23,10 +24,12 @@ import {filter} from 'amis-core';
  * Radio 单选框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
  */
-export interface RadiosControlSchema extends FormOptionsSchema {
+/**
+ * Radios 单选框组件，用于在多个选项中选择一个，支持自定义列数与选项样式。
+ */
+export interface AMISRadiosSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 Radios 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
+   * 指定为 radios 组件
    */
   type: 'radios';
 

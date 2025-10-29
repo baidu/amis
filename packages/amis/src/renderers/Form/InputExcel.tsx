@@ -19,6 +19,7 @@ import {
 import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import type {CellRichTextValue, CellValue} from 'exceljs';
 import {Icon, TooltipWrapper} from 'amis-ui';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * Excel 文件状态
@@ -72,24 +73,24 @@ export interface ExcelFile {
  * Excel 解析
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-excel
  */
-export interface InputExcelControlSchema extends FormBaseControlSchema {
+export interface AMISInputExcelSchema extends AMISFormItem {
   /**
-   * 指定为 Excel 解析
+   * 指定为 excel 组件
    */
   type: 'input-excel';
 
   /**
-   * 是否解析所有 sheet，默认情况下只解析第一个
+   * 是否解析所有 sheet
    */
   allSheets?: boolean;
 
   /**
-   * 解析模式，array 是解析成二维数组，object 是将第一列作为字段名，解析为对象数组
+   * 解析模式
    */
   parseMode?: 'array' | 'object';
 
   /**
-   * 是否包含空内容，主要用于二维数组模式
+   * 是否包含空内容
    */
   includeEmpty?: boolean;
 
@@ -134,7 +135,7 @@ export interface InputExcelControlSchema extends FormBaseControlSchema {
 export interface ExcelProps
   extends FormControlProps,
     Omit<
-      InputExcelControlSchema,
+      AMISInputExcelSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

@@ -1,5 +1,10 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  AMISFormItem
+} from 'amis-core';
 import {TableCell} from '../Table';
 import PopOver, {SchemaPopOver} from '../PopOver';
 import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
@@ -18,11 +23,14 @@ import {
  * Static
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/static
  */
-export interface StaticExactControlSchema extends FormBaseControlSchema {
+/**
+ * Static 静态内容展示控件，支持模板渲染、内容复制、快速编辑和详情弹窗配置，一般用于只读显示表单项内容。
+ */
+export interface AMISStaticSchema extends AMISFormItem {
   type: 'static';
 
   /**
-   * 内容模板， 支持 HTML
+   * 内容模板，支持 HTML
    */
   tpl?: SchemaTpl;
 
@@ -47,7 +55,7 @@ export interface StaticExactControlSchema extends FormBaseControlSchema {
   copyable?: SchemaCopyable;
 
   /**
-   * 边框模式，默认是无边框的
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 }

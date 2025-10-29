@@ -4,16 +4,18 @@ import {filter} from 'amis-core';
 import cx from 'classnames';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {getPropValue} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * Plain 纯文本渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/plain
  */
-export interface PlainSchema extends BaseSchema {
+/**
+ * 纯文本组件，用于展示文本内容。支持模板渲染与样式控制。
+ */
+export interface AMISPlainSchema extends AMISSchemaBase {
   /**
-   * 指定为模板渲染器。
-   *
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
+   * 指定为 plain 组件
    */
   type: 'plain' | 'text';
 
@@ -21,7 +23,7 @@ export interface PlainSchema extends BaseSchema {
   text?: SchemaTpl;
 
   /**
-   * 是否内联显示？
+   * 是否内联显示
    */
   inline?: boolean;
 
@@ -33,7 +35,7 @@ export interface PlainSchema extends BaseSchema {
 }
 export interface PlainProps
   extends RendererProps,
-    Omit<PlainSchema, 'type' | 'className'> {
+    Omit<AMISPlainSchema, 'type' | 'className'> {
   wrapperComponent?: any;
 }
 

@@ -11,7 +11,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
   static id = 'TooltipWrapperPlugin';
   static scene = ['layout'];
   rendererName = 'tooltip-wrapper';
-  $schema = '/schemas/TooltipWrapperSchema.json';
+  $schema = '/schemas/AMISTooltipWrapperSchema.json';
 
   isBaseComponent = true;
   name = '文字提示';

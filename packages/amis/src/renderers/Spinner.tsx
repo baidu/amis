@@ -1,11 +1,11 @@
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, AMISSchemaCollection} from 'amis-core';
 import React from 'react';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema} from '../Schema';
 
-export interface SpinnerSchema extends BaseSchema, SpinnerExtraProps {
+export interface AMISSpinnerSchema extends BaseSchema, SpinnerExtraProps {
   /**
-   * 组件类型
+   * 指定为 spinner 组件
    */
   type: 'spinner';
 
@@ -67,12 +67,12 @@ export interface SpinnerSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 作为容器使用时内容
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 }
 
 interface SpinnerRenderProps
   extends RendererProps,
-    Omit<SpinnerSchema, 'className'> {}
+    Omit<AMISSpinnerSchema, 'className'> {}
 
 @Renderer({
   type: 'spinner'

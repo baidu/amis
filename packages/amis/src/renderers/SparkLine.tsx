@@ -5,35 +5,37 @@ import {
   autobind,
   createObject,
   getPropValue,
-  CustomStyle
+  CustomStyle,
+  AMISSchemaBase
 } from 'amis-core';
 import React from 'react';
 import {resolveVariableAndFilter} from 'amis-core';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 import {ActionSchema} from './Action';
 
-export interface SparkLineSchema extends BaseSchema {
+/**
+ * 迷你图组件，用于紧凑展示趋势数据。支持折线、柱状等类型。
+ */
+export interface AMISSparkLineSchema extends AMISSchemaBase {
   type: 'sparkline';
 
   /**
-   * css 类名
+   * CSS 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
-   * 关联数据变量。
+   * 关联数据变量
    */
   name?: string;
 
   /**
    * 宽度
-   * @default 100
    */
   width?: number;
 
   /**
    * 高度
-   * @default 50
    */
   height?: number;
 
@@ -84,7 +86,7 @@ export interface SparkLineSchema extends BaseSchema {
 
 interface SparkLineRendProps
   extends RendererProps,
-    Omit<SparkLineSchema, 'type' | 'className'> {}
+    Omit<AMISSparkLineSchema, 'type' | 'className'> {}
 
 @Renderer({
   type: 'sparkline'

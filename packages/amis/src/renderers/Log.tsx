@@ -3,6 +3,9 @@
  */
 import React from 'react';
 import {
+  AMISClassName,
+  AMISSchemaBase,
+  AMISUrlPath,
   buildApi,
   isApiOutdated,
   isEffectiveApi,
@@ -10,7 +13,6 @@ import {
   RendererProps,
   resolveVariableAndFilter
 } from 'amis-core';
-import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
 
 const foregroundColors = {
@@ -47,21 +49,24 @@ export type LogOperation =
  * 日志展示组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/log
  */
-export interface LogSchema extends BaseSchema {
+/**
+ * 日志组件，用于展示实时/历史日志流。支持自动滚动与级别过滤。
+ */
+export interface AMISLogSchema extends AMISSchemaBase {
   /**
-   * 指定为 log 链接展示控件
+   * 指定为 log 组件
    */
   type: 'log';
 
   /**
    * 自定义 CSS 类名
    */
-  className?: string;
+  className?: AMISClassName;
 
   /**
    * 获取日志的地址
    */
-  source: string;
+  source: AMISUrlPath;
 
   /**
    * 控件高度
@@ -101,7 +106,7 @@ export interface LogSchema extends BaseSchema {
 
 export interface LogProps
   extends RendererProps,
-    Omit<LogSchema, 'type' | 'className'> {}
+    Omit<AMISLogSchema, 'type' | 'className'> {}
 
 export interface LogState {
   lastLine: string;

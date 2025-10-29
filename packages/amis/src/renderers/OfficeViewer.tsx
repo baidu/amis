@@ -19,8 +19,12 @@ import {
 import type {Word, Excel} from 'office-viewer';
 import {Spinner} from 'amis-ui';
 import {Payload} from '../types';
+import {AMISSchemaBase} from 'amis-core';
 
-export interface OfficeViewerSchema extends BaseSchema {
+/**
+ * Office 文档查看器组件，用于预览 Word/Excel/PPT 等文档。
+ */
+export interface AMISOfficeViewerSchema extends AMISSchemaBase {
   type: 'office-viewer';
   /**
    * 文件地址
@@ -40,7 +44,7 @@ export interface OfficeViewerSchema extends BaseSchema {
 
 export interface OfficeViewerProps
   extends RendererProps,
-    Omit<OfficeViewerSchema, 'className'> {
+    Omit<AMISOfficeViewerSchema, 'className'> {
   columnsCount: number;
 }
 

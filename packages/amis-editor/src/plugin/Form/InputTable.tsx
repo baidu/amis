@@ -40,7 +40,7 @@ export class TableControlPlugin extends BasePlugin {
   static id = 'TableControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-table';
-  $schema = '/schemas/TableControlSchema.json';
+  $schema = '/schemas/AMISInputTableSchema.json';
 
   // 组件名称
   name = '表格编辑框';

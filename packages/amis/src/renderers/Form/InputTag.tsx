@@ -23,17 +23,20 @@ import {ActionObject} from 'amis-core';
 import {isMobile} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
-import {TooltipWrapperSchema} from '../TooltipWrapper';
+import {AMISTooltipWrapperSchema} from '../TooltipWrapper';
 import {matchSorter} from 'match-sorter';
+import {AMISFormItemWithOptions} from 'amis-core';
 
 /**
  * Tag 输入框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tag
  */
-export interface TagControlSchema extends FormOptionsSchema {
+/**
+ * Tag输入组件，支持自定义标签、下拉选择、最大标签数、标签文本长度限制及批量添加。
+ */
+export interface AMISInputTagSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 InputTag 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-tag
+   * 指定为 tag 组件
    */
   type: 'input-tag';
 
@@ -48,31 +51,30 @@ export interface TagControlSchema extends FormOptionsSchema {
   dropdown?: boolean;
 
   /**
-   * 允许添加的标签的最大数量
+   * 允许添加的标签最大数量
    */
   max?: number;
 
   /**
-   * 单个标签的最大文本长度
+   * 单个标签最大文本长度
    */
   maxTagLength?: number;
 
   /**
-   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   * 标签最大展示数量
    */
   maxTagCount?: number;
 
   /**
-   * 收纳标签的Popover配置
+   * 收纳标签配置
    */
-  overflowTagPopover?: TooltipWrapperSchema;
+  overflowTagPopover?: AMISTooltipWrapperSchema;
 
   /** 是否开启批量添加模式 */
   enableBatchAdd?: boolean;
 
   /**
-   * 开启批量添加后，输入多个标签的分隔符，支持传入多个符号，默认为"-"
-   *
+   * 批量添加分隔符
    * @default "-"
    */
   separator?: string;

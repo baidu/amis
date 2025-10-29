@@ -1,6 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {
+  AMISSchemaBase,
+  Renderer,
+  RendererProps,
+  AMISSchemaCollection
+} from 'amis-core';
+import {BaseSchema} from '../Schema';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import mapValues from 'lodash/mapValues';
 
@@ -8,24 +13,27 @@ import mapValues from 'lodash/mapValues';
  * WebComponent 容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/web-component
  */
-export interface WebComponentSchema extends BaseSchema {
+/**
+ * Web 组件，用于集成自定义 WebComponent。支持属性与事件绑定。
+ */
+export interface AMISWebComponentSchema extends AMISSchemaBase {
   /**
-   * 指定为 web-component 类型
+   * 指定为 web-component 组件
    */
   type: 'web-component';
 
   /**
-   * 标签
+   * HTML 标签名
    */
   tag: string;
 
   /**
-   * 子节点
+   * 子内容配置
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
-   * 组件属性
+   * 传递给 Web 组件的属性
    */
   props?: {
     [propName: string]: any;

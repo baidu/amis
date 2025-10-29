@@ -21,7 +21,7 @@ export class List2Plugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'cards';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/CardsSchema.json';
+  $schema = '/schemas/AMISCardsSchema.json';
 
   // 组件名称
   name = '列表';

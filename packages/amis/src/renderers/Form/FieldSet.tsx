@@ -1,20 +1,23 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaCollection, SchemaTpl} from '../../Schema';
-import Collapse, {BaseCollapseSchema} from '../Collapse';
+import {SchemaTpl} from '../../Schema';
+import Collapse, {AMISCollapseSchemaBase} from '../Collapse';
 import {FormBaseControlWithoutSize, BaseSchemaWithoutType} from 'amis-core';
-import type {FormHorizontal} from 'amis-core';
+import type {FormHorizontal, AMISSchemaCollection} from 'amis-core';
+import {AMISFormItemBase} from 'amis-core';
 
 /**
  * FieldSet 表单项集合
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/fieldset
  */
-export interface FieldSetControlSchema
-  extends FormBaseControlWithoutSize,
-    BaseSchemaWithoutType,
-    BaseCollapseSchema {
+/**
+ * FieldSet 表单项集合组件，用于将表单项分组展示，支持折叠、标题自定义、内容区域自定义，常用于表单布局和分段展示。
+ */
+export interface AMISFieldSetSchema
+  extends AMISFormItemBase,
+    AMISCollapseSchemaBase {
   /**
-   * 指定为表单项集合
+   * 指定为 fieldset 组件
    */
   type: 'fieldset' | 'fieldSet';
 
@@ -36,7 +39,7 @@ export interface FieldSetControlSchema
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 标题
@@ -54,16 +57,16 @@ export interface FieldSetControlSchema
   mountOnEnter?: boolean;
 
   /**
-   * 卡片隐藏就销毁内容。
+   * 卡片隐藏就销毁内容
    */
   unmountOnExit?: boolean;
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 子表单项展示方式
    */
   subFormMode?: 'normal' | 'inline' | 'horizontal';
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 水平排版宽度占比
    */
   subFormHorizontal?: FormHorizontal;
 }
@@ -71,7 +74,7 @@ export interface FieldSetControlSchema
 export interface FieldSetProps
   extends RendererProps,
     Omit<
-      FieldSetControlSchema,
+      AMISFieldSetSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

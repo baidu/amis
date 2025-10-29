@@ -25,7 +25,7 @@ export class HBoxPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'hbox';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/HBoxSchema.json';
+  $schema = '/schemas/AMISHBoxSchema.json';
   disabledRendererPlugin = true; // 组件面板不显示
 
   // 组件名称

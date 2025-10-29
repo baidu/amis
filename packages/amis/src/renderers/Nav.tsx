@@ -29,6 +29,7 @@ import {
   findTree,
   isObject,
   noop,
+  AMISSchemaCollection,
   str2function
 } from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
@@ -42,15 +43,19 @@ import type {NavigationItem} from 'amis-ui/lib/components/menu/index';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
 import {HorizontalScroll} from 'amis-ui/lib/components/HorizontalScroll';
 
-import type {BaseSchemaWithoutType, Payload} from 'amis-core';
+import type {
+  AMISFunction,
+  AMISSchemaBase,
+  BaseSchemaWithoutType,
+  Payload
+} from 'amis-core';
 import type {
   BaseSchema,
   SchemaObject,
   SchemaApi,
   SchemaIcon,
   SchemaUrlPath,
-  SchemaCollection,
-  SchemaClassName
+  AMISClassName
 } from '../Schema';
 
 export type IconItemSchema = {
@@ -58,14 +63,14 @@ export type IconItemSchema = {
   position: string; // before after
 };
 
-export interface NavItemSchema extends BaseSchemaWithoutType {
+export interface NavItemSchema extends AMISSchemaBase {
   /**
    * 文字说明
    */
-  label?: string | SchemaCollection;
+  label?: string | AMISSchemaCollection;
 
   /**
-   * 图标类名，参考 fontawesome 4。
+   * 图标类名
    */
   icon?: SchemaIcon | Array<IconItemSchema>;
 
@@ -112,17 +117,17 @@ export interface NavOverflow {
   /**
    * 菜单触发按钮CSS类名
    */
-  overflowClassName?: SchemaClassName;
+  overflowClassName?: AMISClassName;
 
   /**
    * Popover浮层CSS类名
    */
-  overflowPopoverClassName?: SchemaClassName;
+  overflowPopoverClassName?: AMISClassName;
 
   /**
    * 菜单外层CSS类名
    */
-  overflowListClassName?: SchemaClassName;
+  overflowListClassName?: AMISClassName;
 
   /**
    * 导航横向布局时，开启开启响应式收纳后最大可显示数量，超出此数量的导航将被收纳到下拉菜单中
@@ -144,7 +149,7 @@ export interface NavOverflow {
   /**
    * 导航列表后缀节点
    */
-  overflowSuffix?: SchemaCollection;
+  overflowSuffix?: AMISSchemaCollection;
 
   /**
    * 自定义样式
@@ -164,7 +169,10 @@ export interface NavOverflow {
  * Nav 导航渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/nav
  */
-export interface NavSchema extends BaseSchema {
+/**
+ * 导航组件，用于页面导航与菜单展示。支持分组、图标与选中态。
+ */
+export interface AMISNavSchema extends AMISSchemaBase {
   /**
    * 指定为 Nav 导航渲染器
    */
@@ -181,7 +189,7 @@ export interface NavSchema extends BaseSchema {
   indentSize: number;
 
   /**
-   * 可以通过 API 拉取。
+   * 通过 API 拉取。
    */
   source?: SchemaApi;
 
@@ -198,7 +206,7 @@ export interface NavSchema extends BaseSchema {
   /**
    * 更多操作菜单列表
    */
-  itemActions?: SchemaCollection;
+  itemActions?: AMISSchemaCollection;
 
   /**
    * 可拖拽
@@ -297,7 +305,7 @@ export interface NavSchema extends BaseSchema {
     /**
      * 搜索匹配函数
      */
-    matchFunc?: string | any;
+    matchFunc?: AMISFunction;
 
     /**
      * 占位符
@@ -333,7 +341,7 @@ export interface NavSchema extends BaseSchema {
 
 export interface Link {
   className?: string;
-  label?: string | SchemaCollection;
+  label?: string | AMISSchemaCollection;
   to?: string;
   target?: string;
   icon?: string;
@@ -367,7 +375,7 @@ export interface NavigationState {
 export interface NavigationProps
   extends ThemeProps,
     Omit<RendererProps, 'className'>,
-    Omit<NavSchema, 'type' | 'className'>,
+    Omit<AMISNavSchema, 'type' | 'className'>,
     SpinnerExtraProps {
   onSelect?: (item: Link, depth: number) => void | false;
   onToggle?: (item: Link, depth: number, forceFold?: boolean) => void;
@@ -683,7 +691,7 @@ export class Navigation extends React.Component<
             ? filter(link.label, data)
             : React.isValidElement(link.label)
             ? React.cloneElement(link.label)
-            : render('inline', link.label as SchemaCollection);
+            : render('inline', link.label as AMISSchemaCollection);
 
         // 仅垂直内联模式支持
         const isOverflow =
@@ -768,7 +776,7 @@ export class Navigation extends React.Component<
   async handleSearch(keyword: string) {
     const {links, searchConfig = {}} = this.props;
     const originLinks = cloneDeep(links ?? []);
-    let matchFunc = searchConfig?.matchFunc;
+    let matchFunc: Function = searchConfig?.matchFunc as Function;
 
     if (!keyword) {
       this.setState({keyword: '', filteredLinks: []});
@@ -776,7 +784,7 @@ export class Navigation extends React.Component<
     }
 
     if (matchFunc && typeof matchFunc === 'string') {
-      matchFunc = str2function(matchFunc, 'link', 'keyword');
+      matchFunc = str2function(matchFunc, 'link', 'keyword')!;
     } else if (typeof matchFunc === 'function') {
       /** 使用props下发的函数 */
     } else {

@@ -6,12 +6,21 @@
  */
 
 import React from 'react';
-import {autobind, filter, Renderer, RendererProps} from 'amis-core';
+import {
+  AMISSchemaBase,
+  autobind,
+  filter,
+  Renderer,
+  RendererProps
+} from 'amis-core';
 import {Shape, IShapeType} from 'amis-ui';
 import cx from 'classnames';
 import {BaseSchema} from '../Schema';
 
-export interface IShapeSchema extends BaseSchema {
+/**
+ * 形状组件，用于绘制矩形/圆形等图形或分隔。
+ */
+export interface AMISIShapeSchema extends AMISSchemaBase {
   type: 'shape';
   /**
    * 图形类型
@@ -54,7 +63,7 @@ export interface IShapeSchema extends BaseSchema {
 
 interface IShapeRenderProps
   extends RendererProps,
-    Omit<IShapeSchema, 'className'> {}
+    Omit<AMISIShapeSchema, 'className'> {}
 
 @Renderer({
   type: 'shape'

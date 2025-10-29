@@ -14,7 +14,7 @@ export class ProgressPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'progress';
-  $schema = '/schemas/ProgressSchema.json';
+  $schema = '/schemas/AMISProgressSchema.json';
 
   // 组件名称
   name = '进度展示';

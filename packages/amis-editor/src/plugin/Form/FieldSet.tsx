@@ -10,7 +10,7 @@ export class FieldSetControlPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'fieldset';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/FieldSetControlSchema.json';
+  $schema = '/schemas/AMISFieldSetSchema.json';
 
   // 组件名称
   name = '字段集';

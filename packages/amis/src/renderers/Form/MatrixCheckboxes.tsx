@@ -18,13 +18,13 @@ import {ApiObject, ActionObject, isMobile} from 'amis-core';
 import {FormBaseControlSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISFormItem, TestIdBuilder} from 'amis-core';
 
 /**
  * Matrix 选择控件。适合做权限勾选。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/matrix
  */
-export interface MatrixControlSchema extends FormBaseControlSchema {
+export interface AMISMatrixCheckboxesSchema extends AMISFormItem {
   type: 'matrix-checkboxes';
 
   /**
@@ -33,12 +33,12 @@ export interface MatrixControlSchema extends FormBaseControlSchema {
   multiple?: boolean;
 
   /**
-   * 设置单选模式，multiple为false时有效
+   * 设置单选模式
    */
   singleSelectMode?: boolean;
 
   /**
-   * 可用来通过 API 拉取 options。
+   * 可用来通过 API 拉取 options
    */
   source?: SchemaApi;
 

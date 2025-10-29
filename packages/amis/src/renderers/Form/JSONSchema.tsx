@@ -1,35 +1,41 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl, autobind} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  autobind,
+  AMISFormItem
+} from 'amis-core';
 import {InputJSONSchema} from 'amis-ui';
 import {withRemoteConfig} from 'amis-ui';
 import {FormBaseControlSchema} from '../../Schema';
-import {InputFormulaControlSchema} from './InputFormula';
+import {AMISInputFormulaSchema} from './InputFormula';
 
 /**
  * JSON Schema
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/json-schema
  */
-export interface JSONSchemaControlSchema extends FormBaseControlSchema {
+export interface AMISJsonSchemaSchema extends AMISFormItem {
   /**
-   * 指定为 JSON Schema
+   * 指定为 json-schema 组件
    */
   type: 'json-schema';
 
   /**
-   * json-schema 详情，支持关联上下文数据
+   * json-schema 详情
    */
   schema?: any;
 
   /**
-   * 将字段输入控件变成公式编辑器。
+   * 将字段输入控件变成公式编辑器
    */
-  formula?: Omit<InputFormulaControlSchema, 'type'>;
+  formula?: Omit<AMISInputFormulaSchema, 'type'>;
 }
 
 export interface JSONSchemaProps
   extends FormControlProps,
     Omit<
-      JSONSchemaControlSchema,
+      AMISJsonSchemaSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

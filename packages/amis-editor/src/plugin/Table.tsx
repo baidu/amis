@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, resolveVariable} from 'amis';
-import type {DataScope, SchemaObject} from 'amis';
+import type {AMISSchema, DataScope, SchemaObject} from 'amis';
 import {
   getI18nEnabled,
   RendererPluginAction,
@@ -44,7 +44,7 @@ export class TablePlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'table';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/TableSchema.json';
+  $schema = '/schemas/AMISTableSchema.json';
 
   // 组件名称
   name = '原子表格';
@@ -55,7 +55,7 @@ export class TablePlugin extends BasePlugin {
   docLink = '/amis/zh-CN/components/table';
   icon = 'fa fa-table';
   pluginIcon = 'table-plugin';
-  scaffold: SchemaObject = {
+  scaffold: AMISSchema = {
     type: 'table',
     columns: [
       {

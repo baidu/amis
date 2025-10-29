@@ -1,18 +1,24 @@
 import React from 'react';
 import ButtonGroup from './Form/ButtonGroupSelect';
-import {Renderer} from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schema';
+import {
+  AMISExpression,
+  AMISLegacyActionSchema,
+  AMISSchemaBase,
+  Renderer,
+  AMISButtonSchema
+} from 'amis-core';
+import {BaseSchema, AMISClassName, SchemaExpression} from '../Schema';
 import {ActionSchema} from './Action';
 
 /**
  * Button Group 渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/button-group
  */
-export interface BaseButtonGroupSchema extends BaseSchema {
+export interface AMISButtonGroupSchemaBase extends AMISSchemaBase {
   /**
    * @deprecated 给 Button 配置 className。建议用btnLevel
    */
-  btnClassName?: SchemaClassName;
+  btnClassName?: AMISClassName;
 
   /**
    * @deprecated 给选中态 Button 配置 className。建议用btnActiveLevel
@@ -22,7 +28,7 @@ export interface BaseButtonGroupSchema extends BaseSchema {
   /**
    * 按钮集合
    */
-  buttons?: Array<ActionSchema>;
+  buttons?: Array<AMISButtonSchema>;
 
   /**
    * 按钮样式级别
@@ -30,29 +36,29 @@ export interface BaseButtonGroupSchema extends BaseSchema {
   btnLevel?: string;
 
   /**
-   * 按钮选中的样式级别
+   * 按钮选中样式级别
    */
   btnActiveLevel?: string;
 
   /**
-   * 垂直展示？
+   * 是否垂直展示
    */
   vertical?: boolean;
 
   /**
-   * 平铺展示？
+   * 是否平铺展示
    */
   tiled?: boolean;
 
   /**
-   * 是否为禁用状态。
+   * 是否禁用
    */
   disabled?: boolean;
 
   /**
-   * 通过 JS 表达式来配置当前表单项的禁用状态。
+   * 禁用表达式
    */
-  disabledOn?: SchemaExpression;
+  disabledOn?: AMISExpression;
 
   /**
    * 是否显示
@@ -60,21 +66,24 @@ export interface BaseButtonGroupSchema extends BaseSchema {
   visible?: boolean;
 
   /**
-   * 通过 JS 表达式来配置当前表单项是否显示
+   * 显示表达式
    */
-  visibleOn?: SchemaExpression;
+  visibleOn?: AMISExpression;
+}
+
+/**
+ * 按钮组组件，将多个按钮组合展示。
+ */
+export interface AMISButtonGroupSchema extends AMISButtonGroupSchemaBase {
+  /**
+   * 指定为 button-group 组件
+   */
+  type: 'button-group';
 
   /**
    * 按钮大小
    */
   size?: 'xs' | 'sm' | 'md' | 'lg';
-}
-
-export interface ButtonGroupSchema extends BaseButtonGroupSchema {
-  /**
-   * 指定为提交按钮类型
-   */
-  type: 'button-group';
 }
 
 export default ButtonGroup;

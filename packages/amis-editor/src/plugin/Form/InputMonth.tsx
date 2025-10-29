@@ -6,7 +6,7 @@ export class MonthControlPlugin extends DateControlPlugin {
   static id = 'MonthControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-month';
-  $schema = '/schemas/MonthControlSchema.json';
+  $schema = '/schemas/AMISInputMonthSchema.json';
 
   // 组件名称
   name = '日期';

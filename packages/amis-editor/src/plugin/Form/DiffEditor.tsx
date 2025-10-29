@@ -16,7 +16,7 @@ export class DiffEditorControlPlugin extends BasePlugin {
   static id = 'DiffEditorControlPlugin';
   // 关联渲染器名字
   rendererName = 'diff-editor';
-  $schema = '/schemas/DiffEditorControlSchema.json';
+  $schema = '/schemas/AMISDiffEditorSchema.json';
 
   // 组件名称
   name = 'Diff编辑器';

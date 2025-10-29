@@ -7,7 +7,7 @@ export class AudioPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'audio';
-  $schema = '/schemas/AudioSchema.json';
+  $schema = '/schemas/AMISAudioSchema.json';
 
   // 组件名称
   name = '音频';

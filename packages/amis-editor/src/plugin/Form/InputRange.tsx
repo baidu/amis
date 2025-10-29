@@ -24,7 +24,7 @@ export class RangeControlPlugin extends BasePlugin {
   static id = 'RangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-range';
-  $schema = '/schemas/RangeControlSchema.json';
+  $schema = '/schemas/AMISInputRangeSchema.json';
 
   // 组件名称
   name = '滑块';

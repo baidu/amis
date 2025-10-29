@@ -51,7 +51,7 @@ import {
 import {
   FormBaseControlSchema,
   SchemaApi,
-  SchemaClassName,
+  AMISClassName,
   SchemaObject,
   SchemaTpl
 } from '../../Schema';
@@ -60,37 +60,43 @@ import type {SchemaTokenizeableString} from '../../Schema';
 import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {
+  AMISApi,
+  AMISFormItem,
+  AMISSchema,
+  AMISTemplate,
+  TestIdBuilder
+} from 'amis-core';
 
-export type ComboCondition = {
+export type AMISComboCondition = {
   test: string;
-  items: Array<ComboSubControl>;
+  items: Array<AMISComboItem>;
   label: string;
   scaffold?: any;
   mode?: string;
 };
 
-export type ComboSubControl = SchemaObject & {
+export interface AMISComboItemBase {
   /**
-   * 是否唯一, 只有在 combo 里面才有用
+   * 是否唯一
    */
   unique?: boolean;
 
   /**
-   * 列类名，可以用来修改这类宽度。
+   * 列类名
    */
-  columnClassName?: SchemaClassName;
-  testid?: string;
-};
+  columnClassName?: AMISClassName;
+}
+
+export type AMISComboItem = AMISSchema & AMISComboItemBase;
 
 /**
  * Combo 组合输入框类型
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/combo
  */
-export interface BaseComboControlSchema extends FormBaseControlSchema {
+export interface AMISComboSchemaBase extends AMISFormItem {
   /**
-   * 单组表单项初始值。默认为 `{}`
-   *
+   * 单组表单项初始值
    * @default {}
    */
   scaffold?: any;
@@ -101,34 +107,34 @@ export interface BaseComboControlSchema extends FormBaseControlSchema {
   noBorder?: boolean;
 
   /**
-   * 确认删除时的提示
+   * 确认删除时的提示文本
    */
   deleteConfirmText?: string;
 
   /**
-   * 删除时调用的api
+   * 删除时调用的 API 接口
    */
-  deleteApi?: SchemaApi;
+  deleteApi?: AMISApi;
 
   /**
-   * 是否可切换条件，配合`conditions`使用
+   * 是否可切换条件，配合 conditions 使用
    */
   typeSwitchable?: boolean;
 
   /**
-   * 符合某类条件后才渲染的schema
+   * 符合某类条件后才渲染的 schema 配置
    */
-  conditions?: Array<ComboCondition>;
+  conditions?: Array<AMISComboCondition>;
 
   /**
-   * 内部单组表单项的类名
+   * 内部单组表单项的 CSS 类名
    */
-  formClassName?: SchemaClassName;
+  formClassName?: AMISClassName;
 
   /**
-   * 新增按钮CSS类名
+   * 新增按钮的 CSS 类名
    */
-  addButtonClassName?: SchemaClassName;
+  addButtonClassName?: AMISClassName;
 
   /**
    * 新增按钮文字
@@ -142,14 +148,14 @@ export interface BaseComboControlSchema extends FormBaseControlSchema {
   addable?: boolean;
 
   /**
-   * Add at top
+   * 是否在顶部添加
    */
   addattop?: boolean;
 
   /**
-   * 数组输入框的子项
+   * 数组输入框的子项配置
    */
-  items?: Array<ComboSubControl>;
+  items?: Array<AMISComboItem>;
 
   /**
    * 是否可拖拽排序
@@ -157,26 +163,25 @@ export interface BaseComboControlSchema extends FormBaseControlSchema {
   draggable?: boolean;
 
   /**
-   * 可拖拽排序的提示信息。
-   *
+   * 可拖拽排序的提示信息
    * @default 可拖拽排序
    */
   draggableTip?: string;
 
   /**
-   * 是否将结果扁平化(去掉name),只有当controls的length为1且multiple为true的时候才有效
+   * 是否将结果扁平化（去掉 name）
+   * 只有当 controls 的 length 为 1 且 multiple 为 true 的时候才有效
    */
   flat?: boolean;
 
   /**
-   * 当扁平化开启并且joinValues为true时，用什么分隔符
-   *
+   * 当扁平化开启并且 joinValues 为 true 时，用什么分隔符
    * @deprecated
    */
   delimiter?: string;
 
   /**
-   * 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用array的方式
+   * 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式
    * @deprecated
    */
   joinValues?: boolean;
@@ -207,40 +212,41 @@ export interface BaseComboControlSchema extends FormBaseControlSchema {
   removable?: boolean;
 
   /**
-   * 子表单的模式。
+   * 子表单的展示模式
    */
   subFormMode?: 'normal' | 'horizontal' | 'inline';
 
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 水平排版时的左右宽度占比配置
    */
   subFormHorizontal?: FormHorizontal;
 
   /**
-   * 没有成员时显示。
+   * 没有成员时显示的占位符文本
    * @default empty
    */
   placeholder?: string;
 
   /**
-   * 是否可以访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
+   * 是否可访问父级数据
+   * 正常 combo 已经关联到数组成员，是不能访问父级数据的
    */
   canAccessSuperData?: boolean;
 
   /**
-   * 采用 Tabs 展示方式？
+   * 是否采用 Tabs 展示方式
    */
   tabsMode?: boolean;
 
   /**
-   * Tabs 的展示模式。
+   * Tabs 的展示模式
    */
   tabsStyle?: '' | 'line' | 'card' | 'radio';
 
   /**
    * 选项卡标题的生成模板。
    */
-  tabsLabelTpl?: SchemaTpl;
+  tabsLabelTpl?: AMISTemplate;
 
   /**
    * 数据比较多，比较卡时，可以试试开启。
@@ -289,10 +295,12 @@ export interface BaseComboControlSchema extends FormBaseControlSchema {
     maxLengthValidateFailed?: string;
   };
   updatePristineAfterStoreDataReInit?: boolean;
-  testIdBuilder?: TestIdBuilder;
 }
 
-export interface ComboControlSchema extends BaseComboControlSchema {
+/**
+ * Combo 组合输入控件，可动态增减、编辑子项或多组表单项，支持多行、分页、懒加载、自定义提示及字段同步。
+ */
+export interface AMISComboSchema extends AMISComboSchemaBase {
   /**
    * 指定为组合输入框类型
    */
@@ -311,7 +319,7 @@ function pickVars(vars: any, fields: Array<string>) {
 export interface ComboProps
   extends FormControlProps,
     Omit<
-      ComboControlSchema,
+      AMISComboSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   store: IComboStore;
@@ -592,7 +600,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     return value;
   }
 
-  addItemWith(condition: ComboCondition) {
+  addItemWith(condition: AMISComboCondition) {
     const {
       flat,
       joinValues,
@@ -1234,19 +1242,19 @@ export default class ComboControl extends React.Component<ComboProps> {
     );
   }
 
-  pickCondition(value: any): ComboCondition | null {
-    const conditions: Array<ComboCondition> = this.props.conditions!;
+  pickCondition(value: any): AMISComboCondition | null {
+    const conditions: Array<AMISComboCondition> = this.props.conditions!;
     return find(
       conditions,
       item => item.test && evalExpression(item.test, value)
-    ) as ComboCondition | null;
+    ) as AMISComboCondition | null;
   }
 
   handleComboTypeChange(index: number, selection: any) {
     const {multiple, onChange, value, flat, submitOnChange} = this.props;
 
-    const conditions: Array<ComboCondition> = this.props
-      .conditions as Array<ComboCondition>;
+    const conditions: Array<AMISComboCondition> = this.props
+      .conditions as Array<AMISComboCondition>;
     const condition = find(conditions, item => item.label === selection.label);
 
     if (!condition) {
@@ -1385,7 +1393,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         {value.map((value: any, index: number) => {
           const data = this.formatValue(value, index);
           const tabTIDBuilder = testIdBuilder?.getChild(`tab-${index}`);
-          let condition: ComboCondition | null | undefined = null;
+          let condition: AMISComboCondition | null | undefined = null;
           let toolbar = undefined;
           if (
             finnalRemovable && // 表达式判断单条是否可删除
@@ -1461,7 +1469,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   <label>{__('Combo.type')}</label>
                   <Select
                     onChange={this.handleComboTypeChange.bind(this, index)}
-                    options={(conditions as Array<ComboCondition>).map(
+                    options={(conditions as Array<AMISComboCondition>).map(
                       item => ({
                         label: item.label,
                         value: item.label
@@ -1734,7 +1742,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               let delBtn: any = this.renderDelBtn(value, index);
 
               const data = this.formatValue(value, index);
-              let condition: ComboCondition | null = null;
+              let condition: AMISComboCondition | null = null;
 
               if (Array.isArray(conditions) && conditions.length) {
                 condition = this.pickCondition(data);
@@ -1784,7 +1792,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       <label>{__('Combo.type')}</label>
                       <Select
                         onChange={this.handleComboTypeChange.bind(this, index)}
-                        options={(conditions as Array<ComboCondition>).map(
+                        options={(conditions as Array<AMISComboCondition>).map(
                           item => ({
                             label: item.label,
                             value: item.label
@@ -1864,7 +1872,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     const data = isObject(value)
       ? this.formatValue(value)
       : this.formatValue(this.defaultValue);
-    let condition: ComboCondition | null = null;
+    let condition: AMISComboCondition | null = null;
 
     if (Array.isArray(conditions) && conditions.length) {
       condition = this.pickCondition(data);
@@ -1895,10 +1903,12 @@ export default class ComboControl extends React.Component<ComboProps> {
               <label>{__('Combo.type')}</label>
               <Select
                 onChange={this.handleComboTypeChange.bind(this, 0)}
-                options={(conditions as Array<ComboCondition>).map(item => ({
-                  label: item.label,
-                  value: item.label
-                }))}
+                options={(conditions as Array<AMISComboCondition>).map(
+                  item => ({
+                    label: item.label,
+                    value: item.label
+                  })
+                )}
                 value={condition.label}
                 clearable={false}
               />
@@ -1926,7 +1936,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   // 为了给 editor 重写使用
   renderItems(
-    finnalControls: ComboSubControl[],
+    finnalControls: AMISComboItem[],
     data: object,
     index?: number,
     originData?: any

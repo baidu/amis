@@ -12,7 +12,7 @@ import {
 } from './Action';
 
 export interface IAjaxAction extends ListenerAction {
-  action: 'ajax';
+  actionType: 'ajax' | 'download';
   api: Api;
   messages?: {
     success: string;

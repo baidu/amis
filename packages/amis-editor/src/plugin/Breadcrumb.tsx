@@ -9,7 +9,7 @@ export class BreadcrumbPlugin extends BasePlugin {
   static id = 'BreadcrumbPlugin';
   // 关联渲染器名字
   rendererName = 'breadcrumb';
-  $schema = '/schemas/BreadcrumbSchema.json';
+  $schema = '/schemas/AMISBreadcrumbSchema.json';
   disabledRendererPlugin = true;
 
   // 组件名称

@@ -9,7 +9,7 @@ import {
   setThemeClassName
 } from 'amis-core';
 import {Textarea} from 'amis-ui';
-import type {ListenerAction} from 'amis-core';
+import type {AMISFormItem, ListenerAction} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import cx from 'classnames';
@@ -18,9 +18,12 @@ import cx from 'classnames';
  * TextArea 多行文本输入框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/textarea
  */
-export interface TextareaControlSchema extends FormBaseControlSchema {
+/**
+ * TextArea 多行文本输入框组件，支持最大/最小行数、只读、边框模式、最大长度、字符统计和清除等功能。
+ */
+export interface AMISTextareaSchema extends AMISFormItem {
   /**
-   * 指定为多行文本输入框
+   * 指定为 textarea 组件
    */
   type: 'textarea';
 
@@ -40,27 +43,27 @@ export interface TextareaControlSchema extends FormBaseControlSchema {
   readOnly?: boolean;
 
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
   /**
-   * 限制文字个数
+   * 最大长度
    */
   maxLength?: number;
 
   /**
-   * 是否显示计数
+   * 是否显示字符计数
    */
   showCounter?: boolean;
 
   /**
-   * 输入内容是否可清除
+   * 是否显示清除按钮
    */
   clearable?: boolean;
 
   /**
-   * 重置值
+   * 重置时的默认值
    */
   resetValue?: string;
 }

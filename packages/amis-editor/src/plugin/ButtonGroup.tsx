@@ -16,7 +16,7 @@ export class ButtonGroupPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button-group';
-  $schema = '/schemas/ButtonGroupSchema.json';
+  $schema = '/schemas/AMISButtonGroupSchema.json';
 
   // 组件名称
   name = '按钮组';

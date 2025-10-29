@@ -32,45 +32,48 @@ import {filter} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {
   BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
+  AMISClassName,
   SchemaExpression,
   SchemaTpl,
   SchemaTokenizeableString
 } from '../Schema';
-import {CardProps, CardSchema, CardSchemaWithoutType} from './Card';
-import {Card2Props, Card2Schema} from './Card2';
-import type {IItem, IScopedContext} from 'amis-core';
+import {AMISCardSchemaBase, CardProps} from './Card';
+import {AMISCard2Schema, Card2Props} from './Card2';
+import type {
+  IItem,
+  IScopedContext,
+  AMISSchemaBase,
+  AMISSpinnerConfig,
+  AMISSchemaCollection,
+  AMISLocalSource,
+  AMISExpression
+} from 'amis-core';
 import find from 'lodash/find';
 
 /**
  * Cards 卡片集合渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/cards
  */
-export interface BaseCardsSchema extends BaseSchema, SpinnerExtraProps {
-  card?: CardSchemaWithoutType | Card2Schema;
+export interface AMISCardsBase extends AMISSchemaBase, AMISSpinnerConfig {
+  card?: AMISCardSchemaBase | AMISCard2Schema;
 
   /**
    * 头部 CSS 类名
    */
-  headerClassName?: SchemaClassName;
+  headerClassName?: AMISClassName;
 
   /**
    * 底部 CSS 类名
    */
-  footerClassName?: SchemaClassName;
+  footerClassName?: AMISClassName;
 
   /**
    * 卡片 CSS 类名
-   *
-   * @default Grid-col--xs12 Grid-col--sm6 Grid-col--md4 Grid-col--lg3
    */
-  itemClassName?: SchemaClassName;
+  itemClassName?: AMISClassName;
 
   /**
    * 无数据提示
-   *
-   * @default 暂无数据
    */
   placeholder?: SchemaTpl;
 
@@ -85,11 +88,9 @@ export interface BaseCardsSchema extends BaseSchema, SpinnerExtraProps {
   showHeader?: boolean;
 
   /**
-   * 数据源: 绑定当前环境变量
-   *
-   * @default ${items}
+   * 数据源
    */
-  source?: SchemaTokenizeableString;
+  source?: AMISLocalSource;
 
   /**
    * 标题
@@ -114,22 +115,22 @@ export interface BaseCardsSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 顶部区域
    */
-  header?: SchemaCollection;
+  header?: AMISSchemaCollection;
 
   /**
    * 底部区域
    */
-  footer?: SchemaCollection;
+  footer?: AMISSchemaCollection;
 
   /**
-   * 配置某项是否可以点选
+   * 配置某项是否可点选
    */
-  itemCheckableOn?: SchemaExpression;
+  itemCheckableOn?: AMISExpression;
 
   /**
    * 配置某项是否可拖拽排序，前提是要开启拖拽功能
    */
-  itemDraggableOn?: SchemaExpression;
+  itemDraggableOn?: AMISExpression;
 
   /**
    * 点击卡片的时候是否勾选卡片。
@@ -146,13 +147,18 @@ export interface BaseCardsSchema extends BaseSchema, SpinnerExtraProps {
    */
   valueField?: string;
 }
+export type BaseCardsSchema = AMISCardsBase;
 
-export interface CardsSchema extends BaseCardsSchema {
+/**
+ * 卡片集合组件，以卡片形式展示列表数据。
+ */
+export interface AMISCardsSchema extends AMISCardsBase {
   /**
    * 指定为 cards 类型
    */
   type: 'cards';
 }
+export type CardsSchema = AMISCardsSchema;
 export interface Column {
   type: string;
   [propName: string]: any;

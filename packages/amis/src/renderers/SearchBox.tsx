@@ -9,10 +9,11 @@ import {
   ScopedContext,
   autobind,
   getPropValue,
-  setVariable
+  setVariable,
+  AMISSchemaBase
 } from 'amis-core';
 
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 import {SearchBox} from 'amis-ui';
 
 import {ListenerAction, TestIdBuilder} from 'amis-core';
@@ -21,23 +22,22 @@ import type {SpinnerExtraProps} from 'amis-ui';
 /**
  * 搜索框渲染器
  */
-export interface SearchBoxSchema extends BaseSchema {
+/**
+ * 搜索框组件，用于关键字搜索与表单查询。支持占位提示与快捷操作。
+ */
+export interface AMISSearchBoxSchema extends AMISSchemaBase {
   /**
-   * 指定为搜索框。
-   *
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/search-box
+   * 指定为 search-box 组件
    */
   type: 'search-box';
 
   /**
-   * 外层 css 类名
+   * 外层 CSS 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
-   * 关键字名字。
-   *
-   * @default keywords
+   * 关键字字段名
    */
   name?: string;
 
@@ -47,7 +47,7 @@ export interface SearchBoxSchema extends BaseSchema {
   placeholder?: string;
 
   /**
-   * 是否为 Mini 样式。
+   * 是否为 Mini 样式
    */
   mini?: boolean;
 
@@ -62,7 +62,7 @@ export interface SearchBoxSchema extends BaseSchema {
   clearable?: boolean;
 
   /**
-   * 是否立马搜索。
+   * 是否立马搜索
    */
   searchImediately?: boolean;
 
@@ -77,7 +77,7 @@ export interface SearchBoxSchema extends BaseSchema {
 
 interface SearchBoxProps
   extends RendererProps,
-    Omit<SearchBoxSchema, 'type' | 'className'>,
+    Omit<AMISSearchBoxSchema, 'type' | 'className'>,
     SpinnerExtraProps {
   name: string;
   onQuery?: (query: {[propName: string]: string}) => any;

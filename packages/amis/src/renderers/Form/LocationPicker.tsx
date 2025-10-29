@@ -6,7 +6,8 @@ import {
   Overlay,
   PopOver,
   autobind,
-  getVariable
+  getVariable,
+  AMISFormItem
 } from 'amis-core';
 import {
   FormItem,
@@ -24,7 +25,7 @@ import {isMobile} from 'amis-core';
  * Location 选点组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/location
  */
-export interface LocationControlSchema extends FormBaseControlSchema {
+export interface AMISLocationPickerSchema extends AMISFormItem {
   type: 'location-picker';
 
   /**
@@ -44,18 +45,16 @@ export interface LocationControlSchema extends FormBaseControlSchema {
 
   /**
    * 是否限制只能选中当前地理位置
-   * 备注：可用于充当定位组件，只允许选择当前位置
    */
   onlySelectCurrentLoc?: boolean;
 
   /**
-   * 开启只读模式后的占位提示，默认为“点击获取位置信息”
-   * 备注：区分下现有的placeholder（“请选择位置”）
+   * 开启只读模式后的占位提示
    */
   getLocationPlaceholder?: string;
 
   /**
-   * 是否隐藏地图控制组件，默认为false
+   * 是否隐藏地图控制组件
    */
   hideViewControl?: boolean;
 }
@@ -64,7 +63,7 @@ export interface LocationControlProps
   extends FormControlProps,
     Omit<ThemeProps, 'className'>,
     Omit<
-      LocationControlSchema,
+      AMISLocationPickerSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   value: any;

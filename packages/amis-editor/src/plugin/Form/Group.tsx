@@ -15,7 +15,7 @@ export class GroupControlPlugin extends BasePlugin {
   static id = 'GroupControlPlugin';
   // 关联渲染器名字
   rendererName = 'group';
-  $schema = '/schemas/GroupControlSchema.json';
+  $schema = '/schemas/AMISGroupSchema.json';
   disabledRendererPlugin = true; // 组件面板不显示
 
   // 组件名称

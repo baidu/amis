@@ -2,7 +2,7 @@ import React from 'react';
 import {FormItem} from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
-import InputDateRange, {BaseDateRangeControlSchema} from './InputDateRange';
+import InputDateRange, {AMISDateRangeSchemaBase} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
 import {supportStatic} from './StaticHoc';
 import {isMobile} from 'amis-core';
@@ -12,7 +12,10 @@ import {isMobile} from 'amis-core';
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/month-range
  */
 
-export interface MonthRangeControlSchema extends BaseDateRangeControlSchema {
+/**
+ * MonthRange 月范围控件，用于选择起止月份区间，支持格式化、校验以及移动端样式。
+ */
+export interface AMISInputMonthRangeSchema extends AMISDateRangeSchemaBase {
   type: 'input-month-range';
 }
 

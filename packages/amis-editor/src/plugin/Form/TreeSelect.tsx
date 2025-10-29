@@ -31,7 +31,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
   static id = 'TreeSelectControlPlugin';
   // 关联渲染器名字
   rendererName = 'tree-select';
-  $schema = '/schemas/TreeSelectControlSchema.json';
+  $schema = '/schemas/AMISTreeSelectSchema.json';
 
   // 组件名称
   name = '树组件';

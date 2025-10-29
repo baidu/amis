@@ -5,7 +5,7 @@ export class EmailControlPlugin extends TextControlPlugin {
   static id = 'EmailControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-email';
-  $schema = '/schemas/TextControlSchema.json';
+  $schema = '/schemas/AMISInputEmailSchema.json';
   name = '邮箱框';
   isBaseComponent = true;
   icon = 'fa fa-envelope-o';

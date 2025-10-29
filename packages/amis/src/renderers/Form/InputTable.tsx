@@ -32,13 +32,15 @@ import {
   findTreeIndex,
   applyFilters,
   evalExpression,
-  injectObjectChain
+  injectObjectChain,
+  AMISSchemaCollection,
+  AMISFunction
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import {BaseTableSchema, TableSchema} from '../Table';
-import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
+import {SchemaApi, AMISClassName} from '../../Schema';
 import find from 'lodash/find';
 import debounce from 'lodash/debounce';
 import moment from 'moment';
@@ -54,7 +56,10 @@ export type TableDataItem = {
   [x: string | number]: any;
 };
 
-export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
+/**
+ * InputTable 组件用于在表单中以表格形式收集和管理结构化数据，支持增删改查、拖拽排序、批量操作等功能。
+ */
+export interface AMISInputTableSchema extends FormBaseControl, BaseTableSchema {
   type: 'input-table';
 
   /**
@@ -63,7 +68,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   addable?: boolean | string;
 
   /**
-   * 是否可以新增子项
+   * 是否可新增子项
    */
   childrenAddable?: boolean | string;
 
@@ -88,13 +93,12 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   copyAddBtn?: boolean;
 
   /**
-   * 复制的时候用来配置复制映射的数据。默认值是 {&:$$}，相当与复制整个行数据
-   * 通常有时候需要用来标记是复制过来的，也可能需要删掉一下主键字段。
+   * 复制数据映射
    */
   copyData?: Record<string, any>;
 
   /**
-   * 是否可以拖拽排序
+   * 是否可拖拽排序
    */
   draggable?: boolean;
 
@@ -204,7 +208,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   needConfirm?: boolean;
 
   /**
-   * 是否可以访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
+   * 是否可访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
    */
   canAccessSuperData?: boolean;
 
@@ -241,7 +245,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   /**
    * 底部新增按钮配置
    */
-  footerAddBtn?: SchemaCollection;
+  footerAddBtn?: AMISSchemaCollection;
 
   /**
    * 是否开启 static 状态切换
@@ -251,7 +255,7 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
   /**
    * 底部工具栏CSS样式类
    */
-  toolbarClassName?: SchemaClassName;
+  toolbarClassName?: AMISClassName;
 
   /**
    * 自定义搜索匹配函数，当存在列的 searchable 为 true 时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
@@ -266,13 +270,19 @@ export interface TableControlSchema extends FormBaseControl, BaseTableSchema {
    *  * `options.matchSorter` 系统默认的排序方法
    * @since 6.10.0
    */
-  matchFunc?: string | any;
+  matchFunc?: AMISFunction<
+    (
+      items: Array<any>,
+      itemsRaw: Array<any>,
+      options: {query: string; columns: Array<any>; matchSorter: Function}
+    ) => Array<any>
+  >;
 }
 
 export interface TableProps
   extends FormControlProps,
     Omit<
-      TableControlSchema,
+      AMISInputTableSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

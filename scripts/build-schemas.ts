@@ -23,18 +23,28 @@ import {
   StringType,
   LiteralType,
   Context,
+  ArrayType,
+  TupleType,
+  getAllOfDefinitionReducer,
   Schema,
   uniqueArray,
   ReferenceType,
+  IndexedAccessTypeNodeParser,
   ChainNodeParser,
-  IntersectionNodeParser
+  ExpressionWithTypeArgumentsNodeParser,
+  IntersectionNodeParser,
+  DefinitionTypeFormatter,
+  FunctionType,
+  DefinitionType
 } from 'ts-json-schema-generator';
-import ts from 'typescript';
+import ts, {TypeOperatorNode, TypeReferenceNode} from 'typescript';
 import mkdirp from 'mkdirp';
 import isPlainObject from 'lodash/isPlainObject';
 
 /**
  * 程序主入口
+ *
+ * todo 别名 String 对 jsdoc 内容咋没有生成 description？
  */
 async function main() {
   const dir = path.join(__dirname, '../packages/amis/src');
@@ -45,9 +55,9 @@ async function main() {
   );
 
   const config = {
-    path: path.join(dir, 'Schema.ts'),
+    path: path.join(dir, 'SchemaFull.ts'),
     tsconfig: tsConfig,
-    type: 'RootSchema',
+    type: 'RootRenderer',
     skipTypeCheck: true,
     jsDoc: 'extended' as 'extended',
     additionalProperties: false
@@ -62,9 +72,11 @@ async function main() {
     {
       config: {
         ...config,
+        path: path.join(dir, 'SchemaMinimal.ts'),
         additionalProperties: true
       },
-      target: 'schema-minimal.json'
+      target: 'schema-minimal.json',
+      optimizeForMonaco: false
     }
   ]) {
     // 创建 formatter 用于优化体积
@@ -72,19 +84,28 @@ async function main() {
       c as any,
       (fmt, circularReferenceTypeFormatter) => {
         fmt.addTypeFormatter(
-          new MyNodeTypeFormatter(circularReferenceTypeFormatter)
+          new MyObjectTypeFormatter(
+            circularReferenceTypeFormatter,
+            optimizeForMonaco
+          )
+        );
+        fmt.addTypeFormatter(new MyLiteralUnionTypeFormatter());
+        fmt.addTypeFormatter(
+          new MyFunctionTypeFormatter(circularReferenceTypeFormatter)
         );
         fmt.addTypeFormatter(
           new MyIntersectionTypeFormatter(circularReferenceTypeFormatter)
         );
-        fmt.addTypeFormatter(new MyLiteralUnionTypeFormatter());
+        fmt.addTypeFormatter(
+          new MyDefinitionTypeFormatter(circularReferenceTypeFormatter, true)
+        );
       }
     );
 
     const program = createProgram(c as any);
     const parser = createParser(program, c as any, prs => {
       prs.addNodeParser(
-        new MyIntersectionNodeParser(
+        new MyIndexedAccessTypeNodeParser(
           program.getTypeChecker(),
           prs as ChainNodeParser
         )
@@ -96,10 +117,11 @@ async function main() {
 
     if (optimizeForMonaco) {
       convertAnyOfItemToConditionalItem(schema, [
-        'ActionSchema',
-        'CRUDSchema',
-        'CRUD2Schema',
-        'SchemaObject'
+        'AMISSchema',
+        'AMISCRUDSchema',
+        'AMISCRUD2Schema',
+        'AMISLegacyActionSchema',
+        'AMISAction'
       ]);
       schema = optimizeConditions(schema);
     }
@@ -110,27 +132,53 @@ async function main() {
   }
 }
 
-class MyIntersectionNodeParser extends IntersectionNodeParser {
-  public createType(node: any, context: Context) {
-    const types = (node as ts.IntersectionType).types.map(subnode =>
-      this.childNodeParser.createType(subnode as any, context)
-    );
-    if (types.some(t => t.getName() === 'ActionSchema')) {
-      return new IntersectionType(types);
+class MyIndexedAccessTypeNodeParser extends IndexedAccessTypeNodeParser {
+  public createType(node: ts.IndexedAccessTypeNode, context: Context) {
+    // 支持 Module Augmentation 用法
+    if (
+      node.indexType.kind === ts.SyntaxKind.TypeOperator &&
+      (node.indexType as TypeOperatorNode).operator ===
+        ts.SyntaxKind.KeyOfKeyword &&
+      (node.indexType as TypeOperatorNode).type.kind ===
+        ts.SyntaxKind.TypeReference &&
+      node.objectType.kind === (node.indexType as TypeOperatorNode).type.kind &&
+      (node.objectType as any).typeName.escapedText ===
+        (node.indexType as any).type.typeName.escapedText
+    ) {
+      // 检测到 xxxxx[keyof xxxxx]
+      // 需要查找 xxxxx 的类型定义，并返回一个联合类型
+      const target = node.objectType as TypeReferenceNode;
+      const symbol = this.typeChecker.getSymbolAtLocation(target.typeName);
+      if (symbol) {
+        return new UnionType(
+          Array.from(symbol.members?.values() || []).map(member =>
+            this.childNodeParser.createType(
+              (member.valueDeclaration as any).type,
+              context
+            )
+          )
+        );
+      }
     }
 
     return super.createType(node, context);
   }
 }
 
-class MyNodeTypeFormatter extends ObjectTypeFormatter {
+class MyObjectTypeFormatter extends ObjectTypeFormatter {
+  constructor(
+    protected childTypeFormatter: TypeFormatter,
+    protected optimizeForMonaco: boolean
+  ) {
+    super(childTypeFormatter);
+  }
+
   getDefinition(type: ObjectType): Definition {
     const types = type.getBaseTypes();
     if (types.length === 0) {
       return this.getObjectDefinition(type);
     }
     // 体积太大了，只能这样
-
     const definition: Definition = {
       allOf: [
         this.getObjectDefinition(type),
@@ -142,6 +190,7 @@ class MyNodeTypeFormatter extends ObjectTypeFormatter {
     const firstType: Definition = definition.allOf![0] as any;
 
     if (
+      this.optimizeForMonaco &&
       firstType.type === 'object' &&
       firstType.additionalProperties === false
     ) {
@@ -194,7 +243,7 @@ class MyNodeTypeFormatter extends ObjectTypeFormatter {
         result[key] = {
           ...item
         };
-        delete result[key].description;
+        result[key].description;
       } else if (!result[key]) {
         result[key] = true;
       }
@@ -233,26 +282,82 @@ class MyLiteralUnionTypeFormatter extends LiteralUnionTypeFormatter {
 
 class MyIntersectionTypeFormatter extends IntersectionTypeFormatter {
   getDefinition(type: IntersectionType): Definition {
-    const types = type.getTypes();
+    const dependencies: Definition[] = [];
+    const nonArrayLikeTypes: BaseType[] = [];
 
+    for (const t of type.getTypes()) {
+      // Filter out Array like definitions that cannot be
+      // easily mergeable into a single json-schema object
+      if (t instanceof ArrayType || t instanceof TupleType) {
+        dependencies.push(this.childTypeFormatter.getDefinition(t));
+      } else {
+        const subDefinition = this.childTypeFormatter.getDefinition(t);
+        if (subDefinition.$ref || Array.isArray(subDefinition.anyOf)) {
+          dependencies.push(subDefinition);
+        } else {
+          nonArrayLikeTypes.push(t);
+        }
+      }
+    }
+
+    if (nonArrayLikeTypes.length) {
+      // There are non array (mergeable requirements)
+      dependencies.push(
+        nonArrayLikeTypes.reduce(
+          getAllOfDefinitionReducer(this.childTypeFormatter),
+          {
+            type: 'object',
+            additionalProperties: false
+          }
+        )
+      );
+    }
+
+    return dependencies.length === 1
+      ? dependencies[0]
+      : {
+          allOf: dependencies.map(item => ({
+            ...item,
+            additionalProperties: true
+          }))
+        };
+  }
+}
+
+class MyFunctionTypeFormatter implements SubTypeFormatter {
+  constructor(protected childTypeFormatter: TypeFormatter) {}
+  getChildren() {
+    return [];
+  }
+  supportsType(type: BaseType) {
+    return type instanceof FunctionType;
+  }
+  getDefinition(type: FunctionType): Definition {
+    return {type: 'string', description: 'function'};
+  }
+}
+
+class MyDefinitionTypeFormatter extends DefinitionTypeFormatter {
+  getDefinition(type: DefinitionType) {
     if (
-      types.some(item =>
-        ['SchemaObject', 'ActionSchema'].includes(item.getName())
-      )
+      type.getName() === 'AMISFunction<function>' ||
+      type.getName() === 'AMISFunction'
     ) {
       return {
-        allOf: types.map(item => {
-          const subType = this.childTypeFormatter.getDefinition(item);
-
-          return {
-            ...subType,
-            additionalProperties: true
-          };
-        })
-      };
+        type: 'string'
+      } as any;
     }
 
     return super.getDefinition(type);
+  }
+  getChildren(type: DefinitionType) {
+    if (
+      type.getName() === 'AMISFunction<function>' ||
+      type.getName() === 'AMISFunction'
+    ) {
+      return [];
+    }
+    return super.getChildren(type);
   }
 }
 
@@ -341,134 +446,191 @@ function pickConstProperties(schema: any): any {
 // 优化条件逻辑，主要处理 action 与 schemaObject 部分的 if
 // 避免 monaco-editor 无法精确定位
 function optimizeConditions(schema: any) {
-  const actionSchema = schema.definitions.ActionSchema;
-  const actionSchemaAllOf = actionSchema.allOf;
-
-  delete actionSchema.allOf;
-  actionSchema.if = {
-    required: ['actionType']
-  };
-  actionSchema.then = {
-    allOf: actionSchemaAllOf.map((item: any) => {
-      delete item.if.properties.type;
-      item.if.required = item.if.required.filter(
-        (item: string) => item !== 'type'
-      );
-      return item;
-    })
-  };
-  actionSchema.else = {
-    $ref: '#/definitions/VanillaAction'
-  };
-
-  const CRUDSchema = schema.definitions.CRUDSchema;
-  const CRUDSchemaAllOf = CRUDSchema.allOf;
-  delete CRUDSchema.allOf;
-  CRUDSchema.if = {
-    required: ['mode']
-  };
-  CRUDSchema.then = {
-    allOf: CRUDSchemaAllOf.map((item: any) => {
-      delete item.if.properties.type;
-      item.if.required = item.if.required.filter(
-        (item: string) => item !== 'type'
-      );
-      return item;
-    })
-  };
-  CRUDSchema.else = {
-    $ref: '#/definitions/CRUDTableSchema'
-  };
-
-  const schemaObjectSchema = schema.definitions.SchemaObject;
-  schemaObjectSchema.allOf = schemaObjectSchema.allOf
-    .filter(
-      (item: any) => !(item.if.properties.type && item.if.properties.actionType)
-    )
-    .map((item: any) => {
-      Object.keys(item.if.properties || {}).forEach(key => {
-        delete item.if.properties[key].description;
-      });
-      return item;
+  const amisSchema = schema.definitions.AMISSchema;
+  if (amisSchema.allOf) {
+    // 将 button 转到 AMISButtonSchema
+    amisSchema.allOf = amisSchema.allOf.filter((item: any) => {
+      if (
+        item.if &&
+        item.if.properties &&
+        ((item.if.properties.type &&
+          Array.isArray(item.if.properties.type.enum) &&
+          item.if.properties.type.enum.some((key: string) =>
+            ['action', 'button', 'submit', 'reset'].includes(key)
+          )) ||
+          item.if.properties.actionType)
+      ) {
+        return false;
+      }
+      return true;
     });
-  schemaObjectSchema.allOf.push({
-    if: {
-      properties: {
-        type: {enum: ['action', 'button', 'submit', 'reset']}
+    amisSchema.allOf.unshift({
+      if: {
+        properties: {
+          type: {enum: ['action', 'button', 'submit', 'reset']}
+        },
+        required: ['type']
       },
-      required: ['type']
+      then: {
+        $ref: '#/definitions/AMISButtonSchema'
+      }
+    });
+  }
+
+  // 优化 AMISButtonSchema 的定义
+  schema.definitions.AMISButtonSchema = {
+    if: {
+      required: ['actionType']
     },
     then: {
-      $ref: '#/definitions/ActionSchema'
-    }
-  });
-
-  schemaObjectSchema.allOf.push({
-    if: {
-      properties: {
-        type: {const: 'crud'}
-      },
-      required: ['type']
+      $ref: '#/definitions/AMISLegacyActionSchema'
     },
-    then: {
-      $ref: '#/definitions/CRUDSchema'
+    else: {
+      $ref: '#/definitions/AMISButton'
     }
-  });
-
-  schema.definitions.FormSchema.allOf = schema.definitions.BaseFormSchema.allOf;
-  schema.definitions.VanillaAction.allOf[1].additionalProperties = true;
-  // delete schema.definitions.FormSchemaBase.additionalProperties;
-  // delete schema.definitions.BaseSchemaWithoutType.additionalProperties;
-  // delete schema.definitions.FormSchema.additionalProperties;
-
-  // 替换 SchemaObject 与 ActionSchema 的定义
-  schema.definitions.SchemaObjectLoose = {
-    allOf: schema.definitions.SchemaObject.allOf.map((item: any) => {
-      return {
-        ...item,
-        then: {
-          ...item.then,
-          additionalProperties: true
-        }
-      };
-    })
   };
 
-  schema.definitions.ActionSchemaLoose = {
-    if: schema.definitions.ActionSchema.if,
-    then: {
-      allOf: schema.definitions.ActionSchema.then.allOf.map((item: any) => {
-        return {
-          ...item,
-          then: {
-            ...item.then,
-            additionalProperties: true
-          }
-        };
-      })
-    },
-    else: schema.definitions.ActionSchema.else
-  };
-
-  schema = JSONValueMap(schema, item => {
+  // 优化 description 定义
+  Object.keys(schema.definitions).forEach(key => {
     if (
-      item?.$ref === '#/definitions/SchemaObject' &&
-      item.additionalProperties === true
+      schema.definitions[key].description &&
+      Array.isArray(schema.definitions[key].allOf) &&
+      !(schema.definitions[key].allOf[0] as any).description
     ) {
-      return {
-        $ref: '#/definitions/SchemaObjectLoose'
-      };
-    } else if (
-      item?.$ref === '#/definitions/ActionSchema' &&
-      item.additionalProperties === true
-    ) {
-      return {
-        $ref: '#/definitions/ActionSchemaLoose'
-      };
+      (schema.definitions[key].allOf[0] as any).description =
+        schema.definitions[key].description;
+      delete schema.definitions[key].description;
     }
-
-    return item;
   });
+
+  // const actionSchema = schema.definitions.AMISAction;
+  // const actionSchemaAllOf = actionSchema.allOf;
+
+  // delete actionSchema.allOf;
+  // actionSchema.if = {
+  //   required: ['actionType']
+  // };
+  // actionSchema.then = {
+  //   allOf: actionSchemaAllOf.map((item: any) => {
+  //     delete item.if.properties.type;
+  //     item.if.required = item.if.required.filter(
+  //       (item: string) => item !== 'type'
+  //     );
+  //     return item;
+  //   })
+  // };
+  // actionSchema.else = {
+  //   $ref: '#/definitions/VanillaAction'
+  // };
+
+  // const CRUDSchema = schema.definitions.CRUDSchema;
+  // const CRUDSchemaAllOf = CRUDSchema.allOf;
+  // delete CRUDSchema.allOf;
+  // CRUDSchema.if = {
+  //   required: ['mode']
+  // };
+  // CRUDSchema.then = {
+  //   allOf: CRUDSchemaAllOf.map((item: any) => {
+  //     delete item.if.properties.type;
+  //     item.if.required = item.if.required.filter(
+  //       (item: string) => item !== 'type'
+  //     );
+  //     return item;
+  //   })
+  // };
+  // CRUDSchema.else = {
+  //   $ref: '#/definitions/CRUDTableSchema'
+  // };
+
+  // const schemaObjectSchema = schema.definitions.SchemaObject;
+  // schemaObjectSchema.allOf = schemaObjectSchema.allOf
+  //   .filter(
+  //     (item: any) => !(item.if.properties.type && item.if.properties.actionType)
+  //   )
+  //   .map((item: any) => {
+  //     Object.keys(item.if.properties || {}).forEach(key => {
+  //       delete item.if.properties[key].description;
+  //     });
+  //     return item;
+  //   });
+  // schemaObjectSchema.allOf.push({
+  //   if: {
+  //     properties: {
+  //       type: {enum: ['action', 'button', 'submit', 'reset']}
+  //     },
+  //     required: ['type']
+  //   },
+  //   then: {
+  //     $ref: '#/definitions/ActionSchema'
+  //   }
+  // });
+
+  // schemaObjectSchema.allOf.push({
+  //   if: {
+  //     properties: {
+  //       type: {const: 'crud'}
+  //     },
+  //     required: ['type']
+  //   },
+  //   then: {
+  //     $ref: '#/definitions/CRUDSchema'
+  //   }
+  // });
+
+  // schema.definitions.FormSchema.allOf = schema.definitions.BaseFormSchema.allOf;
+  // schema.definitions.VanillaAction.allOf[1].additionalProperties = true;
+  // // delete schema.definitions.FormSchemaBase.additionalProperties;
+  // // delete schema.definitions.BaseSchemaWithoutType.additionalProperties;
+  // // delete schema.definitions.FormSchema.additionalProperties;
+
+  // // 替换 SchemaObject 与 ActionSchema 的定义
+  // schema.definitions.SchemaObjectLoose = {
+  //   allOf: schema.definitions.SchemaObject.allOf.map((item: any) => {
+  //     return {
+  //       ...item,
+  //       then: {
+  //         ...item.then,
+  //         additionalProperties: true
+  //       }
+  //     };
+  //   })
+  // };
+
+  // schema.definitions.ActionSchemaLoose = {
+  //   if: schema.definitions.ActionSchema.if,
+  //   then: {
+  //     allOf: schema.definitions.ActionSchema.then.allOf.map((item: any) => {
+  //       return {
+  //         ...item,
+  //         then: {
+  //           ...item.then,
+  //           additionalProperties: true
+  //         }
+  //       };
+  //     })
+  //   },
+  //   else: schema.definitions.ActionSchema.else
+  // };
+
+  // schema = JSONValueMap(schema, item => {
+  //   if (
+  //     item?.$ref === '#/definitions/SchemaObject' &&
+  //     item.additionalProperties === true
+  //   ) {
+  //     return {
+  //       $ref: '#/definitions/SchemaObjectLoose'
+  //     };
+  //   } else if (
+  //     item?.$ref === '#/definitions/ActionSchema' &&
+  //     item.additionalProperties === true
+  //   ) {
+  //     return {
+  //       $ref: '#/definitions/ActionSchemaLoose'
+  //     };
+  //   }
+
+  //   return item;
+  // });
 
   return schema;
 }

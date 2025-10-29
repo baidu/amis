@@ -10,7 +10,7 @@ export class TasksPlugin extends BasePlugin {
   static id = 'TasksPlugin';
   // 关联渲染器名字
   rendererName = 'tasks';
-  $schema = '/schemas/TasksSchema.json';
+  $schema = '/schemas/AMISTasksSchema.json';
 
   // 组件名称
   name = '异步任务';

@@ -19,7 +19,7 @@ export class TextareaControlPlugin extends BasePlugin {
   static id = 'TextareaControlPlugin';
   // 关联渲染器名字
   rendererName = 'textarea';
-  $schema = '/schemas/TextareaControlSchema.json';
+  $schema = '/schemas/AMISTextareaSchema.json';
 
   // 组件名称
   name = '多行文本框';

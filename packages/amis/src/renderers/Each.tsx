@@ -1,16 +1,18 @@
 import React from 'react';
 import {
+  AMISSchemaBase,
   CustomStyle,
   Renderer,
   RendererProps,
   buildStyle,
   isPureVariable,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Schema} from 'amis-core';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import {createObject, getPropValue, isObject} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema} from '../Schema';
 
 export interface EachExtraProps extends RendererProps {
   items: any;
@@ -43,9 +45,12 @@ function EachItem(props: EachExtraProps) {
  * Each 循环功能渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/each
  */
-export interface EachSchema extends BaseSchema {
+/**
+ * 循环渲染组件，用于遍历数组并渲染子内容。
+ */
+export interface AMISEachSchema extends AMISSchemaBase {
   /**
-   * 指定为each展示类型
+   * 指定为 each 组件
    */
   type: 'each';
 
@@ -60,20 +65,16 @@ export interface EachSchema extends BaseSchema {
   source?: string;
 
   /**
-   * 用来控制通过什么字段读取成员数据，考虑到可能多层嵌套
-   * 如果名字一样会读取不到上层变量，所以这里可以指定一下
-   * @default item
+   * 用来控制通过什么字段读取成员数据
    */
   itemKeyName?: string;
 
   /**
-   * 用来控制通过什么字段读取序号，考虑到可能多层嵌套
-   * 如果名字一样会读取不到上层变量，所以这里可以指定一下
-   * @default index
+   * 用来控制通过什么字段读取序号
    */
   indexKeyName?: string;
 
-  items?: SchemaCollection;
+  items?: AMISSchemaCollection;
 
   placeholder?: string;
 }

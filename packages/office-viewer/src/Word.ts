@@ -585,7 +585,7 @@ export default class Word implements OfficeViewer {
 
     const data = this.parser.getFileByType(path, 'uint8array') as Uint8Array;
     if (data) {
-      return URL.createObjectURL(new Blob([deobfuscate(data, key)]));
+      return URL.createObjectURL(new Blob([deobfuscate(data, key) as any]));
     }
 
     return null;

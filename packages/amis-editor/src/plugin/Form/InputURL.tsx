@@ -5,7 +5,7 @@ export class URLControlPlugin extends TextControlPlugin {
   static id = 'URLControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-url';
-  $schema = '/schemas/TextControlSchema.json';
+  $schema = '/schemas/AMISInputURLSchema.json';
   name = 'URL输入框';
   isBaseComponent = true;
   icon = 'fa fa-link';

@@ -5,7 +5,8 @@ import {
   buildApi,
   qsstringify,
   resolveEventData,
-  autobind
+  autobind,
+  AMISFormItem
 } from 'amis-core';
 import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
@@ -18,7 +19,13 @@ import type {FormBaseControlSchema, SchemaApi} from '../../Schema';
  * RichText
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-rich-text
  */
-export interface RichTextControlSchema extends FormBaseControlSchema {
+/**
+ * 富文本输入框，支持 Froala 和 TinyMCE 编辑器，配置灵活，支持图片、视频、文件上传及多种边框模式。
+ */
+export interface AMISInputRichTextSchema extends AMISFormItem {
+  /**
+   * 指定为 rich-text 组件
+   */
   type: 'input-rich-text';
 
   /**
@@ -27,66 +34,33 @@ export interface RichTextControlSchema extends FormBaseControlSchema {
   vendor?: 'froala' | 'tinymce';
 
   /**
-   * 图片保存 API
-   *
+   * 图片保存 API 接口
    * @default /api/upload/image
    */
   receiver?: SchemaApi;
 
   /**
-   * 视频保存 API，不配置时用 receiver
+   * 视频保存 API 接口
    */
   videoReceiver?: SchemaApi;
 
   /**
-   * 文件保存 API，不配置时用 receiver
+   * 文件保存 API 接口
    */
   fileReceiver?: SchemaApi;
 
   /**
-   * 接收器的字段名
+   * 接收器字段名
    */
   fileField?: string;
 
-  // todo 支持分块上传
-  // /**
-  //  * 默认为 'auto' amis 所在服务器，限制了文件上传大小不得超出10M，所以 amis 在用户选择大文件的时候，自动会改成分块上传模式。
-  //  */
-  // useChunk?: 'auto' | boolean;
-
-  // /**
-  //  * 分块大小，默认为 5M.
-  //  *
-  //  * @default 5242880
-  //  */
-  // chunkSize?: number;
-
-  // /**
-  //  * 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
-  //  *
-  //  * @default /api/upload/startChunk
-  //  */
-  // startChunkApi?: string;
-
-  // /**
-  //  * 默认 `/api/upload/chunk` 想自己存储时才需要关注。
-  //  */
-  // chunkApi?: SchemaApi;
-
-  // /**
-  //  * 默认 `/api/upload/finishChunkApi` 想自己存储时才需要关注。
-  //  *
-  //  * @default /api/upload/finishChunkApi
-  //  */
-  // finishChunkApi?: SchemaApi;
-
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
   /**
-   *  tinymce 或 froala 的配置
+   * 编辑器配置选项
    */
   options?: any;
 }

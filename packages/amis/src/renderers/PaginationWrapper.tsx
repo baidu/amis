@@ -1,14 +1,17 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
 import {IPaginationStore, PaginationStore} from 'amis-core';
+import {AMISSchemaBase, AMISSchemaCollection} from 'amis-core';
 
 /**
  * 分页容器功能性渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/pagination-wrapper
  */
-export interface PaginationWrapperSchema extends BaseSchema {
+/**
+ * 分页包装器组件，为子组件提供分页能力。支持外部数据源。
+ */
+export interface AMISPaginationWrapperSchema extends AMISSchemaBase {
   /**
-   * 指定为分页容器功能性渲染器
+   * 指定为 pagination-wrapper 组件
    */
   type: 'pagination-wrapper';
 
@@ -18,46 +21,39 @@ export interface PaginationWrapperSchema extends BaseSchema {
   showPageInput?: boolean;
 
   /**
-   * 最多显示多少个分页按钮。
-   *
-   * @default 5
+   * 最多显示多少个分页按钮
    */
   maxButtons?: number;
 
   /**
    * 输入字段名
-   *
-   * @default items
    */
   inputName?: string;
 
   /**
    * 输出字段名
-   *
-   * @default items
    */
   outputName?: string;
 
   /**
-   * 每页显示多条数据。
-   * @default 10
+   * 每页显示多条数据
    */
   perPage?: number;
 
   /**
-   * 分页显示位置，如果配置为 none 则需要自己在内容区域配置 pagination 组件，否则不显示。
+   * 分页显示位置，如果配置为 none 则需要自己在内容区域配置 pagination 组件，否则不显示
    */
   position?: 'top' | 'bottom' | 'none';
 
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 }
 
 export interface PaginationWrapProps
   extends RendererProps,
-    Omit<PaginationWrapperSchema, 'type' | 'className'> {
+    Omit<AMISPaginationWrapperSchema, 'type' | 'className'> {
   inputName: string;
   outputName: string;
   perPage: number;

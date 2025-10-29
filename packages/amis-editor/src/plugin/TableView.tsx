@@ -92,7 +92,7 @@ export class TableViewPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'table-view';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/TableViewSchema.json';
+  $schema = '/schemas/AMISTableViewSchema.json';
 
   // 组件名称
   name = '表格视图';
@@ -289,7 +289,7 @@ export class TableViewPlugin extends BasePlugin {
           plugin={info.plugin}
           renderer={info.renderer}
           key={id}
-          $schema="/schemas/TdObject.json"
+          $schema="/schemas/AMISTdObjectSchema.json"
           hostId={info.id}
           memberIndex={colIndex} // TODO: colIndex 其实不对，需要增加 schema filter 功能来让插件能
           name={`${`单元格 ${rowIndex + 1},${colIndex + 1}`}`}
@@ -319,7 +319,7 @@ export class TableViewPlugin extends BasePlugin {
           plugin={info.plugin}
           renderer={info.renderer}
           key={id}
-          $schema="/schemas/TrObject.json"
+          $schema="/schemas/AMISTrObjectSchema.json"
           hostId={info.id}
           memberIndex={rowIndex}
           name={`${`行 ${rowIndex + 1}`}`}

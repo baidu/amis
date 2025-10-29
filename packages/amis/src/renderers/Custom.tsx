@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import memoize from 'lodash/memoize';
 import isString from 'lodash/isString';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {FormControlProps} from 'amis-core';
 import isEqual from 'lodash/isEqual';
@@ -10,22 +10,47 @@ import isEqual from 'lodash/isEqual';
 /**
  * 自定义组件
  */
-export interface CustomSchema extends BaseSchema {
+/**
+ * 自定义组件，占位用于扩展自渲染逻辑。支持传入自定义渲染器。
+ */
+export interface AMISCustomSchema extends AMISSchemaBase {
   /**
-   * 实现自定义功能的渲染器，主要给 JS SDK 和可视化编辑器里使用。
-   *
-   * 文档：https://baidu.gitee.io/amis/components/custom
+   * 指定为 custom 组件
    */
   type: 'custom';
+
+  /**
+   * 组件挂载时的回调函数
+   */
   onMount?: Function | string;
+
+  /**
+   * 组件更新时的回调函数
+   */
   onUpdate?: Function | string;
+
+  /**
+   * 组件卸载时的回调函数
+   */
   onUnmount?: Function | string;
+
+  /**
+   * 是否内联渲染
+   */
   inline?: boolean;
+
+  /**
+   * 组件唯一标识符
+   */
   id?: string;
+
+  /**
+   * HTML 字符串
+   */
   html?: string;
 }
 
-export interface CustomProps extends FormControlProps, CustomSchema {
+export interface CustomProps extends FormControlProps, AMISCustomSchema {
   className?: string;
   value?: any;
   wrapperComponent?: any;

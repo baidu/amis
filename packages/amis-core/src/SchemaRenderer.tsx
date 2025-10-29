@@ -288,7 +288,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           const cache = asFormItem({
             strictMode: false,
             ...schema.asFormItem
-          })(schema.component);
+          })(schema.component as any);
           componentCache.set(schema.component, cache);
           cache.wrapedAsFormItem = true;
           schema.component = cache;

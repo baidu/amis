@@ -19,7 +19,7 @@ export class ArrayControlPlugin extends BasePlugin {
   static id = 'ArrayControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-array';
-  $schema = '/schemas/ArrayControlSchema.json';
+  $schema = '/schemas/AMISInputArraySchema.json';
   disabledRendererPlugin = true;
 
   // 组件名称

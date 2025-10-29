@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {
+  AMISSchemaBase,
   Renderer,
   RendererProps,
   filter,
@@ -15,7 +16,10 @@ import {MultilineText} from 'amis-ui';
 /**
  * MultilineText
  */
-export interface MultilineTextSchema extends BaseSchema {
+/**
+ * 多行文本组件，用于展示长文本内容。支持折叠与省略号。
+ */
+export interface AMISMultilineTextSchema extends AMISSchemaBase {
   type: 'multiline-text';
 
   /**
@@ -41,7 +45,7 @@ export interface MultilineTextSchema extends BaseSchema {
 
 export interface MultilineTextProps
   extends RendererProps,
-    Omit<MultilineTextSchema, 'type' | 'className'> {}
+    Omit<AMISMultilineTextSchema, 'type' | 'className'> {}
 
 export class MultilineTextField extends React.Component<
   MultilineTextProps,

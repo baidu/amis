@@ -45,7 +45,7 @@ export class ServicePlugin extends BasePlugin {
 
   panelIcon = 'service-plugin';
 
-  $schema = '/schemas/ServiceSchema.json';
+  $schema = '/schemas/AMISServiceSchema.json';
 
   isBaseComponent = true;
 

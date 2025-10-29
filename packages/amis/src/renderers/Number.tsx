@@ -1,5 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps, numberFormatter, stripNumber} from 'amis-core';
+import {
+  AMISSchemaBase,
+  Renderer,
+  RendererProps,
+  numberFormatter,
+  stripNumber
+} from 'amis-core';
 import moment from 'moment';
 import {BaseSchema} from '../Schema';
 import isNumber from 'lodash/isNumber';
@@ -16,9 +22,12 @@ import getMiniDecimal, {
  * Number 展示渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/number
  */
-export interface NumberSchema extends BaseSchema {
+/**
+ * 数字显示组件，用于格式化显示数值。支持千分位、小数位与单位。
+ */
+export interface AMISNumberSchema extends AMISSchemaBase {
   /**
-   * 指定为数字展示类型
+   * 指定为 number 组件
    */
   type: 'number';
 
@@ -59,7 +68,7 @@ export interface NumberSchema extends BaseSchema {
 
 export interface NumberProps
   extends RendererProps,
-    Omit<NumberSchema, 'type' | 'className'> {}
+    Omit<AMISNumberSchema, 'type' | 'className'> {}
 
 export class NumberField extends React.Component<NumberProps> {
   static defaultProps: Pick<NumberProps, 'placeholder' | 'kilobitSeparator'> = {

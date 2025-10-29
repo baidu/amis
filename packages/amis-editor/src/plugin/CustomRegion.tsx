@@ -19,7 +19,7 @@ export class CustomPlugin extends BasePlugin {
   static id = 'CustomRegionPlugin';
   // 关联渲染器名字
   rendererName = 'custom';
-  $schema = '/schemas/CustomSchema.json';
+  $schema = '/schemas/AMISCustomSchema.json';
 
   // 组件名称
   name = '自定义容器';

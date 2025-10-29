@@ -12,7 +12,13 @@ import {
   setThemeClassName,
   formateCheckThemeCss
 } from 'amis-core';
-import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
+import type {
+  ActionObject,
+  Api,
+  OptionsControlProps,
+  Option,
+  AMISFormItemWithOptions
+} from 'amis-core';
 import {Checkbox, Icon, Spinner, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
@@ -23,10 +29,12 @@ import debounce from 'lodash/debounce';
  * 复选框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
  */
-export interface CheckboxesControlSchema extends FormOptionsSchema {
+/**
+ * 复选框组组件，用于在表单中通过多个复选框选择多个选项，支持全选、默认全选、自定义选项展示和多列排列等功能。
+ */
+export interface AMISCheckboxesSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 Checkboxes 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
+   * 指定为 checkboxes 组件
    */
   type: 'checkboxes';
 
@@ -59,7 +67,7 @@ export interface CheckboxesControlSchema extends FormOptionsSchema {
 export interface CheckboxesProps
   extends OptionsControlProps,
     Omit<
-      CheckboxesControlSchema,
+      AMISCheckboxesSchema,
       | 'options'
       | 'type'
       | 'className'

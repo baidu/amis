@@ -1,30 +1,38 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  AMISSchemaBase,
+  AMISTemplate,
+  AMISSchemaCollection,
+  AMISClassName,
+  AMISIcon,
+  AMISLegacyActionSchema,
+  AMISButtonSchema
+} from 'amis-core';
 import {Alert2 as Alert} from 'amis-ui';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 import type {AlertProps} from 'amis-ui/lib/components/Alert2';
-import type {BaseSchema, SchemaCollection, SchemaIcon} from '../Schema';
 
 /**
- * Alert 提示渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/alert
+ * 信息提示组件，用于展示通知、警告或成功/失败消息。支持标题、图标、操作按钮。
  */
-export interface AlertSchema extends BaseSchema {
+export interface AMISAlertSchema extends AMISSchemaBase {
   /**
-   * 指定为提示框类型
+   * 指定为 alert 组件
    */
   type: 'alert';
 
   /**
    * 提示框标题
    */
-  title?: string;
+  title?: AMISTemplate;
 
   /**
-   * 内容区域
+   * 提示内容
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 提示类型
@@ -39,27 +47,27 @@ export interface AlertSchema extends BaseSchema {
   /**
    * 关闭按钮CSS类名
    */
-  closeButtonClassName?: string;
+  closeButtonClassName?: AMISClassName;
 
   /**
-   * 是否显示ICON
+   * 是否显示图标
    */
   showIcon?: boolean;
 
   /**
    * 左侧图标
    */
-  icon?: SchemaIcon;
+  icon?: AMISIcon;
 
   /**
    * 图标CSS类名
    */
-  iconClassName?: string;
+  iconClassName?: AMISClassName;
 
   /**
-   * 操作区域
+   * 操作区域配置
    */
-  actions?: SchemaCollection;
+  actions?: AMISButtonSchema[];
 }
 
 @Renderer({

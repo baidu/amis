@@ -9,14 +9,15 @@ import {
   ScopedContext,
   createObject,
   resolveVariableAndFilter,
-  isPureVariable
+  isPureVariable,
+  AMISSchemaBase
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind, getPropValue} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {LocaleProps, localeable} from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
 import {handleAction} from 'amis-core';
 import type {
   ImageAction,
@@ -24,20 +25,38 @@ import type {
 } from 'amis-ui/lib/components/ImageGallery';
 
 export interface ImageToolbarAction {
+  /**
+   * 操作按钮键名
+   */
   key: keyof typeof ImageActionKey;
+
+  /**
+   * 操作按钮标签文本
+   */
   label?: string;
+
+  /**
+   * 操作按钮图标
+   */
   icon?: string;
+
+  /**
+   * 操作按钮图标CSS类名
+   */
   iconClassName?: string;
+
+  /**
+   * 是否禁用操作按钮
+   */
   disabled?: boolean;
 }
 
 /**
- * 图片展示控件。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/image
+ * 图片展示组件，用于显示图片内容。支持点击放大、工具栏操作、懒加载等功能。
  */
-export interface ImageSchema extends BaseSchema {
+export interface AMISImageSchema extends AMISSchemaBase {
   /**
-   * 指定为图片展示类型
+   * 指定为 image 组件
    */
   type: 'image' | 'static-image';
 
@@ -52,7 +71,7 @@ export interface ImageSchema extends BaseSchema {
   title?: SchemaTpl;
 
   /**
-   * 关联字段名，也可以直接配置 src
+   * 关联字段名
    */
   name?: string;
 
@@ -62,17 +81,17 @@ export interface ImageSchema extends BaseSchema {
   imageCaption?: SchemaTpl;
 
   /**
-   * 图片地址，如果配置了 name，这个属性不用配置。
+   * 图片地址
    */
   src?: SchemaUrlPath;
 
   /**
-   * 大图地址，不设置用 src
+   * 大图地址
    */
   originalSrc?: SchemaUrlPath;
 
   /**
-   * 是否启动放大功能。
+   * 是否启用放大功能
    */
   enlargeAble?: boolean;
 
@@ -82,17 +101,12 @@ export interface ImageSchema extends BaseSchema {
   enlargeWithGallary?: boolean;
 
   /**
-   * 是否显示尺寸。
-   */
-  // showDimensions?: boolean;
-
-  /**
    * 图片无法显示时的替换文本
    */
   alt?: string;
 
   /**
-   * 高度
+   * 图片高度
    */
   height?: number;
 
@@ -102,33 +116,33 @@ export interface ImageSchema extends BaseSchema {
   width?: number;
 
   /**
-   * 外层 css 类名
+   * 外层 CSS 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
-  /** 组件内层 css 类名 */
-  innerClassName?: SchemaClassName;
-
-  /**
-   * 图片 css 类名
-   */
-  imageClassName?: SchemaClassName;
+  /** 组件内层 CSS 类名 */
+  innerClassName?: AMISClassName;
 
   /**
-   * 图片缩略图外层 css 类名
+   * 图片 CSS 类名
    */
-  thumbClassName?: SchemaClassName;
+  imageClassName?: AMISClassName;
+
+  /**
+   * 图片缩略图外层 CSS 类名
+   */
+  thumbClassName?: AMISClassName;
 
   /**
    * 放大详情图 CSS 类名
    */
-  imageGallaryClassName?: SchemaClassName;
+  imageGallaryClassName?: AMISClassName;
 
   /** 图片说明文字 */
   caption?: SchemaTpl;
 
   /**
-   * 图片展示模式，默认为缩略图模式、可以配置成原图模式
+   * 图片展示模式，默认为缩略图模式、配置成原图模式
    */
   imageMode?: 'thumb' | 'original';
 
@@ -203,7 +217,7 @@ export interface ImageSchema extends BaseSchema {
 export interface ImageThumbProps
   extends LocaleProps,
     ThemeProps,
-    Omit<ImageSchema, 'type' | 'className' | 'innerClassName'> {
+    Omit<AMISImageSchema, 'type' | 'className' | 'innerClassName'> {
   onEnlarge?: (info: ImageThumbProps) => void;
   index?: number;
   onLoad?: React.EventHandler<any>;

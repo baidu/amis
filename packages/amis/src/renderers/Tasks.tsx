@@ -8,18 +8,18 @@ import update from 'immutability-helper';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
-import {BaseSchema, SchemaApi, SchemaClassName, SchemaName} from '../Schema';
+import {BaseSchema, SchemaApi, AMISClassName, SchemaName} from '../Schema';
 import {createObject} from 'amis-core';
 
 /**
  * Tasks 渲染器，格式说明
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tasks
  */
-export interface TasksSchema extends BaseSchema, SpinnerExtraProps {
+export interface AMISTasksSchema extends BaseSchema, SpinnerExtraProps {
   /** 指定为任务类型 */
   type: 'tasks';
 
-  btnClassName?: SchemaClassName;
+  btnClassName?: AMISClassName;
 
   /**
    * 操作按钮文字
@@ -59,9 +59,9 @@ export interface TasksSchema extends BaseSchema, SpinnerExtraProps {
      * 0: 初始状态，不可操作。
      * 1: 就绪，可操作状态。
      * 2: 进行中，还没有结束。
-     * 3：有错误，不可重试。
+     * 3: 有错误，不可重试。
      * 4: 已正常结束。
-     * 5：有错误，且可以重试。
+     * 5: 有错误，且可以重试。
      */
     status?: 0 | 1 | 2 | 3 | 4 | 5;
   }>;
@@ -88,7 +88,7 @@ export interface TasksSchema extends BaseSchema, SpinnerExtraProps {
    * 配置容器重试按钮 className
    * @default btn-sm btn-danger
    */
-  retryBtnClassName?: SchemaClassName;
+  retryBtnClassName?: AMISClassName;
 
   /**
    * 重试操作按钮文字
@@ -122,7 +122,7 @@ export interface TasksSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 配置 table className
    */
-  tableClassName?: SchemaClassName;
+  tableClassName?: AMISClassName;
 
   /**
    * 任务名称列说明
@@ -140,7 +140,7 @@ export interface TasksSchema extends BaseSchema, SpinnerExtraProps {
 
 export interface TaskProps
   extends RendererProps,
-    Omit<TasksSchema, 'className'> {}
+    Omit<AMISTasksSchema, 'className'> {}
 
 export interface TaskItem {
   label?: string;

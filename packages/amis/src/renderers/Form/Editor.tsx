@@ -20,9 +20,15 @@ import type {ListenerAction} from 'amis-core';
  * Editor 代码编辑器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/editor
  */
-export interface EditorControlSchema
+/**
+ * Editor 代码编辑器表单组件，支持多种编程语言和高亮显示，用于输入和编辑代码内容，常用作表单中的代码输入项
+ */
+export interface AMISCodeEditorSchema
   extends BaseSchemaWithoutType,
     FormBaseControlWithoutSize {
+  /**
+   * 指定为 editor 组件
+   */
   type:
     | 'editor'
     | 'bat-editor'
@@ -114,12 +120,12 @@ export interface EditorControlSchema
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
   /**
-   * 是否展示全屏模式开关
+   * 是否显示全屏按钮
    */
   allowFullscreen?: boolean;
 
   /**
-   * 获取编辑器底层实例
+   * 编辑器实例回调
    */
   editorDidMount?: string;
 }

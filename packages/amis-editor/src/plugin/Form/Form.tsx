@@ -82,7 +82,7 @@ export class FormPlugin extends BasePlugin {
 
   docLink = '/amis/zh-CN/components/form/index';
 
-  $schema = '/schemas/FormSchema.json';
+  $schema = '/schemas/AMISFormSchema.json';
 
   tags = ['数据容器'];
 

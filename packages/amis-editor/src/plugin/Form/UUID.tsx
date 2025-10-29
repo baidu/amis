@@ -11,7 +11,7 @@ export class UUIDControlPlugin extends BasePlugin {
   static id = 'UUIDControlPlugin';
   // 关联渲染器名字
   rendererName = 'uuid';
-  $schema = '/schemas/UUIDControlSchema.json';
+  $schema = '/schemas/AMISUuidSchema.json';
 
   // 组件名称
   name = 'UUID';

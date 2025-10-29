@@ -23,9 +23,9 @@ import {ConditionBuilderConfig} from './config';
 import Formula from './Formula';
 import {FormulaPickerProps} from '../formula/Picker';
 import type {
-  ExpressionComplex,
-  OperatorType,
-  ExpressionFunc,
+  AMISExpressionComplex,
+  AMISOperatorType,
+  AMISExpressionFunc,
   TestIdBuilder
 } from 'amis-core';
 
@@ -39,15 +39,15 @@ import type {
  */
 
 export interface ExpressionProps extends ThemeProps, LocaleProps {
-  value: ExpressionComplex;
+  value: AMISExpressionComplex;
   data?: any;
   index?: number;
-  onChange: (value: ExpressionComplex, index?: number) => void;
+  onChange: (value: AMISExpressionComplex, index?: number) => void;
   valueField?: FieldSimple;
   fields?: ConditionBuilderField[];
   funcs?: ConditionBuilderFuncs;
   allowedTypes?: Array<'value' | 'field' | 'func'>;
-  op?: OperatorType;
+  op?: AMISOperatorType;
   config: ConditionBuilderConfig;
   disabled?: boolean;
   searchable?: boolean;
@@ -199,7 +199,7 @@ export class Expression extends React.Component<ExpressionProps> {
         {inputType === 'func' ? (
           <ConditionFunc
             config={config}
-            value={value as ExpressionFunc}
+            value={value as AMISExpressionFunc}
             onChange={this.handleFuncChange}
             fieldClassName={fieldClassName}
             funcs={funcs}

@@ -30,7 +30,7 @@ export class ListPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'list';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/ListSchema.json';
+  $schema = '/schemas/AMISListSchema.json';
 
   // 组件名称
   name = '列表';

@@ -15,7 +15,7 @@ export class CarouselPlugin extends BasePlugin {
   static id = 'CarouselPlugin';
   // 关联渲染器名字
   rendererName = 'carousel';
-  $schema = '/schemas/CarouselSchema.json';
+  $schema = '/schemas/AMISCarouselSchema.json';
 
   // 组件名称
   name = '轮播图';

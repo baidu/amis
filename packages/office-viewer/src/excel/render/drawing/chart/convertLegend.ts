@@ -1,4 +1,5 @@
 import {CT_Legend} from '../../../../openxml/ChartTypes';
+import type {EChartsOption, LegendComponentOption} from 'echarts';
 
 /**
  * 将 Excel chart 的图例转换为 Echarts 的图例
@@ -6,7 +7,7 @@ import {CT_Legend} from '../../../../openxml/ChartTypes';
 export function convertLegend(categories: string[], chartLegend?: CT_Legend) {
   let legend = {
     data: categories
-  } as echarts.EChartOption.Legend;
+  } as LegendComponentOption;
 
   if (chartLegend) {
     const legendPos = chartLegend.legendPos?.val;

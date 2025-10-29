@@ -9,7 +9,8 @@ import {
   resolveMappingObject,
   CustomStyle,
   setThemeClassName,
-  isVisible
+  isVisible,
+  AMISSchemaBase
 } from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
@@ -41,37 +42,43 @@ export type TdObject = {
   width?: number;
 
   /**
-   * 单元格内的组件
+   * 单元格内的组件配置
    */
   body?: SchemaObject;
 
   /**
-   * 水平对齐
+   * 水平对齐方式
    */
   align?: 'left' | 'center' | 'right' | 'justify';
 
   /**
-   * 垂直对齐
+   * 垂直对齐方式
    */
   valign?: 'top' | 'middle' | 'bottom' | 'baseline';
 
   /**
-   * 跨几行
+   * 跨行数
    */
   colspan?: number;
 
   /**
-   * 跨几列
+   * 跨列数
    */
   rowspan?: number;
 
   /**
-   * 自定义样式
+   * 自定义样式配置
    */
   style?: object;
 
+  /**
+   * 控制单元格是否显示的表达式
+   */
   visibleOn?: string;
 
+  /**
+   * 控制单元格是否隐藏的表达式
+   */
   hiddenOn?: string;
 };
 
@@ -113,14 +120,17 @@ export type ColObject = {
  * 表格展现渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/table-view
  */
-export interface TableViewSchema extends BaseSchema {
+/**
+ * 表格视图组件，用于简化展示表格数据的只读视图。
+ */
+export interface AMISTableViewSchema extends AMISSchemaBase {
   /**
    * 指定为 table-view 展示类型
    */
   type: 'table-view';
 
   /**
-   * table 容器宽度，默认是 auto
+   * table 容器宽度，默认为 auto
    */
   width?: number | string;
 
@@ -162,7 +172,7 @@ export interface TableViewSchema extends BaseSchema {
 
 export interface TableViewProps
   extends RendererProps,
-    Omit<TableViewSchema, 'type' | 'className'> {}
+    Omit<AMISTableViewSchema, 'type' | 'className'> {}
 
 const defaultPadding = 'var(--TableCell-paddingY) var(--TableCell-paddingX)';
 

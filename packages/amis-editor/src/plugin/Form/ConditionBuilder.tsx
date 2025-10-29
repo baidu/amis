@@ -21,7 +21,7 @@ export class ConditionBilderPlugin extends BasePlugin {
   static id = 'ConditionBilderPlugin';
   // 关联渲染器名字
   rendererName = 'condition-builder';
-  $schema = '/schemas/ConditionBuilderControlSchema.json';
+  $schema = '/schemas/AMISConditionBuilderSchema.json';
 
   // 组件名称
   name = '条件组件';
@@ -256,19 +256,15 @@ export class ConditionBilderPlugin extends BasePlugin {
                         options: defaultConfig.types[data.type]?.operators.map(
                           item => {
                             if (isObject(item) && item.label && item.value) {
-                              return (
-                                {
-                                  label: item.label,
-                                  value: item.value
-                                } || []
-                              );
+                              return {
+                                label: item.label,
+                                value: item.value
+                              };
                             } else if (isString(item)) {
-                              return (
-                                {
-                                  label: OperationMap[item],
-                                  value: item
-                                } || []
-                              );
+                              return {
+                                label: OperationMap[item],
+                                value: item
+                              };
                             } else {
                               return [];
                             }

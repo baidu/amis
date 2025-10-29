@@ -19,7 +19,7 @@ export class FileControlPlugin extends BasePlugin {
   static id = 'FileControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-file';
-  $schema = '/schemas/FileControlSchema.json';
+  $schema = '/schemas/AMISInputFileSchema.json';
 
   // 组件名称
   name = '文件上传';

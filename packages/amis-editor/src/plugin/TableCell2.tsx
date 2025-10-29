@@ -58,7 +58,7 @@ export class TableCell2Plugin extends BasePlugin {
     if (this.rendererName === renderer?.name) {
       return {
         name: schema.title ? `<${schema.title}>列` : '匿名列',
-        $schema: '/schemas/TableSchema.json',
+        $schema: '/schemas/AMISTableColumn.json',
         multifactor: true,
         wrapperResolve: (dom: HTMLDivElement) => {
           // 固定这种结构 amis里改了 这里也得改

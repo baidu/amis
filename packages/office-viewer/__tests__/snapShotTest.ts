@@ -9,9 +9,13 @@ export function createWord(fileName: string, data: any) {
     fs.readFileSync(path.join(__dirname, fileName), null).buffer
   );
   if (fileName.endsWith('.xml')) {
-    return new Word(xmlContent, {}, new XMLPackageParser());
+    return new Word(
+      xmlContent as any as ArrayBuffer,
+      {},
+      new XMLPackageParser()
+    );
   }
-  return new Word(xmlContent, {});
+  return new Word(xmlContent as any as ArrayBuffer, {});
 }
 
 export async function snapShotTest(filePath: string) {

@@ -1,62 +1,28 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISRemarkBase, Renderer, RendererProps} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 import {filter} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {hasIcon, Icon} from 'amis-ui';
-import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
-import {autobind, isMobile} from 'amis-core';
+import {BaseSchema, AMISClassName, SchemaIcon, SchemaTpl} from '../Schema';
+import {autobind, AMISSchemaBase} from 'amis-core';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
  */
-export interface BaseRemarkSchema extends BaseSchema {
-  label?: string;
-
-  icon?: SchemaIcon;
-
-  tooltipClassName?: SchemaClassName;
-
-  /**
-   * 触发规则
-   */
-  trigger?: Array<'click' | 'hover' | 'focus'>;
-
-  /**
-   * 提示标题
-   */
-  title?: string;
-
-  /**
-   * 提示内容
-   */
-  content: SchemaTpl;
-
-  /**
-   * 显示位置
-   */
-  placement?: 'top' | 'right' | 'bottom' | 'left';
-
-  /**
-   * 点击其他内容时是否关闭弹框信息
-   */
-  rootClose?: boolean;
-
-  /**
-   * icon的形状
-   */
-  shape?: 'circle' | 'square';
-}
-
-export interface RemarkSchema extends BaseRemarkSchema {
+export interface AMISRemarkSchema extends AMISRemarkBase {
   /**
    * 指定为提示类型
    */
   type: 'remark';
 }
 
-export type SchemaRemark = string | BaseRemarkSchema;
+// 保留原来的叫法
+export type BaseRemarkSchema = AMISRemarkBase;
+export type RemarkSchema = AMISRemarkSchema;
+export type SchemaRemark = AMISRemarkObject;
+export type AMISRemarkObject = string | AMISRemarkBase;
 
 export function filterContents(
   tooltip:

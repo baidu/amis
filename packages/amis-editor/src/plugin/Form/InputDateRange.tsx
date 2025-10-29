@@ -193,7 +193,7 @@ export class DateRangeControlPlugin extends BasePlugin {
   static id = 'DateRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-date-range';
-  $schema = '/schemas/DateRangeControlSchema.json';
+  $schema = '/schemas/AMISInputDateRangeSchema.json';
 
   // 组件名称
   icon = 'fa fa-calendar';

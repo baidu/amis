@@ -13,7 +13,7 @@ export class SliderPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'slider';
-  $schema = '/schemas/SliderSchema.json';
+  $schema = '/schemas/AMISSliderSchema.json';
 
   // 组件名称
   name = '滑动条';

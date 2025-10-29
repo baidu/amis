@@ -8,23 +8,28 @@ import {
   Renderer,
   RendererProps,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaBase,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Schema} from 'amis-core';
-import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
+import {BaseSchema, SchemaObject} from '../Schema';
 
 /**
- * Flex 布局
+ * Flex 弹性布局组件，简化版 Flex 布局，主要用于不熟悉 CSS 的开发者
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/flex
  */
-export interface FlexSchema extends BaseSchema {
+/**
+ * 弹性布局组件，基于 Flexbox 布局子元素。支持方向、换行与对齐配置。
+ */
+export interface AMISFlexSchema extends AMISSchemaBase {
   /**
-   * 指定为 flex 展示类型
+   * 指定为 flex 组件
    */
   type: 'flex';
 
   /**
-   * 水平分布
+   * 水平分布方式
    */
   justify?:
     | 'start'
@@ -37,7 +42,7 @@ export interface FlexSchema extends BaseSchema {
     | 'space-evenly';
 
   /**
-   * 垂直布局
+   * 垂直对齐方式
    */
   alignItems?:
     | 'stretch'
@@ -49,7 +54,7 @@ export interface FlexSchema extends BaseSchema {
     | 'baseline';
 
   /**
-   * 多行情况下的垂直分布
+   * 多行垂直分布方式
    */
   alignContent?:
     | 'normal'
@@ -62,14 +67,14 @@ export interface FlexSchema extends BaseSchema {
     | 'stretch';
 
   /**
-   * 方向
+   * 布局方向
    */
   direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 
   /**
-   * 每个 flex 的设置
+   * Flex 子项配置
    */
-  items: SchemaCollection;
+  items: AMISSchemaCollection;
 
   /**
    * 自定义样式
@@ -81,7 +86,7 @@ export interface FlexSchema extends BaseSchema {
 
 export interface FlexProps
   extends RendererProps,
-    Omit<FlexSchema, 'type' | 'className'> {}
+    Omit<AMISFlexSchema, 'type' | 'className'> {}
 
 export default class Flex extends React.Component<FlexProps, object> {
   static defaultProps: Partial<FlexProps> = {
@@ -185,7 +190,7 @@ export default class Flex extends React.Component<FlexProps, object> {
   }
 }
 
-export interface FlexItemSchema extends BaseSchema {
+export interface FlexItemSchema extends AMISSchemaBase {
   /**
    * 功能和 wrapper 类似，主要是给 flex 子节点用的
    */
@@ -194,7 +199,7 @@ export interface FlexItemSchema extends BaseSchema {
   /**
    * 内容
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 自定义样式

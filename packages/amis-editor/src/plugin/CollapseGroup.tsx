@@ -16,7 +16,7 @@ export class CollapseGroupPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'collapse-group';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/CollapseGroupSchema.json';
+  $schema = '/schemas/AMISCollapseGroupSchema.json';
 
   // 组件名称
   name = '折叠面板';

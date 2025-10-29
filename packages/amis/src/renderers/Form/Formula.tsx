@@ -3,24 +3,28 @@ import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {evalJS, filter} from 'amis-core';
 import {autobind, isObjectShallowModified, setVariable} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * 公式功能控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/formula
  */
-export interface FormulaControlSchema extends FormBaseControlSchema {
+/**
+ * 用于根据公式自动计算并赋值给指定字段的表单控件。
+ */
+export interface AMISFormulaSchema extends AMISFormItem {
   /**
-   * 指定为公式功能控件。
+   * 指定为 formula 组件
    */
   type: 'formula';
 
   /**
-   * 当某个按钮的目标指定为此值后，会触发一次公式应用。这个机制可以在 autoSet 为 false 时用来手动触发
+   * 当某个按钮的目标指定为此值后，会触发一次公式应用
    */
   id?: string;
 
   /**
-   * 触发公式的作用条件，如 data.xxx == \"a\" 或者 ${xx}
+   * 触发公式的作用条件
    */
   condition?: string;
 
@@ -48,7 +52,7 @@ export interface FormulaControlSchema extends FormBaseControlSchema {
 export interface FormulaProps
   extends FormControlProps,
     Omit<
-      FormulaControlSchema,
+      AMISFormulaSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 

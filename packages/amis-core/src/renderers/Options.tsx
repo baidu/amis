@@ -35,8 +35,7 @@ import {
   registerFormItem,
   FormItemBasicConfig,
   detectProps as itemDetectProps,
-  FormBaseControl,
-  FormBaseControlWithoutSize
+  AMISFormItem
 } from './Item';
 import {IFormItemStore} from '../store/formItem';
 
@@ -58,19 +57,26 @@ import {optionValueCompare} from '../utils/optionValueCompare';
 import type {BaseApi, Option} from '../types';
 import {deleteVariable, resolveEventData} from '../utils';
 import {extendObject} from '../utils/object';
-
+import {
+  AMISOptions,
+  AMISApi,
+  AMISExpression,
+  AMISDialogSchemaBase,
+  AMISTemplate,
+  AMISSchema
+} from '../schema';
 export {Option};
 
-export interface FormOptionsControlSelf {
+export interface AMISFormItemWithOptions extends AMISFormItem {
   /**
    * 选项集合
    */
-  options?: Array<Option> | string[] | PlainObject;
+  options?: AMISOptions | string[] | PlainObject;
 
   /**
    * 可用来通过 API 拉取 options。
    */
-  source?: BaseApi;
+  source?: AMISApi;
 
   /**
    * 默认选择选项第一个值。
@@ -82,7 +88,7 @@ export interface FormOptionsControlSelf {
    *
    * @deprecated 建议用 source 接口的 sendOn
    */
-  initFetchOn?: string;
+  initFetchOn?: AMISExpression;
 
   /**
    * 配置 source 接口初始拉不拉取。
@@ -140,24 +146,24 @@ export interface FormOptionsControlSelf {
   deferField?: string;
 
   /**
-   * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
+   * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩展。
    */
-  deferApi?: BaseApi;
+  deferApi?: AMISApi;
 
   /**
    * 添加时调用的接口
    */
-  addApi?: BaseApi;
+  addApi?: AMISApi;
 
   /**
    * 新增时的表单项。
    */
-  addControls?: Array<PlainObject>;
+  addControls?: Array<AMISSchema>;
 
   /**
    * 控制新增弹框设置项
    */
-  addDialog?: PlainObject;
+  addDialog?: AMISDialogSchemaBase;
 
   /**
    * 是否可以新增
@@ -177,18 +183,18 @@ export interface FormOptionsControlSelf {
   /**
    * 编辑时调用的 API
    */
-  editApi?: BaseApi;
+  editApi?: AMISApi;
 
   /**
    * 选项修改的表单项
    */
-  editControls?: Array<PlainObject>;
+  editControls?: Array<AMISSchema>;
 
   /**
    * 控制编辑弹框设置项
    */
 
-  editDialog?: PlainObject;
+  editDialog?: AMISDialogSchemaBase;
 
   /**
    * 是否可删除
@@ -198,12 +204,12 @@ export interface FormOptionsControlSelf {
   /**
    * 选项删除 API
    */
-  deleteApi?: BaseApi;
+  deleteApi?: AMISApi;
 
   /**
    * 选项删除提示文字。
    */
-  deleteConfirmText?: string;
+  deleteConfirmText?: AMISTemplate;
 
   /**
    * source从数据域取值时，数据域值变化后是否自动清空
@@ -211,9 +217,7 @@ export interface FormOptionsControlSelf {
   clearValueOnSourceChange?: boolean;
 }
 
-export interface FormOptionsControl
-  extends FormOptionsControlSelf,
-    FormBaseControl {}
+export interface FormOptionsControl extends AMISFormItemWithOptions {}
 
 export interface OptionsBasicConfig extends FormItemBasicConfig {
   autoLoadOptionsFromSource?: boolean;

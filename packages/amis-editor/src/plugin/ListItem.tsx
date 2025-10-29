@@ -20,7 +20,7 @@ export class ListItemPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'list-item';
   isBaseComponent = true;
-  $schema = '/schemas/ListItemSchema.json';
+  $schema = '/schemas/AMISListItemSchema.json';
 
   regions: Array<RegionConfig> = [
     {
@@ -136,7 +136,7 @@ export class ListItemPlugin extends BasePlugin {
           renderer={info.renderer}
           multifactor
           key={id}
-          $schema="/schemas/ListBodyField.json"
+          $schema="/schemas/AMISListBodyFieldSchema.json"
           hostId={info.id}
           memberIndex={index}
           name={`${`字段${index + 1}`}`}

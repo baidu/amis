@@ -7,67 +7,10 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 
 import {evalExpression, buildStyle} from 'amis-core';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
-import {ClassNamesFn} from 'amis-core';
+import {ClassNamesFn, AMISBadgeBase} from 'amis-core';
 
-/**
- * Badge 角标。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/badge
- */
-export interface BadgeObject {
-  className?: string;
-
-  /**
-   * 文本内容
-   */
-  text?: string | number;
-
-  /**
-   * 大小
-   */
-  size?: number;
-
-  /**
-   * 角标类型
-   */
-  mode?: 'text' | 'dot' | 'ribbon';
-
-  /**
-   * 角标位置，相对于position的位置进行偏移
-   */
-  offset?: [number | string, number | string];
-
-  /**
-   * 角标位置
-   */
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
-
-  /**
-   * 封顶的数字值
-   */
-  overflowCount?: number;
-
-  /**
-   * 动态控制是否显示
-   */
-  visibleOn?: string;
-
-  /**
-   * 是否显示动画
-   */
-  animation?: boolean;
-
-  /**
-   * 角标的自定义样式
-   */
-  style?: {
-    [propName: string]: any;
-  };
-
-  /**
-   * 提示类型
-   */
-  level?: 'info' | 'warning' | 'success' | 'danger' | string;
-}
+// 保留原来的叫法
+export type BadgeObject = AMISBadgeBase;
 
 export interface BadgeProps {
   badge?: BadgeObject;

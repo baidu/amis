@@ -2,15 +2,15 @@ import React from 'react';
 import {Renderer, RendererProps, BaseSchemaWithoutType} from 'amis-core';
 import {AnchorNav as CAnchorNav, AnchorNavSection} from 'amis-ui';
 import {isVisible, autobind} from 'amis-core';
-import {filter} from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
+import {filter, AMISSchemaCollection, AMISSchemaBase} from 'amis-core';
+import {BaseSchema, AMISClassName} from '../Schema';
 
 /**
  * AnchorNavSection 锚点区域渲染器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
  */
 
-export interface AnchorNavSectionSchema extends BaseSchemaWithoutType {
+export interface AnchorNavSectionSchema extends AMISSchemaBase {
   /**
    * 导航文字说明
    */
@@ -24,7 +24,7 @@ export interface AnchorNavSectionSchema extends BaseSchemaWithoutType {
   /**
    * 内容
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 子节点
@@ -33,12 +33,11 @@ export interface AnchorNavSectionSchema extends BaseSchemaWithoutType {
 }
 
 /**
- * AnchorNav 锚点导航渲染器
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
+ * 锚点导航组件，用于页面内导航跳转。支持吸顶、自动高亮对应区域。
  */
-export interface AnchorNavSchema extends BaseSchema {
+export interface AMISAnchorNavSchema extends AMISSchemaBase {
   /**
-   * 指定为 AnchorNav 锚点导航渲染器
+   * 指定为 anchor-nav 组件
    */
   type: 'anchor-nav';
 
@@ -55,24 +54,27 @@ export interface AnchorNavSchema extends BaseSchema {
   /**
    * 样式名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 导航样式名
    */
-  linkClassName?: SchemaClassName;
+  linkClassName?: AMISClassName;
 
   /**
    * 楼层样式名
    */
-  sectionClassName?: SchemaClassName;
+  sectionClassName?: AMISClassName;
 
   direction?: 'vertical' | 'horizontal';
 }
 
 export interface AnchorNavProps
   extends RendererProps,
-    Omit<AnchorNavSchema, 'className' | 'linkClassName' | 'sectionClassName'> {
+    Omit<
+      AMISAnchorNavSchema,
+      'className' | 'linkClassName' | 'sectionClassName'
+    > {
   active?: string | number;
   sectionRender?: (
     section: AnchorNavSectionSchema,

@@ -13,7 +13,7 @@ export class EachPlugin extends BasePlugin {
   // 关联渲染器名字
   rendererName = 'each';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/EachSchema.json';
+  $schema = '/schemas/AMISEachSchema.json';
 
   // 组件名称
   name = '循环 Each';

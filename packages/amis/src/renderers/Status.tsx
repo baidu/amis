@@ -2,6 +2,7 @@ import React from 'react';
 import merge from 'lodash/merge';
 import assign from 'lodash/assign';
 import {
+  AMISSchemaBase,
   isPureVariable,
   Renderer,
   RendererProps,
@@ -13,42 +14,54 @@ import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
 
 export interface StatusSource {
+  /**
+   * 状态映射配置
+   */
   [propName: string]: {
+    /**
+     * 状态图标
+     */
     icon?: string;
+
+    /**
+     * 状态标签文本
+     */
     label?: string;
+
+    /**
+     * 状态颜色
+     */
     color?: string;
+
+    /**
+     * 状态样式类名
+     */
     className?: string;
   };
 }
 
 /**
- * 状态展示控件。
+ * 状态展示组件，用于显示各种状态信息
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/status
  */
-export interface StatusSchema extends BaseSchema {
+/**
+ * 状态组件，用于显示状态点/标签等。支持多状态映射与颜色标识。
+ */
+export interface AMISStatusSchema extends AMISSchemaBase {
   /**
-   * 指定为状态展示控件
+   * 指定为 status 组件
    */
   type: 'status';
 
   /**
-   * 占位符
+   * 占位符文本
    * @default -
    */
   placeholder?: string;
 
   /**
    * 状态图标映射关系
-   * @deprecated 已废弃，2.8.0 废弃，兼容中
-   * @default {
-   *    0: 'svg-fail',
-   *    1: 'svg-success',
-   *    success: 'svg-success',
-   *    pending: 'rolling',
-   *    fail: 'svg-fail',
-   *    queue: 'svg-warning',
-   *    schedule: 'svg-schedule'
-   *  }
+   * @deprecated 已废弃，2.8.0 废弃，建议使用 source 配置
    */
   map?: {
     [propName: string]: string;
@@ -56,30 +69,21 @@ export interface StatusSchema extends BaseSchema {
 
   /**
    * 文字映射关系
-   * @deprecated 已废弃，2.8.0 废弃，兼容中
-   * @default {
-   *     success: '成功',
-   *     pending: '运行中',
-   *     fail: '失败',
-   *     queue: '排队中',
-   *     schedule: '调度中'
-   * }
+   * @deprecated 已废弃，2.8.0 废弃，建议使用 source 配置
    */
   labelMap?: {
     [propName: string]: string;
   };
 
   /**
-   * 新版配置映射源的字段
-   * 可以兼容新版icon并且配置颜色
-   * 2.8.0 新增
+   * 新版状态映射源配置
    */
   source?: StatusSource;
 }
 
 export interface StatusProps
   extends RendererProps,
-    Omit<StatusSchema, 'className'> {}
+    Omit<AMISStatusSchema, 'className'> {}
 
 export class StatusField extends React.Component<StatusProps, object> {
   static defaultProps: Partial<StatusProps> = {

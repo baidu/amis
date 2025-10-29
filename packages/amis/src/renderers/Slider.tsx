@@ -1,24 +1,35 @@
-import {autobind, Renderer, RendererProps} from 'amis-core';
+import {
+  AMISSchemaBase,
+  autobind,
+  Renderer,
+  RendererProps,
+  AMISSchemaCollection
+} from 'amis-core';
 import {Slider} from 'amis-ui';
 import React from 'react';
 import {BaseSchema} from '../Schema';
 
-export interface SliderSchema extends BaseSchema {
+/**
+ * 滑块组件，用于选择范围或数值。支持步长、范围与提示。
+ */
+export interface AMISSliderSchema extends AMISSchemaBase {
   type: 'slider';
   // 主体内容
-  body: BaseSchema;
+  body: AMISSchemaCollection;
 
   // 左侧内容
-  left?: BaseSchema;
+  left?: AMISSchemaCollection;
 
   // 右侧内容
-  right?: BaseSchema;
+  right?: AMISSchemaCollection;
 
   // pc下body宽度占比，默认60%
   bodyWidth?: string;
 }
 
-interface SliderProps extends RendererProps, Omit<SliderSchema, 'className'> {}
+interface SliderProps
+  extends RendererProps,
+    Omit<AMISSliderSchema, 'className'> {}
 
 @Renderer({
   type: 'slider'

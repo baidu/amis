@@ -9,9 +9,9 @@ import {themeable, ThemeProps} from 'amis-core';
 import useClickAway from '../hooks/use-click-away';
 
 interface SliderProps extends ThemeProps {
-  body: React.ReactElement;
-  left?: React.ReactElement;
-  right?: React.ReactElement;
+  body: React.ReactNode;
+  left?: React.ReactNode;
+  right?: React.ReactNode;
   bodyWidth?: string;
   showLeft?: boolean;
   showRight?: boolean;

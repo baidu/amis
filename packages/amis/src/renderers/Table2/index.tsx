@@ -59,7 +59,7 @@ import './TableCell';
 import './ColumnToggler';
 import {SchemaQuickEdit} from '../QuickEdit';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISButtonSchema, AMISSchemaBase, TestIdBuilder} from 'amis-core';
 
 /**
  * Table 表格2渲染器。
@@ -190,7 +190,7 @@ export interface ColumnSchema {
   width?: string | number;
 
   /**
-   * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
+   * 表格列单元格是否可获取父级数据域值，默认为true，该配置对当前列内单元格生效
    */
   canAccessSuperData?: boolean;
 }
@@ -281,7 +281,7 @@ export interface ExpandableSchema {
   expandedRowKeysExpr: string;
 }
 
-export interface BaseTableSchema2 extends BaseSchema {
+export interface BaseTableSchema2 extends AMISSchemaBase {
   /**
    * 表格标题
    */
@@ -395,7 +395,7 @@ export interface BaseTableSchema2 extends BaseSchema {
   /**
    * 操作列配置
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 批量操作最大限制数
@@ -430,7 +430,7 @@ export interface BaseTableSchema2 extends BaseSchema {
   autoFillHeight?: boolean | AutoFillHeightObject;
 
   /**
-   * 表格是否可以获取父级数据域值，默认为false
+   * 表格是否可获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
 
@@ -441,7 +441,7 @@ export interface BaseTableSchema2 extends BaseSchema {
   lazyRenderAfter?: number;
 }
 
-export interface TableSchema2 extends BaseTableSchema2 {
+export interface AMISTableSchema2 extends BaseTableSchema2 {
   /**
    * 指定为表格类型
    */

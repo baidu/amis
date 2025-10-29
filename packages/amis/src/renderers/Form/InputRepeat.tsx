@@ -7,14 +7,16 @@
 
 import React from 'react';
 import cx from 'classnames';
-import {isMobile} from 'amis-core';
+import {AMISFormItem, isMobile} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 
 /**
  * Repeat
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/repeat
+ *
+ * @deprecated 不建议使用，可以直接用组合出来，不需要新建一个组件。
  */
-export interface RepeatControlSchema extends FormBaseControlSchema {
+export interface AMISInputRepeatSchema extends AMISFormItem {
   type: 'input-repeat';
 
   options?: string;

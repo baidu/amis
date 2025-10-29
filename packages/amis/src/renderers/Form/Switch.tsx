@@ -5,34 +5,34 @@ import {
   FormBaseControl,
   resolveEventData,
   getVariable,
-  ListenerAction
+  ListenerAction,
+  AMISFormItem,
+  AMISSchemaCollection
 } from 'amis-core';
 import {Icon, Switch} from 'amis-ui';
 import {autobind, isObject} from 'amis-core';
-import {IconSchema} from '../Icon';
-import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
+import {AMISIconSchema} from '../Icon';
 import {supportStatic} from './StaticHoc';
 
 import type {SpinnerExtraProps} from 'amis-ui';
 
 /**
- * Switch
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/switch
+ * 开关组件，用于布尔值切换。支持开启/关闭状态的切换操作。
  */
 
-export interface SwitchControlSchema extends FormBaseControlSchema {
+export interface AMISSwitchSchema extends AMISFormItem {
   /**
-   * 指定为多行文本输入框
+   * 指定为 switch 组件
    */
   type: 'switch';
 
   /**
-   * 勾选值
+   * 开启时的值
    */
   trueValue?: boolean | string | number;
 
   /**
-   * 未勾选值
+   * 关闭时的值
    */
   falseValue?: boolean | string | number;
 
@@ -42,19 +42,23 @@ export interface SwitchControlSchema extends FormBaseControlSchema {
   option?: string;
 
   /**
-   * 开启时显示的内容
+   * 开启时显示内容
    */
-  onText?: string | IconSchema | SchemaCollection;
+  onText?: string | AMISIconSchema | AMISSchemaCollection;
 
   /**
-   * 关闭时显示的内容
+   * 关闭时显示内容
    */
-  offText?: string | IconSchema | SchemaCollection;
+  offText?: string | AMISIconSchema | AMISSchemaCollection;
 
-  /** 开关尺寸 */
+  /**
+   * 开关尺寸
+   */
   size?: 'sm' | 'md';
 
-  /** 是否处于加载状态 */
+  /**
+   * 是否加载中
+   */
   loading?: boolean;
 }
 
@@ -128,7 +132,9 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     const {value, trueValue, translate} = this.props;
 
     const {on = 'swith.on', off = 'swith.off'} = this.getResult();
-    const body = <span>{value === trueValue ? translate(on) : translate(off)}</span>;
+    const body = (
+      <span>{value === trueValue ? translate(on) : translate(off)}</span>
+    );
     return this.renderBody(body);
   }
 

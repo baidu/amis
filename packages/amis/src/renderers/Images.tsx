@@ -13,7 +13,7 @@ import {
 } from 'amis-core';
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
-import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaUrlPath} from '../Schema';
 import type {ImageToolbarAction} from './Image';
 import Transition, {
   ENTERED,
@@ -21,13 +21,17 @@ import Transition, {
   EXITING,
   EXITED
 } from 'react-transition-group/Transition';
+import {AMISSchemaBase} from 'amis-core';
 /**
  * 图片集展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
  */
-export interface ImagesSchema extends BaseSchema {
+/**
+ * 图片集组件，用于列表方式展示多张图片。支持查看大图与工具栏。
+ */
+export interface AMISImagesSchema extends AMISSchemaBase {
   /**
-   * 指定为图片集渲染器
+   * 指定为 images 组件
    */
   type: 'images' | 'static-images';
 
@@ -43,7 +47,6 @@ export interface ImagesSchema extends BaseSchema {
 
   /**
    * 配置值的连接符
-   * @default ,
    */
   delimiter?: string;
 
@@ -69,17 +72,17 @@ export interface ImagesSchema extends BaseSchema {
   options?: Array<any>;
 
   /**
-   * 图片地址，默认读取数据中的 image 属性，如果不是请配置 ,如  ${imageUrl}
+   * 图片地址，默认读取数据中的 image 属性
    */
   src?: string;
 
   /**
-   * 大图地址，不设置用 src 属性，如果不是请配置，如：${imageOriginUrl}
+   * 大图地址，不设置用 src 属性
    */
   originalSrc?: string; // 原图
 
   /**
-   * 是否启动放大功能。
+   * 是否启用放大功能
    */
   enlargeAble?: boolean;
 
@@ -89,24 +92,24 @@ export interface ImagesSchema extends BaseSchema {
   enlargetWithImages?: boolean;
 
   /**
-   * 是否显示尺寸。
+   * 是否显示尺寸
    */
   showDimensions?: boolean;
 
   /**
    * 外层 CSS 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 列表 CSS 类名
    */
-  listClassName?: SchemaClassName;
+  listClassName?: AMISClassName;
 
   /**
    * 放大详情图 CSS 类名
    */
-  imageGallaryClassName?: SchemaClassName;
+  imageGallaryClassName?: AMISClassName;
 
   /**
    * 是否展示图片工具栏
@@ -188,7 +191,7 @@ export interface ImagesSchema extends BaseSchema {
 
 export interface ImagesProps
   extends RendererProps,
-    Omit<ImagesSchema, 'type' | 'className'> {
+    Omit<AMISImagesSchema, 'type' | 'className'> {
   delimiter: string;
   onEnlarge?: (
     info: ImageThumbProps & {
@@ -213,7 +216,7 @@ interface ImagesFieldProps {
   className: string;
   delimiter: string;
   defaultImage: string; // 这里的 defaultImage 类型应该是 string
-  placehoder: string;
+  placeholder: string;
   thumbMode: string;
   thumbRatio: string;
   displayMode: string;
@@ -224,7 +227,7 @@ export class ImagesField extends React.Component<ImagesProps, ImagesState> {
     className: '',
     delimiter: ',',
     defaultImage: imagePlaceholder,
-    placehoder: '-',
+    placeholder: '-',
     thumbMode: 'cover',
     thumbRatio: '1:1',
     displayMode: 'thumb',

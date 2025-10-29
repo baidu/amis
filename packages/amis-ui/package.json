@@ -110,7 +110,7 @@
     "sass": "^1.54.9",
     "ts-jest": "^29.0.2",
     "ts-node": "^10.4.0",
-    "typescript": "^4.6.4"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "amis-core": "*",

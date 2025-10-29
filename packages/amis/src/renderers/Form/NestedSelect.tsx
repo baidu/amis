@@ -43,19 +43,22 @@ import {supportStatic} from './StaticHoc';
 import {matchSorter} from 'match-sorter';
 
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
+import {AMISFormItemWithOptions} from 'amis-core';
 
 /**
  * Nested Select
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
  */
-export interface NestedSelectControlSchema extends FormOptionsSchema {
+/**
+ * NestedSelect 组件用于多层级数据的选择，支持级联、父子节点独立选择、只选叶子节点等多种配置，适用于复杂层级结构的表单场景。
+ */
+export interface AMISNestedSelectSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 NestedSelect 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
+   * 指定为 nested-select 组件
    */
   type: 'nested-select';
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
@@ -65,12 +68,12 @@ export interface NestedSelectControlSchema extends FormOptionsSchema {
   menuClassName?: string;
 
   /**
-   * 父子之间是否完全独立。
+   * 父子之间是否完全独立
    */
   cascade?: boolean;
 
   /**
-   * 选父级的时候是否把子节点的值也包含在内。
+   * 选父级的时候是否把子节点的值也包含在内
    */
   withChildren?: boolean;
 
@@ -90,7 +93,7 @@ export interface NestedSelectControlSchema extends FormOptionsSchema {
   hideNodePathLabel?: boolean;
 
   /**
-   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   * 标签的最大展示数量
    */
   maxTagCount?: number;
 

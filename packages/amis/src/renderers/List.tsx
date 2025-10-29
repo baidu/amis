@@ -29,6 +29,7 @@ import {
   difference,
   isVisible,
   isDisabled,
+  AMISRemarkBase,
   noop,
   isClickOnInput
 } from 'amis-core';
@@ -36,11 +37,8 @@ import {
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
-import Copyable, {SchemaCopyable} from './Copyable';
+import Copyable, {AMISCopyable, SchemaCopyable} from './Copyable';
 import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
   SchemaExpression,
   SchemaObject,
   SchemaTokenizeableString,
@@ -49,29 +47,42 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
-import type {IItem, IScopedContext} from 'amis-core';
-import type {OnEventProps} from 'amis-core';
+import type {
+  AMISButtonSchema,
+  AMISClassName,
+  AMISExpression,
+  AMISLegacyActionSchema,
+  AMISLocalSource,
+  AMISSchemaBase,
+  AMISSchemaCollection,
+  AMISTemplate,
+  AMISUrlPath,
+  IItem,
+  IScopedContext
+} from 'amis-core';
+import type {OnEventProps, AMISSchema, AMISPopOverBase} from 'amis-core';
 import find from 'lodash/find';
 import {AlphabetIndexer} from 'amis-ui';
+import {AMISQuickEdit} from './QuickEdit';
 
 /**
- * 不指定类型默认就是文本
+ * 列表字段配置，不指定类型默认就是文本
  */
-export type ListBodyFieldObject = {
+export type AMISListFieldBase = {
   /**
-   * 列标题
+   * 字段标签名称
    */
   label?: string;
 
   /**
-   * label 类名
+   * 标签CSS类名
    */
-  labelClassName?: SchemaClassName;
+  labelClassName?: AMISClassName;
 
   /**
-   * 内层组件的CSS类名
+   * 内层组件CSS类名
    */
-  innerClassName?: SchemaClassName;
+  innerClassName?: AMISClassName;
 
   /**
    * 绑定字段名
@@ -79,103 +90,101 @@ export type ListBodyFieldObject = {
   name?: string;
 
   /**
-   * 配置查看详情功能
+   * 查看详情配置
    */
-  popOver?: SchemaPopOver;
+  popOver?: AMISPopOverBase;
 
   /**
-   * 配置快速编辑功能
+   * 快速编辑配置
    */
-  quickEdit?: SchemaQuickEdit;
+  quickEdit?: AMISQuickEdit;
 
   /**
    * 配置点击复制功能
    */
-  copyable?: SchemaCopyable;
+  copyable?: AMISCopyable;
 };
+export type ListBodyFieldObject = AMISListFieldBase;
 
-export type ListBodyField = SchemaObject & ListBodyFieldObject;
+export type AMISListField = AMISSchema & AMISListFieldBase;
+export type ListBodyField = AMISListField;
 
-export interface ListItemSchema extends BaseSchemaWithoutType {
-  actions?: Array<ActionSchema>;
+export interface AMISListItemBase extends AMISSchemaBase {
+  actions?: Array<AMISButtonSchema>;
 
   /**
-   * 操作位置，默认在右侧，可以设置成左侧。
+   * 操作位置，默认在右侧，设置成左侧。
    */
   actionsPosition?: 'left' | 'right';
 
   /**
    * 图片地址
    */
-  avatar?: SchemaUrlPath;
+  avatar?: AMISUrlPath;
 
   /**
    * 内容区域
    */
-  body?: Array<ListBodyField | ListBodyFieldObject>;
+  body?: Array<AMISListField>;
 
   /**
    * 描述
    */
-  desc?: SchemaTpl;
+  desc?: AMISTemplate;
 
   /**
    * tooltip 说明
    */
-  remark?: SchemaRemark;
+  remark?: AMISRemarkBase;
 
   /**
    * 标题
    */
-  title?: SchemaTpl;
+  title?: AMISTemplate;
 
   /**
    * 副标题
    */
-  subTitle?: SchemaTpl;
+  subTitle?: AMISTemplate;
 }
 
-/**
- * List 列表展示控件。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
- */
-export interface BaseListSchema extends BaseSchema {
+export interface AMISListBase extends AMISSchemaBase {
   /**
    * 标题
    */
-  title?: SchemaTpl;
+  title?: AMISTemplate;
 
   /**
    * 底部区域
    */
-  footer?: SchemaCollection;
+  footer?: AMISSchemaCollection;
 
   /**
    * 底部区域类名
    */
-  footerClassName?: SchemaClassName;
+  footerClassName?: AMISClassName;
 
   /**
    * 顶部区域
    */
-  header?: SchemaCollection;
+  header?: AMISSchemaCollection;
 
   /**
    * 顶部区域类名
    */
-  headerClassName?: SchemaClassName;
+  headerClassName?: AMISClassName;
 
   /**
    * 单条数据展示内容配置
    */
-  listItem?: ListItemSchema;
+  listItem?: AMISListItemBase;
 
   /**
    * 数据源: 绑定当前环境变量
    *
    * @default ${items}
    */
-  source?: SchemaTokenizeableString;
+  source?: AMISLocalSource;
 
   /**
    * 是否显示底部
@@ -192,7 +201,7 @@ export interface BaseListSchema extends BaseSchema {
    *
    * @default 暂无数据
    */
-  placeholder?: SchemaTpl;
+  placeholder?: AMISTemplate;
 
   /**
    * 是否隐藏勾选框
@@ -210,14 +219,14 @@ export interface BaseListSchema extends BaseSchema {
   affixFooter?: boolean;
 
   /**
-   * 配置某项是否可以点选
+   * 配置某项是否可点选
    */
-  itemCheckableOn?: SchemaExpression;
+  itemCheckableOn?: AMISExpression;
 
   /**
    * 配置某项是否可拖拽排序，前提是要开启拖拽功能
    */
-  itemDraggableOn?: SchemaExpression;
+  itemDraggableOn?: AMISExpression;
 
   /**
    * 点击列表单行时，是否选择
@@ -237,7 +246,7 @@ export interface BaseListSchema extends BaseSchema {
   /**
    * 点击列表项的行为
    */
-  itemAction?: ActionSchema;
+  itemAction?: AMISLegacyActionSchema;
 
   /**
    * 是否显示右侧字母索引条
@@ -255,7 +264,10 @@ export interface BaseListSchema extends BaseSchema {
   indexBarOffset?: number;
 }
 
-export interface ListSchema extends BaseListSchema {
+/**
+ * 列表展示组件，用于展示数据列表。支持拖拽排序、选择、操作按钮等功能。
+ */
+export interface AMISListSchema extends AMISListBase {
   /**
    * 指定为 List 列表展示控件。
    */
@@ -268,7 +280,7 @@ export interface Column {
 
 export interface ListProps
   extends RendererProps,
-    Omit<ListSchema, 'type' | 'className'>,
+    Omit<AMISListSchema, 'type' | 'className'>,
     SpinnerExtraProps {
   store: IListStore;
   selectable?: boolean;
@@ -1050,7 +1062,7 @@ export default class List extends React.Component<ListProps, ListState> {
   // editor重写该方法，不要改名或参数
   renderListItem(
     index: number,
-    template: ListItemSchema | undefined,
+    template: AMISListItemBase | undefined,
     item: IItem,
     itemClassName: string
   ): React.ReactNode {
@@ -1078,7 +1090,7 @@ export default class List extends React.Component<ListProps, ListState> {
       {
         type: 'list-item',
         ...template
-      },
+      } as any,
       {
         key: item.index,
         className: cx(itemClassName, {
@@ -1450,7 +1462,7 @@ export class ListRenderer extends List {
 
 export interface ListItemProps
   extends RendererProps,
-    Omit<ListItemSchema, 'type' | 'className'> {
+    Omit<AMISListItemBase, 'type' | 'className'> {
   hideCheckToggler?: boolean;
   item: IItem;
   itemIndex?: number;
@@ -1608,7 +1620,7 @@ export class ListItem extends React.Component<ListItemProps> {
   }
 
   renderChild(
-    node: SchemaNode,
+    node: AMISSchema,
     region: string = 'body',
     key: any = 0
   ): React.ReactNode {
@@ -1699,8 +1711,10 @@ export class ListItem extends React.Component<ListItemProps> {
         this.renderChild(
           {
             type: 'plain',
-            ...(typeof child === 'string' ? {type: 'tpl', tpl: child} : child)
-          },
+            ...((typeof child === 'string'
+              ? {type: 'tpl', tpl: child}
+              : child) as any)
+          } as any,
           `body/${index}`,
           index
         )

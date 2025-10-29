@@ -15,7 +15,7 @@ import {StringItem} from '../src/excel/types/StringItem';
 const xlsxFile = process.argv[2];
 
 const zip = new ZipPackageParser();
-zip.load(fs.readFileSync(xlsxFile, null));
+zip.load(fs.readFileSync(xlsxFile, null) as any);
 
 async function opt() {
   let sharedStrings: StringItem[] = [];

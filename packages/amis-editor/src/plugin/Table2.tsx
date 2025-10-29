@@ -361,7 +361,7 @@ export class Table2Plugin extends BasePlugin {
 
   panelJustify = true;
 
-  $schema = '/schemas/TableSchema2.json';
+  $schema = '/schemas/AMISTableSchema2.json';
 
   description =
     '用来展示表格数据，可以配置列信息，然后关联数据便能完成展示。支持嵌套、超级表头、列固定、表头固顶、合并单元格等等。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';

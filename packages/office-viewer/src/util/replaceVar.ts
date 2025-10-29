@@ -90,7 +90,7 @@ async function replaceTableRow(
   let loopArray = [];
 
   // 查找对应的循环
-  for (const tc of tcs) {
+  for (const tc of tcs as any) {
     const ts = tc.getElementsByTagName('w:t');
     for (const t of ts) {
       const text = t.textContent || '';
@@ -123,11 +123,11 @@ async function replaceTableRow(
       const ts = newTr.getElementsByTagName('w:t');
       // 将 item 加入上下文
       const rowData = createObject(data, item);
-      for (const t of ts) {
+      for (const t of ts as any) {
         replaceT(word, t, rowData);
       }
 
-      for (const cNvPr of newTr.getElementsByTagName('pic:cNvPr')) {
+      for (const cNvPr of newTr.getElementsByTagName('pic:cNvPr') as any) {
         await replaceAlt(word, cNvPr, rowData, replaceImage);
       }
 
@@ -190,7 +190,7 @@ async function replaceTable(
  * @param documentData
  */
 async function replaceSingleImage(word: Word, documentData: Document) {
-  for (const cNvPr of documentData.getElementsByTagName('pic:cNvPr')) {
+  for (const cNvPr of documentData.getElementsByTagName('pic:cNvPr') as any) {
     await replaceAlt(word, cNvPr, word.renderOptions.data, true);
   }
 }

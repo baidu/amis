@@ -3,7 +3,7 @@ import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
 import keycode from 'keycode';
 import Downshift, {StateChangeOptions} from 'downshift';
-import {autobind} from 'amis-core';
+import {AMISFormItem, autobind} from 'amis-core';
 import {ICONS} from './IconPickerIcons';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 import {Option} from 'amis-core';
@@ -14,7 +14,7 @@ import {FormBaseControlSchema} from '../../Schema';
  * 图标选择器
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/icon-picker
  */
-export interface IconPickerControlSchema extends FormBaseControlSchema {
+export interface AMISIconPickerSchema extends AMISFormItem {
   type: 'icon-picker';
   // 这就不应该成为一个 amis 控件。。。
 }

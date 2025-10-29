@@ -19,14 +19,18 @@ import {Signature} from 'amis-ui';
 import pick from 'lodash/pick';
 import {FormBaseControlSchema, SchemaApi} from '../../Schema';
 import {base64ToBlob} from 'file64';
-export interface InputSignatureSchema extends FormBaseControlSchema {
+import {AMISFormItem} from 'amis-core';
+/**
+ * InputSignature 签名输入组件，支持手写签名、撤销、清空及确认操作，可自定义宽高、线条颜色和背景色，适用于表单签名需求。
+ */
+export interface AMISInputSignatureSchema extends AMISFormItem {
   type: 'input-signature';
   /**
-   * 组件宽度，默认占满父容器
+   * 组件宽度
    */
   width?: number;
   /**
-   * 组件高度，默认占满父容器
+   * 组件高度
    */
   height?: number;
   /**
@@ -55,8 +59,8 @@ export interface InputSignatureSchema extends FormBaseControlSchema {
    */
   undoBtnLabel?: string;
   /**
-   * 清空按钮图标
-   * @default 清空
+   * 撤销按钮图标
+   * @default 撤销
    */
   undoBtnIcon?: string;
   /**

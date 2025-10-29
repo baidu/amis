@@ -9,20 +9,20 @@ export * from 'amis-core';
 export * from 'amis-ui';
 import './minimal';
 import {registerFilter, registerFormula} from 'amis-formula';
+import type {AMISFormSchema} from 'amis-core';
 
 import type {
   BaseSchema,
-  FormSchema,
   SchemaApi,
-  SchemaCollection,
   SchemaExpression,
-  SchemaObject
+  SchemaObject,
+  SchemaCollection
 } from './Schema';
-import type {TableViewSchema, TrObject} from './renderers/TableView';
+import type {AMISTableViewSchema, TrObject} from './renderers/TableView';
 import type {ActionSchema, ButtonSchema} from './renderers/Action';
-import type {CRUDCommonSchema} from './renderers/CRUD';
-import type {CRUD2Schema} from './renderers/CRUD2';
-import type {TabsSchema} from './renderers/Tabs';
+import type {AMISCRUDSchema, AMISCRUDCommonSchema} from './renderers/CRUD';
+import type {AMISCRUD2Schema} from './renderers/CRUD2';
+import type {AMISTabsSchema} from './renderers/Tabs';
 import {availableLanguages as EditorAvailableLanguages} from './renderers/Form/Editor';
 import type {Action} from './types';
 import type {SchemaType} from './Schema';
@@ -31,24 +31,36 @@ import './renderers/icons/mk';
 export * from './renderers/Form/IconPickerIcons';
 export * from './renderers/Form/IconSelectStore';
 
+import type {AMISDialogSchema} from './renderers/Dialog';
+import type {AMISDrawerSchema} from './renderers/Drawer';
+export * from './SchemaFull';
+
 export {
   BaseSchema,
-  SchemaCollection,
-  FormSchema,
+  AMISFormSchema as FormSchema,
   SchemaApi,
   SchemaObject,
-  TableViewSchema,
+  AMISTableViewSchema as TableViewSchema,
+  AMISTableViewSchema,
   TrObject,
   ActionSchema,
-  CRUDCommonSchema,
+  AMISCRUDCommonSchema,
+  AMISCRUDSchema,
   ButtonSchema,
-  CRUD2Schema,
-  TabsSchema,
+  AMISCRUD2Schema,
+  AMISCRUD2Schema as CRUD2Schema,
+  AMISTabsSchema as TabsSchema,
+  AMISTabsSchema,
   SchemaExpression,
   Action,
   SchemaType,
   EditorAvailableLanguages,
+  AMISDialogSchema as DialogSchema,
+  AMISDrawerSchema as DrawerSchema,
+  AMISDialogSchema,
+  AMISDrawerSchema,
   registerFilter,
   registerFormula,
-  overrideSupportStatic
+  overrideSupportStatic,
+  SchemaCollection
 };

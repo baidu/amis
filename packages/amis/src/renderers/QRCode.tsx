@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import {
   ActionObject,
+  AMISSchemaBase,
   IScopedContext,
   isNumeric,
   isObject,
@@ -14,7 +15,7 @@ import {
 import {FormItem, FormControlProps} from 'amis-core';
 import {filter} from 'amis-core';
 import {QRCode as QRCodeRender} from 'qrcode-react-next';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 import {getPropValue} from 'amis-core';
 import mapValues from 'lodash/mapValues';
 import {saveAs} from 'file-saver';
@@ -36,22 +37,24 @@ export interface QRCodeImageSettings {
  * 二维码展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/qrcode
  */
-export interface QRCodeSchema extends BaseSchema {
+/**
+ * 二维码组件，用于生成和显示二维码。支持内容、尺寸与容错级别配置。
+ */
+export interface AMISQRCodeSchema extends AMISSchemaBase {
   type: 'qrcode' | 'qr-code';
 
   /**
-   * 关联字段名。
+   * 关联字段名
    */
   name?: string;
 
   /**
-   * css 类名
+   * CSS 类名
    */
-  qrcodeClassName?: SchemaClassName;
+  qrcodeClassName?: AMISClassName;
 
   /**
    * 二维码的宽高大小，默认 128
-   * @default 128
    */
   codeSize?: number;
 
@@ -66,7 +69,7 @@ export interface QRCodeSchema extends BaseSchema {
   foregroundColor?: string;
 
   /**
-   * 二维码复杂级别
+   * 二维码容错级别
    */
   level?: 'L' | 'M' | 'Q' | 'H';
 
@@ -92,7 +95,6 @@ export interface QRCodeSchema extends BaseSchema {
 
   /**
    * 码眼边框颜色
-   * @default '#000000'
    */
   eyeBorderColor?: string;
 
@@ -128,7 +130,7 @@ export interface QRCodeSchema extends BaseSchema {
 
 export interface QRCodeProps
   extends FormControlProps,
-    Omit<QRCodeSchema, 'type' | 'className'> {}
+    Omit<AMISQRCodeSchema, 'type' | 'className'> {}
 
 export default class QRCode extends React.Component<QRCodeProps, any> {
   static defaultProps: Partial<QRCodeProps> = {

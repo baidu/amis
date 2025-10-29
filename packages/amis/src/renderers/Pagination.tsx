@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AMISSchemaBase,
   Renderer,
   RendererProps,
   autobind,
@@ -12,25 +13,24 @@ import {BaseSchema} from '../Schema';
 import {Pagination as BasicPagination} from 'amis-ui';
 import type {MODE_TYPE} from 'amis-ui/lib/components/Pagination';
 
-export interface PaginationSchema extends BaseSchema {
+/**
+ * 分页组件，用于数据分页跳转。支持页码、页大小与快速跳转。
+ */
+export interface AMISPaginationSchema extends AMISSchemaBase {
   type: 'pagination';
 
   /**
-   * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
-   * @default 'pager'
+   * 通过控制layout属性的顺序，调整分页结构
    */
   layout?: string | Array<string>;
 
   /**
-   * 最多显示多少个分页按钮。
-   *
-   * @default 5
+   * 最多显示多少个分页按钮
    */
   maxButtons?: number;
 
   /**
-   * 模式，默认normal，如果只想简单显示可以配置成 `simple`。
-   * @default 'normal'
+   * 模式，默认normal，如果只想简单显示配置成 simple
    */
   mode?: MODE_TYPE;
 
@@ -51,31 +51,26 @@ export interface PaginationSchema extends BaseSchema {
 
   /**
    * 每页显示条数
-   * @default 10
    */
   perPage?: number;
 
   /**
    * 是否展示分页切换，也同时受layout控制
-   * @default false
    */
   showPerPage?: boolean;
 
   /**
    * 指定每页可以显示多少条
-   * @default [10, 20, 50, 100]
    */
   perPageAvailable?: Array<number>;
 
   /**
    * 是否显示快速跳转输入框
-   * @default false
    */
   showPageInput?: boolean;
 
   /**
    * 是否禁用
-   * @default false
    */
   disabled?: boolean;
 
@@ -83,14 +78,13 @@ export interface PaginationSchema extends BaseSchema {
 
   /**
    * 弹层挂载节点
-   * @default false
    */
   popOverContainerSelector?: string;
 }
 
 export interface PaginationProps
   extends RendererProps,
-    Omit<PaginationSchema, 'type' | 'className'> {}
+    Omit<AMISPaginationSchema, 'type' | 'className'> {}
 
 export default class Pagination extends React.Component<PaginationProps> {
   formatNumber(num: number | string | undefined, defaultValue?: number) {

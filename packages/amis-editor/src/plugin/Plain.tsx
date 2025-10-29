@@ -11,7 +11,7 @@ export class PlainPlugin extends BasePlugin {
   static id = 'PlainPlugin';
   // 关联渲染器名字
   rendererName = 'plain';
-  $schema = '/schemas/PlainSchema.json';
+  $schema = '/schemas/AMISPlainSchema.json';
   disabledRendererPlugin = true; // 组件面板不显示
 
   // 组件名称

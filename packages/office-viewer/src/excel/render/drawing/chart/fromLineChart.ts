@@ -4,10 +4,11 @@ import {calcPercentStacked} from './calcPercentStacked';
 import {getStack} from './getStack';
 import {getData} from './getData';
 import {buildLabel} from './buildLabel';
+import type {SeriesOption} from 'echarts';
 
 export function fromLineChart(workbook: Workbook, lineChart: CT_LineChart) {
   const categories: string[] = [];
-  const series = [];
+  const series: SeriesOption[] = [];
   const ser = lineChart.ser || [];
   let isPercentStacked = false;
   for (const lineSeries of ser) {

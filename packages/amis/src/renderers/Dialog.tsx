@@ -26,133 +26,28 @@ import {Icon} from 'amis-ui';
 import {ModalStore, IModalStore} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {Spinner} from 'amis-ui';
-import {IServiceStore, CustomStyle} from 'amis-core';
 import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaName,
-  SchemaTpl
-} from '../Schema';
+  IServiceStore,
+  AMISDialogSchemaBase,
+  AMISSchema,
+  AMISSchemaCollection,
+  CustomStyle,
+  AMISButtonSchema
+} from 'amis-core';
+import {BaseSchema, AMISClassName, SchemaName, SchemaTpl} from '../Schema';
 import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 
 /**
- * Dialog 弹框渲染器。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dialog
+ * 对话框组件，用于弹窗展示内容。支持确认/取消操作、自定义内容等。
  */
-export interface DialogSchemaBase extends BaseSchema {
-  type: 'dialog';
-
-  /**
-   * 弹窗参数说明，值格式为 JSONSchema。
-   */
-  inputParams?: any;
-
-  /**
-   * 默认不用填写，自动会创建确认和取消按钮。
-   */
-  actions?: Array<ActionSchema>;
-
-  /**
-   * 内容区域
-   */
-  body?: SchemaCollection;
-
-  /**
-   * 配置 Body 容器 className
-   */
-  bodyClassName?: SchemaClassName;
-
-  /**
-   * 是否支持按 ESC 关闭 Dialog
-   */
-  closeOnEsc?: boolean;
-
-  /**
-   * 是否支持点其它区域关闭 Dialog
-   */
-  closeOnOutside?: boolean;
-
-  name?: SchemaName;
-
-  /**
-   * Dialog 大小
-   */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
-
-  /**
-   * Dialog 高度
-   */
-  height?: string;
-
-  /**
-   * Dialog 宽度
-   */
-  width?: string;
-
-  /**
-   * 请通过配置 title 设置标题
-   */
-  title?: SchemaCollection;
-
-  header?: SchemaCollection;
-  headerClassName?: SchemaClassName;
-
-  footer?: SchemaCollection;
-
-  /**
-   * 影响自动生成的按钮，如果自己配置了按钮这个配置无效。
-   */
-  confirm?: boolean;
-
-  /**
-   * 是否显示关闭按钮
-   */
-  showCloseButton?: boolean;
-
-  /**
-   * 是否显示错误信息
-   */
-  showErrorMsg?: boolean;
-
-  /**
-   * 是否显示 spinner
-   */
-  showLoading?: boolean;
-
-  /**
-   * 是否显示蒙层
-   */
-  overlay?: boolean;
-
-  /**
-   * 弹框类型 confirm 确认弹框
-   */
-  dialogType?: 'confirm';
-  /**
-   * 可拖拽
-   */
-  draggable?: boolean;
-  /**
-   * 可全屏
-   */
-  allowFullscreen?: boolean;
-
-  /**
-   * 数据映射
-   */
-  data?: {
-    [propName: string]: any;
-  };
-}
-
-export interface DialogSchema extends DialogSchemaBase {
+export interface AMISDialogSchema extends AMISDialogSchemaBase {
   type: 'dialog';
 }
+export type DialogSchema = AMISDialogSchema;
 export interface DialogProps
   extends RendererProps,
-    Omit<DialogSchema, 'className' | 'data'>,
+    Omit<AMISDialogSchema, 'className' | 'data'>,
     SpinnerExtraProps {
   onClose: (confirmed?: boolean) => void;
   onConfirm: (
@@ -165,7 +60,7 @@ export interface DialogProps
   store: IModalStore;
   show?: boolean;
   lazyRender?: boolean;
-  lazySchema?: (props: DialogProps) => SchemaCollection;
+  lazySchema?: (props: DialogProps) => AMISSchemaCollection;
   wrapperComponent: React.ElementType;
 }
 
@@ -250,17 +145,17 @@ export default class Dialog extends React.Component<DialogProps> {
     this.isDead = true;
   }
 
-  buildActions(): Array<ActionSchema> {
+  buildActions(): Array<AMISButtonSchema> {
     const {actions, confirm, translate: __, testIdBuilder} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
     }
 
-    let ret: Array<ActionSchema> = [];
+    let ret: Array<AMISButtonSchema> = [];
     ret.push({
       type: 'button',
-      testIdBuilder: testIdBuilder?.getChild('cancel'),
+
       actionType: 'cancel',
       label: __('cancel')
     });
@@ -268,7 +163,7 @@ export default class Dialog extends React.Component<DialogProps> {
     if (confirm) {
       ret.push({
         type: 'button',
-        testIdBuilder: testIdBuilder?.getChild('confirm'),
+
         actionType: 'confirm',
         label: __('confirm'),
         primary: true
@@ -496,7 +391,7 @@ export default class Dialog extends React.Component<DialogProps> {
     );
   }
 
-  renderBody(body: SchemaNode, key?: any): React.ReactNode {
+  renderBody(body: AMISSchemaCollection, key?: any): React.ReactNode {
     let {render, store} = this.props;
 
     if (Array.isArray(body)) {
@@ -521,13 +416,13 @@ export default class Dialog extends React.Component<DialogProps> {
       return render(`body${key ? `/${key}` : ''}`, body, subProps);
     }
 
-    let schema: Schema = body as Schema;
+    let schema: AMISSchema = body as AMISSchema;
 
     if (schema.type === 'form') {
       schema = {
         mode: 'horizontal',
         wrapWithPanel: false,
-        submitText: null,
+        submitText: undefined,
         ...schema
       };
     }
@@ -550,7 +445,8 @@ export default class Dialog extends React.Component<DialogProps> {
       showErrorMsg,
       showLoading,
       show,
-      dialogFooterClassName
+      dialogFooterClassName,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -577,6 +473,13 @@ export default class Dialog extends React.Component<DialogProps> {
             // 所以这里传递了 undefined
             onActionSensor: undefined,
             btnDisabled: store.loading,
+            testIdBuilder:
+              action.actionType &&
+              ['confirm', 'cancel'].includes(action.actionType)
+                ? testIdBuilder?.getChild(
+                    action.actionType === 'confirm' ? 'confirm' : 'cancel'
+                  )
+                : undefined,
             key,
             disabled: action.disabled || store.loading || !show
           })

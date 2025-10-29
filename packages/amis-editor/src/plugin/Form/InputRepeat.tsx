@@ -6,7 +6,7 @@ export class RepeatControlPlugin extends BasePlugin {
   static id = 'RepeatControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-repeat';
-  $schema = '/schemas/RepeatControlSchema.json';
+  $schema = '/schemas/AMISInputRepeatSchema.json';
 
   // 组件名称
   name = '重复周期选择';

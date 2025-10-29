@@ -7,7 +7,7 @@ import {
 } from 'amis-core';
 import React from 'react';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
-import {BaseTransferRenderer, BaseTransferControlSchema} from './Transfer';
+import {BaseTransferRenderer, AMISTransferSchemaBase} from './Transfer';
 import {TransferPicker} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject, toNumber} from 'amis-core';
@@ -19,12 +19,12 @@ import pick from 'lodash/pick';
  * TransferPicker 穿梭器的弹框形态
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer-picker
  */
-export interface TransferPickerControlSchema
-  extends BaseTransferControlSchema,
+export interface AMISTransferPickerSchema
+  extends AMISTransferSchemaBase,
     SpinnerExtraProps {
   type: 'transfer-picker';
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
@@ -39,7 +39,7 @@ export interface TransferPickerControlSchema
 export interface TabsTransferProps
   extends OptionsControlProps,
     Omit<
-      TransferPickerControlSchema,
+      AMISTransferPickerSchema,
       | 'type'
       | 'options'
       | 'inputClassName'

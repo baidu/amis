@@ -1,17 +1,15 @@
 import React from 'react';
 import {
+  AMISSchemaBase,
   CustomStyle,
   RENDERER_TRANSMISSION_OMIT_PROPS,
   Renderer,
   RendererProps,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection,
+  AMISButtonSchema
 } from 'amis-core';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaTpl
-} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaTpl} from '../Schema';
 import {ActionSchema} from './Action';
 import {FormHorizontal} from 'amis-core';
 import omit from 'lodash/omit';
@@ -21,56 +19,59 @@ import {Icon} from 'amis-ui';
  * Panel渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/panel
  */
-export interface PanelSchema extends BaseSchema {
+/**
+ * 面板组件，用于分组展示内容区域。支持头部、工具栏与脚部。
+ */
+export interface AMISPanelSchema extends AMISSchemaBase {
   /**
-   * 指定为Panel渲染器。
+   * 指定为 panel 组件
    */
   type: 'panel';
 
   /**
    * 按钮集合
    */
-  actions?: Array<ActionSchema>;
+  actions?: Array<AMISButtonSchema>;
 
   /**
    * 按钮集合外层类名
    */
-  actionsClassName?: SchemaClassName;
+  actionsClassName?: AMISClassName;
 
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 配置 Body 容器 className
    */
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: AMISClassName;
 
   /**
    * 底部内容区域
    */
-  footer?: SchemaCollection;
+  footer?: AMISSchemaCollection;
 
   /**
    * 配置 footer 容器 className
    */
-  footerClassName?: SchemaClassName;
+  footerClassName?: AMISClassName;
 
   /**
-   * footer 和 actions 外层 div 类名。
+   * footer 和 actions 外层 div 类名
    */
-  footerWrapClassName?: SchemaClassName;
+  footerWrapClassName?: AMISClassName;
 
   /**
-   * 头部内容, 和 title 二选一。
+   * 头部内容, 和 title 二选一
    */
-  header?: SchemaCollection;
+  header?: AMISSchemaCollection;
 
   /**
    * 配置 header 容器 className
    */
-  headerClassName?: SchemaClassName;
+  headerClassName?: AMISClassName;
 
   /**
    * Panel 标题
@@ -78,7 +79,7 @@ export interface PanelSchema extends BaseSchema {
   title?: SchemaTpl;
 
   /**
-   * 固定底部, 想要把按钮固定在底部的时候配置。
+   * 固定底部, 想要把按钮固定在底部的时候配置
    */
   affixFooter?: boolean | 'always';
 
@@ -88,11 +89,11 @@ export interface PanelSchema extends BaseSchema {
   collapsible?: boolean;
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 配置子表单项默认的展示方式
    */
   subFormMode?: 'normal' | 'inline' | 'horizontal';
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比
    */
   subFormHorizontal?: FormHorizontal;
 
@@ -107,7 +108,7 @@ export interface PanelSchema extends BaseSchema {
 export interface PanelProps
   extends RendererProps,
     Omit<
-      PanelSchema,
+      AMISPanelSchema,
       'type' | 'className' | 'panelClassName' | 'bodyClassName'
     > {}
 export default class Panel<

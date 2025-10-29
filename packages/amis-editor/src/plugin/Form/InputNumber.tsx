@@ -24,7 +24,7 @@ export class NumberControlPlugin extends BasePlugin {
   static id = 'NumberControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-number';
-  $schema = '/schemas/NumberControlSchema.json';
+  $schema = '/schemas/AMISInputNumberSchema.json';
 
   // 组件名称
   name = '数字框';

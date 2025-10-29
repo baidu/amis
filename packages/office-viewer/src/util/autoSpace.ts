@@ -6,11 +6,14 @@
 /* Partial implementation from https://zhuanlan.zhihu.com/p/33612593 */
 
 /* 标点 */
+// @ts-ignore
 const punctuationRegex = /\p{Punctuation}/u;
 /* 空格 */
+// @ts-ignore
 const spaceRegex = /\p{Separator}/u;
 /* CJK 字符，中日韩 */
-const cjkRegex =
+
+const cjkRegex = // @ts-ignore
   /\p{Script=Han}|\p{Script=Katakana}|\p{Script=Hiragana}|\p{Script=Hangul}/u;
 
 const shouldSpace = (a: string, b: string): boolean => {

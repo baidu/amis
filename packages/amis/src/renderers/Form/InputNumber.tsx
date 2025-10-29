@@ -9,7 +9,8 @@ import {
   formatInputThemeCss,
   setThemeClassName,
   TestIdBuilder,
-  getVariable
+  getVariable,
+  AMISFormItem
 } from 'amis-core';
 import cx from 'classnames';
 import {NumberInput, Select} from 'amis-ui';
@@ -32,7 +33,13 @@ import {supportStatic} from './StaticHoc';
  * 数字输入框
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-number
  */
-export interface NumberControlSchema extends FormBaseControlSchema {
+/**
+ * InputNumber 数字输入框，用于在表单中录入、修改和展示数字，支持步长、精度、最大最小值、单位选择等功能。
+ */
+export interface AMISInputNumberSchema extends AMISFormItem {
+  /**
+   * 指定为 number 组件
+   */
   type: 'input-number';
 
   /**
@@ -56,32 +63,32 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   precision?: number;
 
   /**
-   * 是否显示上下点击按钮
+   * 是否显示步进按钮
    */
   showSteps?: boolean;
 
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
   /**
-   * 前缀
+   * 前缀文本
    */
   prefix?: string;
 
   /**
-   * 后缀
+   * 后缀文本
    */
   suffix?: string;
 
   /**
-   * 单位列表
+   * 单位选项
    */
   unitOptions?: string | Array<Option> | string[] | PlainObject;
 
   /**
-   * 是否是大数，如果是的话输入输出都将是字符串
+   * 是否大数
    */
   big?: boolean;
 
@@ -96,17 +103,17 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   readOnly?: boolean;
 
   /**
-   * 是否启用键盘行为
+   * 是否启用键盘
    */
   keyboard?: boolean;
 
   /**
-   * 输入框为基础输入框还是加强输入框
+   * 显示模式
    */
   displayMode?: 'base' | 'enhance';
 
   /**
-   * 用来开启百分号的展示形式
+   * 是否显示为百分比
    */
   showAsPercent?: boolean;
 }

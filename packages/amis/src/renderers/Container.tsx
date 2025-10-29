@@ -8,15 +8,17 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection,
+  AMISSchemaBase
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
-import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 
 /** 容器拖拽配置 */
 export interface ContainerDraggableConfig {
   /**
-   * 可拖拽的方向, 默认为所有方向, 支持设置为X或Y轴
+   * 可拖拽的方向
    */
   axis?: 'both' | 'x' | 'y';
 
@@ -26,7 +28,7 @@ export interface ContainerDraggableConfig {
   defaultPosition?: {x: number; y: number};
 
   /**
-   * 拖拽的边界, 可以设置坐标, 也可以设置父级元素的选择器
+   * 拖拽的边界
    */
   bounds?:
     | {
@@ -53,12 +55,12 @@ export interface ContainerDraggableConfig {
   cancel?: string;
 
   /**
-   * 拖拽距离的缩放比, 默认为1
+   * 拖拽距离的缩放比
    */
   scale?: number;
 
   /**
-   * 默认设置容器内部为'user-select:none', 可以设置true关闭
+   * 默认设置容器内部为'user-select:none', 设置true关闭
    */
   enableUserSelect?: boolean;
 }
@@ -67,21 +69,24 @@ export interface ContainerDraggableConfig {
  * Container 容器渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/container
  */
-export interface ContainerSchema extends BaseSchema {
+/**
+ * 容器组件，用于包裹与布局内容区域。支持标题、工具栏与样式控制。
+ */
+export interface AMISContainerSchema extends AMISSchemaBase {
   /**
-   * 指定为 container 类型
+   * 指定为 container 组件
    */
   type: 'container';
 
   /**
    * 内容
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * body 类名
    */
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: AMISClassName;
 
   /**
    * 自定义样式
@@ -113,7 +118,7 @@ export interface ContainerSchema extends BaseSchema {
 
 export interface ContainerProps
   extends RendererProps,
-    Omit<ContainerSchema, 'type' | 'className' | 'style'> {
+    Omit<AMISContainerSchema, 'type' | 'className' | 'style'> {
   children?: (props: any) => React.ReactNode;
 }
 

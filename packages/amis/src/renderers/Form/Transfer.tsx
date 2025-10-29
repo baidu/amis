@@ -34,24 +34,29 @@ import {
   SchemaApi,
   SchemaObject,
   SchemaExpression,
-  SchemaClassName
+  AMISClassName
 } from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
-import type {Option} from 'amis-core';
-import type {PaginationSchema} from '../Pagination';
+import type {
+  AMISFormItemWithOptions,
+  AMISSpinnerConfig,
+  Option
+} from 'amis-core';
+import type {AMISPaginationSchema} from '../Pagination';
+import {AMISExpression} from 'amis-core';
 
-export interface BaseTransferControlSchema
-  extends FormOptionsSchema,
-    SpinnerExtraProps {
+export interface AMISTransferSchemaBase
+  extends AMISFormItemWithOptions,
+    AMISSpinnerConfig {
   /**
-   * 是否显示剪头
+   * 是否显示箭头
    */
   showArrow?: boolean;
 
   /**
-   * 可排序？
+   * 是否可排序
    */
   sortable?: boolean;
 
@@ -66,17 +71,17 @@ export interface BaseTransferControlSchema
   resultListModeFollowSelect?: boolean;
 
   /**
-   * 当 selectMode 为 associated 时用来定义左侧的选项
+   * 左侧选项
    */
   leftOptions?: Array<Option>;
 
   /**
-   * 当 selectMode 为 associated 时用来定义左侧的选择模式
+   * 左侧选择模式
    */
   leftMode?: 'tree' | 'list';
 
   /**
-   * 当 selectMode 为 associated 时用来定义右侧的选择模式
+   * 右侧选择模式
    */
   rightMode?: 'table' | 'list' | 'tree' | 'chained';
 
@@ -86,22 +91,22 @@ export interface BaseTransferControlSchema
   searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
 
   /**
-   * 当 selectMode 为 table 时定义表格列信息。
+   * 表格列配置
    */
   columns?: Array<any>;
 
   /**
-   * 当 searchResultMode 为 table 时定义表格列信息。
+   * 搜索结果表格列配置
    */
   searchResultColumns?: Array<any>;
 
   /**
-   * 可搜索？
+   * 是否可搜索
    */
   searchable?: boolean;
 
   /**
-   * 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容
+   * 结果（右则）列表的检索功能，当设置为true时，通过输入检索模糊匹配检索内容
    */
   resultSearchable?: boolean;
 
@@ -180,13 +185,13 @@ export interface BaseTransferControlSchema
    */
   pagination?: {
     /** 是否左侧选项分页，默认不开启 */
-    enable: SchemaExpression;
+    enable: AMISExpression;
     /** 分页组件CSS类名 */
-    className?: SchemaClassName;
+    className?: AMISClassName;
     /** 是否开启前端分页 */
     loadDataOnce?: boolean;
   } & Pick<
-    PaginationSchema,
+    AMISPaginationSchema,
     'layout' | 'maxButtons' | 'perPageAvailable' | 'popOverContainerSelector'
   >;
 }
@@ -195,7 +200,7 @@ export interface BaseTransferControlSchema
  * Transfer
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
  */
-export interface TransferControlSchema extends BaseTransferControlSchema {
+export interface AMISTransferSchema extends AMISTransferSchemaBase {
   /**
    * 指定为 Transfer 渲染器。
    * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/transfer
@@ -206,7 +211,7 @@ export interface TransferControlSchema extends BaseTransferControlSchema {
 export interface BaseTransferProps
   extends OptionsControlProps,
     Omit<
-      TransferControlSchema,
+      AMISTransferSchema,
       | 'type'
       | 'options'
       | 'className'

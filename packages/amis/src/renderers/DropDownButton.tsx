@@ -1,57 +1,60 @@
 import React from 'react';
 import {
+  AMISSchemaBase,
   createObject,
   CustomStyle,
   Renderer,
   RendererProps,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaCollection,
+  AMISButtonSchema
 } from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop, filterClassNameObject} from 'amis-core';
 import {filter} from 'amis-core';
-import {Icon, hasIcon} from 'amis-ui';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaIcon
-} from '../Schema';
-import {ActionSchema} from './Action';
-import {DividerSchema} from './Divider';
+import {Icon} from 'amis-ui';
+import {AMISClassName, SchemaIcon} from '../Schema';
+import {AMISDividerSchema} from './Divider';
 import {RootClose} from 'amis-core';
 import type {
   TooltipObject,
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 import {resolveVariableAndFilter} from 'amis-core';
-import {isMobile} from 'amis-core';
+
+export type DropdownNestedButton = AMISButtonSchema & {
+  children?: Array<DropdownButton>;
+};
 
 export type DropdownButton =
-  | (ActionSchema & {children?: Array<DropdownButton>})
-  | DividerSchema
+  | DropdownNestedButton
+  | AMISDividerSchema
   | 'divider';
 
 /**
  * 下拉按钮渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/dropdown-button
  */
-export interface DropdownButtonSchema extends BaseSchema {
+/**
+ * 下拉按钮组件，结合按钮与下拉菜单。支持分组操作与权限控制。
+ */
+export interface AMISDropdownButtonSchema extends AMISSchemaBase {
   /**
-   * 指定为 DropDown Button 类型
+   * 指定为 dropdown-button 组件
    */
   type: 'dropdown-button';
 
   /**
-   * 是否独占一行 `display: block`
+   * 是否独占一行
    */
   block?: boolean;
 
   /**
-   * 给 Button 配置 className。
+   * 给 Button 配置 className
    */
-  btnClassName?: SchemaClassName;
+  btnClassName?: AMISClassName;
 
   /**
    * 按钮集合，支持分组
@@ -61,7 +64,7 @@ export interface DropdownButtonSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 按钮文字
@@ -99,7 +102,7 @@ export interface DropdownButtonSchema extends BaseSchema {
   align?: 'left' | 'right';
 
   /**
-   * 是否只显示图标。
+   * 是否只显示图标
    */
   iconOnly?: boolean;
 
@@ -109,7 +112,7 @@ export interface DropdownButtonSchema extends BaseSchema {
   rightIcon?: SchemaIcon;
 
   /**
-   * 触发条件，默认是 click
+   * 触发条件，默认为 click
    */
   trigger?: 'click' | 'hover';
 
@@ -133,7 +136,7 @@ export interface DropdownButtonSchema extends BaseSchema {
 
 export interface DropDownButtonProps
   extends RendererProps,
-    Omit<DropdownButtonSchema, 'type' | 'className'> {
+    Omit<AMISDropdownButtonSchema, 'type' | 'className'> {
   disabledTip?: string | TooltipObject;
   /**
    * 按钮提示文字，hover focus 时显示
@@ -274,21 +277,28 @@ export default class DropDownButton extends React.Component<
     } = this.props;
     index = typeof index === 'number' ? index.toString() : index;
 
-    if (typeof button !== 'string' && Array.isArray(button?.children)) {
+    if (
+      typeof button !== 'string' &&
+      Array.isArray((button as DropdownNestedButton)?.children)
+    ) {
       return (
         <div
           key={index}
           className={cx('DropDown-menu', {'is-mobile': mobileUI})}
         >
           <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
-            {button.icon ? (
-              <Icon cx={cx} icon={button.icon} className="m-r-xs" />
+            {(button as DropdownNestedButton).icon ? (
+              <Icon
+                cx={cx}
+                icon={(button as DropdownNestedButton).icon}
+                className="m-r-xs"
+              />
             ) : null}
-            <span>{button.label}</span>
+            <span>{(button as DropdownNestedButton).label}</span>
           </li>
-          {button.children.map((child, childIndex) =>
+          {(button as DropdownNestedButton).children!.map((child, childIndex) =>
             this.renderButton(child, `${index}/${childIndex + 1}`)
-          )}
+          ) ?? []}
         </div>
       );
     }

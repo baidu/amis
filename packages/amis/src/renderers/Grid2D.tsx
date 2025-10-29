@@ -3,6 +3,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {Api, SchemaNode, Schema, ActionObject} from 'amis-core';
 import {isVisible} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
+import {AMISSchemaBase} from 'amis-core';
 
 export type GridObject = {
   /**
@@ -36,12 +37,12 @@ export type GridObject = {
   height?: number | string;
 
   /**
-   * 水平展示方式，用于内容宽度比 grid 小的情况，默认是 auto 自动撑满
+   * 水平展示方式，用于内容宽度比 grid 小的情况，默认为 auto 自动撑满
    */
   align?: 'left' | 'right' | 'center' | 'auto';
 
   /**
-   * 垂直展示方式，用于内容高度比 grid 小的情况，默认是 auto 自动撑满
+   * 垂直展示方式，用于内容高度比 grid 小的情况，默认为 auto 自动撑满
    */
   valign?: 'top' | 'bottom' | 'middle' | 'auto';
 
@@ -57,19 +58,22 @@ export type Grid = GridObject & SchemaObject;
  * 二维布局渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/grid-2d
  */
-export interface Grid2DSchema extends BaseSchema {
+/**
+ * 二维网格布局组件，用于二维坐标网格排布内容。
+ */
+export interface AMISGrid2DSchema extends AMISSchemaBase {
   /**
    * 指定为 grid-2d 展示类型
    */
   type: 'grid-2d';
 
   /**
-   * 列数量，默认是 12
+   * 列数量，默认为 12
    */
   cols?: number;
 
   /**
-   * grid 2d 容器宽度，默认是 auto
+   * grid 2d 容器宽度，默认为 auto
    */
   width?: number | string | 'auto';
 
@@ -96,7 +100,7 @@ export interface Grid2DSchema extends BaseSchema {
 
 export interface Grid2DProps
   extends RendererProps,
-    Omit<Grid2DSchema, 'type' | 'className'> {
+    Omit<AMISGrid2DSchema, 'type' | 'className'> {
   itemRender?: (
     item: any,
     key: number,

@@ -10,7 +10,7 @@ export class LinkPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'link';
-  $schema = '/schemas/LinkSchema.json';
+  $schema = '/schemas/AMISLinkSchema.json';
 
   // 组件名称
   name = '链接';

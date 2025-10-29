@@ -8,9 +8,9 @@ import React from 'react';
 import find from 'lodash/find';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {
-  BaseTransferControlSchema,
+  AMISTransferSchemaBase,
   BaseTransferRenderer,
-  TransferControlSchema
+  AMISTransferSchema
 } from './Transfer';
 import {TabsTransfer} from 'amis-ui';
 import {Option, optionValueCompare} from 'amis-core';
@@ -33,8 +33,8 @@ import {matchSorter} from 'match-sorter';
  * TabsTransfer
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tabs-transfer
  */
-export interface TabsTransferControlSchema
-  extends BaseTransferControlSchema,
+export interface AMISTabsTransferSchema
+  extends AMISTransferSchemaBase,
     SpinnerExtraProps {
   type: 'tabs-transfer';
 }
@@ -42,7 +42,7 @@ export interface TabsTransferControlSchema
 export interface TabsTransferProps
   extends OptionsControlProps,
     Omit<
-      TabsTransferControlSchema,
+      AMISTabsTransferSchema,
       | 'type'
       | 'options'
       | 'inputClassName'

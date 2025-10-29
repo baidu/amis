@@ -20,7 +20,7 @@ export class SwitchContainerPlugin extends LayoutBasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'switch-container';
-  $schema = '/schemas/SwitchContainerSchema.json';
+  $schema = '/schemas/AMISSwitchContainerSchema.json';
 
   // 组件名称
   name = '状态容器';

@@ -23,7 +23,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
   static id = 'ChainedSelectControlPlugin';
   // 关联渲染器名字
   rendererName = 'chained-select';
-  $schema = '/schemas/ChainedSelectControlSchema.json';
+  $schema = '/schemas/AMISChainedSelectSchema.json';
 
   // 组件名称
   name = '链式下拉框';

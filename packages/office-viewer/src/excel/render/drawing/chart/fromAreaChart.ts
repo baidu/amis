@@ -4,10 +4,11 @@ import {calcPercentStacked} from './calcPercentStacked';
 import {getStack} from './getStack';
 import {getData} from './getData';
 import {buildLabel} from './buildLabel';
+import type {SeriesOption} from 'echarts';
 
 export function fromAreaChart(workbook: Workbook, areaChart: CT_AreaChart) {
   const categories: string[] = [];
-  const series = [];
+  const series: SeriesOption[] = [];
   const ser = areaChart.ser || [];
   let isPercentStacked = false;
   for (const areaSeries of ser) {

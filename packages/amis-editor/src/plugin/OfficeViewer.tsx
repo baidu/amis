@@ -9,7 +9,7 @@ export class OfficeViewerPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'office-viewer';
-  $schema = '/schemas/OfficeViewerSchema.json';
+  $schema = '/schemas/AMISOfficeViewerSchema.json';
 
   // 组件名称
   name = '文档预览';

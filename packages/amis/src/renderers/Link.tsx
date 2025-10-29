@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {autobind, createObject, getPropValue} from 'amis-core';
 import {filter} from 'amis-core';
@@ -10,14 +10,17 @@ import {Link} from 'amis-ui';
  * Link 链接展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/link
  */
-export interface LinkSchema extends BaseSchema {
+/**
+ * 链接组件，用于跳转或触发动作。支持外链、内部路由与事件。
+ */
+export interface AMISLinkSchema extends AMISSchemaBase {
   /**
-   * 指定为 link 链接展示控件
+   * 指定为 link 组件
    */
   type: 'link';
 
   /**
-   * 是否新窗口打开。
+   * 是否新窗口打开
    */
   blank?: boolean;
 
@@ -27,7 +30,7 @@ export interface LinkSchema extends BaseSchema {
   href?: string;
 
   /**
-   * 链接内容，如果不配置将显示链接地址。
+   * 链接内容
    */
   body?: SchemaTpl;
 
@@ -54,7 +57,7 @@ export interface LinkSchema extends BaseSchema {
 
 export interface LinkProps
   extends RendererProps,
-    Omit<LinkSchema, 'type' | 'className'> {}
+    Omit<AMISLinkSchema, 'type' | 'className'> {}
 
 export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {

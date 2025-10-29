@@ -17,7 +17,7 @@ export class MappingPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'mapping';
-  $schema = '/schemas/MappingSchema.json';
+  $schema = '/schemas/AMISMappingSchema.json';
 
   // 组件名称
   name = '映射';

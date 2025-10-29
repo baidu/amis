@@ -2,20 +2,28 @@
  * @file 用来展示用户头像
  */
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {
+  AMISBadgeBase,
+  AMISSchemaBase,
+  Renderer,
+  RendererProps
+} from 'amis-core';
 import {Avatar} from 'amis-ui';
 import {BadgeObject, withBadge} from 'amis-ui';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, AMISClassName} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter, autobind} from 'amis-core';
 
-export interface AvatarSchema extends BaseSchema {
+/**
+ * 头像组件，用于展示用户头像或图标。
+ */
+export interface AMISAvatarSchema extends AMISSchemaBase {
   // 指定类型
   type: 'avatar';
 
   /**
    * 类名
    */
-  className?: SchemaClassName;
+  className?: AMISClassName;
 
   /**
    * 自定义样式
@@ -27,7 +35,7 @@ export interface AvatarSchema extends BaseSchema {
   /**
    * 角标
    */
-  badge?: BadgeObject;
+  badge?: AMISBadgeBase;
 
   /**
    * 图片地址
@@ -85,14 +93,14 @@ export interface AvatarSchema extends BaseSchema {
   crossOrigin: 'anonymous' | 'use-credentials' | '';
 
   /**
-   * 图片加载失败的是否默认处理，字符串函数
+   * 图片加载失败的是否默认处理
    */
   onError?: string;
 }
 
 export interface AvatarProps
   extends RendererProps,
-    Omit<AvatarSchema, 'type' | 'className'> {}
+    Omit<AMISAvatarSchema, 'type' | 'className'> {}
 
 export class AvatarField extends React.Component<AvatarProps> {
   @autobind

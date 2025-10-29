@@ -18,7 +18,7 @@ export class ExcelControlPlugin extends BasePlugin {
   static id = 'ExcelControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-excel';
-  $schema = '/schemas/ExcelControlSchema.json';
+  $schema = '/schemas/AMISInputExcelSchema.json';
 
   // 组件名称
   name = '上传 Excel';

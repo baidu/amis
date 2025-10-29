@@ -1077,7 +1077,9 @@ describe('18. inner events', () => {
               actions: [
                 {
                   actionType: 'custom',
-                  script: mockFn
+                  args: {
+                    script: mockFn
+                  }
                 }
               ]
             }

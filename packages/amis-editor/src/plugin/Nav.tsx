@@ -21,7 +21,7 @@ export class NavPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'nav';
-  $schema = '/schemas/NavSchema.json';
+  $schema = '/schemas/AMISNavSchema.json';
 
   // 组件名称
   name = '导航';

@@ -17,7 +17,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, tipedLabel} from 'amis-editor-core';
 
-import type {FormControlProps} from 'amis-core';
+import type {AMISExpression, FormControlProps} from 'amis-core';
 import type {SchemaExpression} from 'amis';
 
 export interface BadgeControlProps extends FormControlProps {
@@ -54,7 +54,7 @@ export interface BadgeControlProps extends FormControlProps {
   /**
    * 动态控制是否显示
    */
-  visibleOn?: SchemaExpression;
+  visibleOn?: AMISExpression;
 
   /**
    * 是否显示动画

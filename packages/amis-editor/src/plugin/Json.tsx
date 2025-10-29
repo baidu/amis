@@ -6,7 +6,7 @@ export class JsonPlugin extends BasePlugin {
   static id = 'JsonPlugin';
   // 关联渲染器名字
   rendererName = 'json';
-  $schema = '/schemas/JsonSchema.json';
+  $schema = '/schemas/AMISJsonSchema.json';
 
   // 组件名称
   name = 'JSON展示';

@@ -6,7 +6,7 @@ export class HiddenControlPlugin extends BasePlugin {
   static id = 'HiddenControlPlugin';
   // 关联渲染器名字
   rendererName = 'hidden';
-  $schema = '/schemas/HiddenControlSchema.json';
+  $schema = '/schemas/AMISHiddenSchema.json';
 
   // 组件名称
   name = '隐藏域';

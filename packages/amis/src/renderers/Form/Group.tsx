@@ -1,24 +1,20 @@
 import React from 'react';
-import {filter, Renderer, RendererProps} from 'amis-core';
+import {AMISFormItem, filter, Renderer, RendererProps} from 'amis-core';
 import {isVisible, getWidthRate, makeHorizontalDeeper} from 'amis-core';
 import {FormBaseControl, FormItemWrap} from 'amis-core';
 
-import {
-  FormBaseControlSchema,
-  SchemaClassName,
-  SchemaObject
-} from '../../Schema';
+import {FormBaseControlSchema, AMISClassName, SchemaObject} from '../../Schema';
 import {FormHorizontal} from 'amis-core';
 import {reaction} from 'mobx';
 
-export type GroupSubControl = SchemaObject & {
+export type AMISGroupSubItem = SchemaObject & {
   /**
    * 列类名
    */
-  columnClassName?: SchemaClassName;
+  columnClassName?: AMISClassName;
 
   /**
-   * 宽度占用比率。在某些容器里面有用比如 group
+   * 宽度占用比率
    */
   columnRatio?: number | 'auto';
 
@@ -32,13 +28,16 @@ export type GroupSubControl = SchemaObject & {
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/group
  */
-export interface GroupControlSchema extends FormBaseControlSchema {
+/**
+ * Group 表单集合渲染器，支持多个表单项横向或纵向布局，子项可配置名称、宽度比例及样式，用于在一行或一列展示多个表单控件。
+ */
+export interface AMISGroupSchema extends AMISFormItem {
   type: 'group';
 
   /**
    * FormItem 集合
    */
-  body: Array<GroupSubControl>;
+  body: Array<AMISGroupSubItem>;
 
   /**
    * 间隔
@@ -46,23 +45,23 @@ export interface GroupControlSchema extends FormBaseControlSchema {
   gap?: 'xs' | 'sm' | 'normal';
 
   /**
-   * 配置时垂直摆放还是左右摆放。
+   * 配置时垂直摆放还是左右摆放
    */
   direction?: 'horizontal' | 'vertical';
 
   /**
-   * 配置子表单项默认的展示方式。
+   * 子表单项展示方式
    */
   subFormMode?: 'normal' | 'inline' | 'horizontal';
   /**
-   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   * 水平排版宽度占比
    */
   subFormHorizontal?: FormHorizontal;
 }
 
 export interface InputGroupProps
   extends RendererProps,
-    Omit<GroupControlSchema, 'type' | 'className'> {}
+    Omit<AMISGroupSchema, 'type' | 'className'> {}
 
 @Renderer({
   type: 'group'

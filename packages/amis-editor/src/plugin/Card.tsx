@@ -23,7 +23,7 @@ export class CardPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'card';
-  $schema = '/schemas/CardSchema.json';
+  $schema = '/schemas/AMISCardSchema.json';
 
   // 组件名称
   name = '卡片';
@@ -208,7 +208,7 @@ export class CardPlugin extends BasePlugin {
           renderer={info.renderer}
           multifactor
           key={id}
-          $schema="/schemas/CardBodyField.json"
+          $schema="/schemas/AMISCardBodyFieldSchema.json"
           hostId={info.id}
           memberIndex={index}
           name={`${`字段${index + 1}`}`}

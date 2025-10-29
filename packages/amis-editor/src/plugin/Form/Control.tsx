@@ -10,7 +10,7 @@ export class ControlPlugin extends BasePlugin {
   static id = 'ControlPlugin';
   // 关联渲染器名字
   rendererName = 'control';
-  $schema = '/schemas/FormControlSchema.json';
+  $schema = '/schemas/AMISFormControlSchema.json';
 
   // 组件名称
   name = '表单项容器';

@@ -6,6 +6,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {
+  AMISFormSchema,
+  AMISSchema,
   RendererProps,
   difference,
   getPropValue,
@@ -17,75 +19,42 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
 import {Overlay} from 'amis-core';
-import {PopOver} from 'amis-core';
+import {PopOver, AMISSchemaCollection} from 'amis-core';
 import omit from 'lodash/omit';
-import {Icon} from 'amis-ui';
-import {SchemaCollection, SchemaObject} from '../Schema';
+import {AMISFormBase} from 'packages/amis-core/lib';
 
-export type SchemaQuickEditObject =
+export interface AMISQuickEditObject {
   /**
-   * 直接就是个表单项
+   * 是否立即保存
    */
-  | ({
-      /**
-       * 是否立即保存
-       */
-      saveImmediately?: boolean;
-
-      /**
-       * 接口保存失败后，是否重置组件编辑状态
-       */
-      resetOnFailed?: boolean;
-
-      /**
-       * 配置刷新目标，默认就会刷新所属 crud 组件，
-       * 如果不需要，请配置为 "none"
-       */
-      reload?: string;
-
-      /**
-       * 是否直接内嵌
-       */
-      mode?: 'inline';
-      /**
-       * 配置按钮图标
-       */
-      icon?: string;
-    } & SchemaObject)
+  saveImmediately?: boolean;
 
   /**
-   * 表单项集合
+   * 接口保存失败后，是否重置组件编辑状态
    */
-  | {
-      /**
-       * 是否立即保存
-       */
-      saveImmediately?: boolean;
+  resetOnFailed?: boolean;
 
-      /**
-       * 接口保存失败后，是否重置组件编辑状态
-       */
-      resetOnFailed?: boolean;
+  /**
+   * 配置刷新目标，默认就会刷新所属 crud 组件
+   * 如果不需要，请配置为 "none"
+   */
+  reload?: string;
 
-      /**
-       * 配置刷新目标，默认就会刷新所属 crud 组件，
-       * 如果不需要，请配置为 "none"
-       */
-      reload?: string;
+  /**
+   * 是否直接内嵌
+   */
+  mode?: 'inline' | 'dialog' | 'popOver' | 'append';
 
-      /**
-       * 是否直接内嵌
-       */
-      mode?: 'inline';
-      /**
-       * 配置按钮图标
-       */
-      icon?: string;
+  /**
+   * 配置按钮图标
+   */
+  icon?: string;
 
-      body: SchemaCollection;
-    };
-
-export type SchemaQuickEdit = boolean | SchemaQuickEditObject;
+  body?: AMISSchemaCollection;
+}
+export type SchemaQuickEditObject = AMISQuickEditObject;
+export type AMISQuickEdit = boolean | AMISQuickEditObject;
+export type SchemaQuickEdit = AMISQuickEdit;
 
 export interface QuickEditConfig {
   saveImmediately?: boolean;
@@ -424,9 +393,9 @@ export const HocQuickEdit =
         );
       }
 
-      buildSchema() {
+      buildSchema(): AMISSchemaCollection {
         const {quickEdit, name, label, translate: __, id} = this.props;
-        let schema;
+        let schema: AMISSchema | undefined;
         const isline = (quickEdit as QuickEditConfig).mode === 'inline';
 
         if (quickEdit === true) {
@@ -453,7 +422,7 @@ export const HocQuickEdit =
                 {
                   ...omit(quickEdit, 'isFormMode'),
                   label: false
-                }
+                } as any
               ]
             };
           } else if (
@@ -483,7 +452,7 @@ export const HocQuickEdit =
                   ...(isline ? {id: id} : {}),
                   ...quickEdit,
                   mode: undefined
-                }
+                } as any
               ]
             };
           }
@@ -493,8 +462,8 @@ export const HocQuickEdit =
 
         if (schema) {
           schema = {
-            ...schema,
-            wrapWithPanel: !(isline || isFormMode),
+            ...(schema as AMISFormSchema),
+            wrapWithPanel: !!!(isline || isFormMode),
             actions:
               isline || isFormMode
                 ? []

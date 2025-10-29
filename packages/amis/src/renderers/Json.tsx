@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
 
 import type {InteractionProps} from 'react-json-view';
 import {autobind, getPropValue, noop} from 'amis-core';
@@ -14,12 +14,11 @@ export const JsonView = React.lazy(() =>
   import('react-json-view').then(importLazyComponent)
 );
 /**
- * JSON 数据展示控件。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/json
+ * JSON 数据查看/编辑控件。用于展示或编辑 JSON 数据，支持复制、折叠、键排序等。
  */
-export interface JsonSchema extends BaseSchema {
+export interface AMISJsonSchema extends AMISSchemaBase {
   /**
-   * 指定为Json展示类型
+   * 指定为 json 组件
    */
   type: 'json' | 'static-json';
 
@@ -69,12 +68,12 @@ export interface JsonSchema extends BaseSchema {
   sortKeys?: boolean;
 
   /**
-   * 设置字符串的最大展示长度，超出长度阈值的字符串将被截断，点击value可切换字符串展示方式，默认为false
+   * 设置字符串的最大展示长度
    */
   ellipsisThreshold?: number | false;
 }
 
-export interface JSONProps extends RendererProps, JsonSchema {
+export interface JSONProps extends RendererProps, AMISJsonSchema {
   levelExpand: number;
   className?: string;
   placeholder?: string;

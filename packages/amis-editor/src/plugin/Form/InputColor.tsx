@@ -59,7 +59,7 @@ export class ColorControlPlugin extends BasePlugin {
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-color';
-  $schema = '/schemas/ColorControlSchema.json';
+  $schema = '/schemas/AMISInputColorSchema.json';
 
   // 组件名称
   name = '颜色框';

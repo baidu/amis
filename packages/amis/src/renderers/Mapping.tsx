@@ -1,12 +1,18 @@
 import React from 'react';
-import {createObject, Renderer, RendererEnv, RendererProps} from 'amis-core';
+import {
+  AMISSchemaBase,
+  createObject,
+  Renderer,
+  RendererEnv,
+  RendererProps,
+  AMISSchemaCollection
+} from 'amis-core';
 import {Api, Payload} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,
   SchemaTokenizeableString,
-  SchemaTpl,
-  SchemaCollection
+  SchemaTpl
 } from '../Schema';
 import {withStore} from 'amis-ui';
 import {flow, Instance, types} from 'mobx-state-tree';
@@ -23,46 +29,49 @@ import {
  * Mapping 映射展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/mapping
  */
-export interface MappingSchema extends BaseSchema {
+/**
+ * 数据映射组件，用于将输入值映射成标签/文本展示。
+ */
+export interface AMISMappingSchema extends AMISSchemaBase {
   /**
-   * 指定为映射展示控件
+   * 指定为 mapping 组件
    */
   type: 'map' | 'mapping';
 
   /**
-   * 关联字段名。
+   * 关联的字段名
    */
   name?: string;
 
   /**
-   * 配置映射规则，值可以使用模板语法。当 key 为 * 时表示 else，也就是说值没有映射到任何规则时用 * 对应的值展示。
+   * 映射规则配置
    */
   map?: {
     [propName: string]: SchemaTpl;
   };
 
   /**
-   * map或source为对象数组时，作为value值的字段名
+   * 当 map 或 source 为对象数组时，作为 value 值的字段名
    */
   valueField?: string;
 
   /**
-   * map或source为对象数组时，作为label值的字段名
+   * 当 map 或 source 为对象数组时，作为 label 值的字段名
    */
   labelField?: string;
 
   /**
-   * 自定义渲染映射值，支持html或schema
+   * 自定义渲染映射值的 Schema 配置
    */
-  itemSchema?: SchemaCollection;
+  itemSchema?: AMISSchemaCollection;
 
   /**
-   * 如果想远程拉取字典，请配置 source 为接口。
+   * 远程数据源配置
    */
   source?: SchemaApi | SchemaTokenizeableString;
 
   /**
-   * 占位符
+   * 占位符文本
    */
   placeholder?: string;
 }
@@ -144,7 +153,7 @@ export type IStore = Instance<typeof Store>;
 
 export interface MappingProps
   extends Omit<RendererProps, 'store'>,
-    Omit<MappingSchema, 'type' | 'className'> {
+    Omit<AMISMappingSchema, 'type' | 'className'> {
   store: IStore;
   renderValue: (map: any, key: any) => String;
   renderViewValue: (value: any, key: any) => React.ReactNode;

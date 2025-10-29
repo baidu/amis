@@ -10,7 +10,7 @@ import {
 import {getRendererByName} from '../factory';
 
 export interface ICmptAction extends ListenerAction {
-  actionType: string;
+  actionType: 'setValue' | 'reload' | 'validateFormItem';
   args: {
     resetPage?: boolean; // reload时，是否重置分页
     path?: string; // setValue时，目标变量的path

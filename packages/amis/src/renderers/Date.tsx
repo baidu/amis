@@ -10,14 +10,18 @@ import moment, {Moment} from 'moment';
 import 'moment-timezone';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * Date 展示渲染器。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/date
  */
-export interface DateSchema extends BaseSchema {
+/**
+ * 日期展示组件，用于格式化显示日期/时间。支持多格式与相对时间。
+ */
+export interface AMISDateSchema extends AMISSchemaBase {
   /**
-   * 指定为日期展示类型
+   * 指定为 date 组件
    */
   type:
     | 'date'
@@ -28,12 +32,12 @@ export interface DateSchema extends BaseSchema {
     | 'static-time';
 
   /**
-   * 展示的时间格式，参考 moment 中的格式说明。
+   * 展示的时间格式
    */
   format?: string;
 
   /**
-   * 展示的时间格式，参考 moment 中的格式说明。（新：同format）
+   * 展示的时间格式（新：同format）
    */
   displayFormat?: string;
 
@@ -43,17 +47,17 @@ export interface DateSchema extends BaseSchema {
   placeholder?: string;
 
   /**
-   * 值的时间格式，参考 moment 中的格式说明。
+   * 值的时间格式
    */
   valueFormat?: string;
 
   /**
-   * 显示成相对时间，比如1分钟前
+   * 显示成相对时间
    */
   fromNow?: boolean;
 
   /**
-   * 更新频率， 默认为1分钟
+   * 更新频率
    */
   updateFrequency?: number;
 
@@ -65,7 +69,7 @@ export interface DateSchema extends BaseSchema {
 
 export interface DateProps
   extends RendererProps,
-    Omit<DateSchema, 'type' | 'className'> {}
+    Omit<AMISDateSchema, 'type' | 'className'> {}
 
 export interface DateState {
   random?: number;

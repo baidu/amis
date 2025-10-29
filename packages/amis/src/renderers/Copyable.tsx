@@ -12,14 +12,14 @@ import {filter} from 'amis-core';
 import {Icon, TooltipWrapper} from 'amis-ui';
 import {SchemaIcon, SchemaTpl} from '../Schema';
 
-export interface SchemaCopyableObject {
+export interface AMISCopyableObject {
   /**
-   * 可以配置图标
+   * 配置图标
    */
   icon?: SchemaIcon;
 
   /**
-   * 配置复制时的内容模板。
+   * 配置复制时的内容模板
    */
   content?: SchemaTpl;
 
@@ -28,8 +28,11 @@ export interface SchemaCopyableObject {
    */
   tooltip?: string;
 }
+export type AMISCopyable = boolean | AMISCopyableObject;
 
-export type SchemaCopyable = boolean | SchemaCopyableObject;
+// 保留原来的叫法
+export type SchemaCopyableObject = AMISCopyableObject;
+export type SchemaCopyable = AMISCopyable;
 
 export interface CopyableProps extends RendererProps {
   name?: string;
@@ -58,7 +61,7 @@ export const HocCopyable =
           env,
           tooltipContainer
         } = this.props;
-        const copyable = this.props.copyable as SchemaCopyableObject;
+        const copyable = this.props.copyable as AMISCopyableObject;
 
         if (copyable && !noHoc) {
           const content = filter(

@@ -4,7 +4,8 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  getVariable
+  getVariable,
+  AMISFormItem
 } from 'amis-core';
 import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
@@ -15,22 +16,21 @@ import {BaseSchema, FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 /**
- * Radio 单选框。
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/radios
+ * 单选框组件，用于单选场景。支持多个选项中的唯一选择。
  */
-export interface RadioControlSchema extends FormBaseControlSchema {
+export interface AMISRadioSchema extends AMISFormItem {
   /**
-   * 指定为多行文本输入框
+   * 指定为 radio 组件
    */
   type: 'radio';
 
   /**
-   * 勾选值
+   * 选中时的值
    */
   trueValue?: boolean | string | number;
 
   /**
-   * 未勾选值
+   * 未选中时的值
    */
   falseValue?: boolean | string | number;
 
@@ -40,17 +40,25 @@ export interface RadioControlSchema extends FormBaseControlSchema {
   option?: string;
 
   /**
-   * 角标
+   * 角标配置
    */
   badge?: BadgeObject;
+
+  /**
+   * 是否支持部分选中
+   */
   partial?: boolean;
+
+  /**
+   * 选项类型
+   */
   optionType?: 'default' | 'button';
 }
 
 export interface RadioProps
   extends FormControlProps,
     Omit<
-      RadioControlSchema,
+      AMISRadioSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   checked?: boolean;
@@ -104,7 +112,8 @@ export default class RadioControl extends React.Component<RadioProps, any> {
       partial,
       optionType,
       checked,
-      labelClassName
+      labelClassName,
+      classnames: cx
     } = this.props;
 
     return (
@@ -118,7 +127,7 @@ export default class RadioControl extends React.Component<RadioProps, any> {
         partial={partial}
         optionType={optionType}
         checked={checked}
-        labelClassName={labelClassName}
+        labelClassName={cx(labelClassName)}
       >
         {option ? render('option', option) : null}
       </Checkbox>
@@ -141,7 +150,8 @@ export default class RadioControl extends React.Component<RadioProps, any> {
       optionType,
       checked,
       labelClassName,
-      classPrefix: ns
+      classPrefix: ns,
+      classnames: cx
     } = this.props;
 
     return (
@@ -157,7 +167,7 @@ export default class RadioControl extends React.Component<RadioProps, any> {
           partial={partial}
           optionType={optionType}
           checked={checked}
-          labelClassName={labelClassName}
+          labelClassName={cx(labelClassName)}
         >
           {option ? render('option', option) : null}
         </Checkbox>

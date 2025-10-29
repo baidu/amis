@@ -3,9 +3,11 @@ import {
   Renderer,
   RendererProps,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  AMISSchemaBase,
+  AMISSchemaCollection
 } from 'amis-core';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {BaseSchema} from '../Schema';
 import {filter} from 'amis-core';
 import {escapeHtml} from 'amis-core';
 import {buildStyle} from 'amis-core';
@@ -15,9 +17,12 @@ import type {
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 
-export interface TooltipWrapperSchema extends BaseSchema {
+/**
+ * 工具提示包装器，为子元素提供悬浮提示。支持触发方式与位置。
+ */
+export interface AMISTooltipWrapperSchema extends AMISSchemaBase {
   /**
-   * 文字提示容器
+   * 指定为 tooltip-wrapper 组件
    */
   type: 'tooltip-wrapper';
 
@@ -27,7 +32,7 @@ export interface TooltipWrapperSchema extends BaseSchema {
   title?: string;
 
   /**
-   * 文字提示内容，兼容 tooltip，但建议通过 content 来实现提示内容
+   * 文字提示内容
    */
   content?: string;
 
@@ -37,7 +42,7 @@ export interface TooltipWrapperSchema extends BaseSchema {
   tooltip?: string;
 
   /**
-   * 文字提示浮层出现位置，默认为top
+   * 文字提示浮层出现位置
    */
   placement?: 'top' | 'right' | 'bottom' | 'left';
 
@@ -57,29 +62,28 @@ export interface TooltipWrapperSchema extends BaseSchema {
   disabled?: boolean;
 
   /**
-   * 浮层触发方式，默认为hover
+   * 浮层触发方式
    */
   trigger?: Trigger | Array<Trigger>;
 
   /**
-   * 浮层延迟显示时间, 单位 ms
+   * 浮层延迟显示时间
    */
-
   mouseEnterDelay?: number;
   /**
-   * 浮层延迟隐藏时间, 单位 ms
+   * 浮层延迟隐藏时间
    */
   mouseLeaveDelay?: number;
 
   /**
-   * 是否点击非内容区域关闭提示，默认为true
+   * 是否点击非内容区域关闭提示
    */
   rootClose?: boolean;
 
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
    * 内容区包裹标签
@@ -87,12 +91,12 @@ export interface TooltipWrapperSchema extends BaseSchema {
   wrapperComponent: string;
 
   /**
-   * 内容区是否内联显示，默认为false
+   * 内容区是否内联显示
    */
   inline?: boolean;
 
   /**
-   * 主题样式， 默认为light
+   * 主题样式
    */
   tooltipTheme?: 'light' | 'dark';
 
@@ -104,7 +108,7 @@ export interface TooltipWrapperSchema extends BaseSchema {
   };
 
   /**
-   * 是否可以移入浮层中, 默认true
+   * 是否可移入浮层中, 默认true
    */
   enterable?: boolean;
 

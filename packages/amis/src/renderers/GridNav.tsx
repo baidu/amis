@@ -1,5 +1,5 @@
 import React from 'react';
-import {ClassName, Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, ClassName, Renderer, RendererProps} from 'amis-core';
 import {autobind, getPropValue, BaseSchemaWithoutType} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {
@@ -14,7 +14,7 @@ import {BadgeObject} from 'amis-ui';
 import {handleAction} from 'amis-core';
 import {validations} from 'amis-core';
 
-export interface ListItemSchema extends BaseSchemaWithoutType {
+export interface ListItemSchema extends AMISSchemaBase {
   /**
    * 单项点击事件
    */
@@ -55,7 +55,13 @@ export interface ListItemSchema extends BaseSchemaWithoutType {
  * List 列表展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
-export interface ListSchema extends BaseSchema {
+/**
+ * 网格导航组件，用于宫格样式的导航入口。支持图标与描述。
+ */
+/**
+ * 网格导航组件，用于宫格样式的导航入口。支持图标与描述。
+ */
+export interface AMISGridNavSchema extends AMISSchemaBase {
   /**
    * 指定为 List 列表展示控件。
    */
@@ -126,7 +132,7 @@ export interface Column {
 
 export interface ListProps
   extends RendererProps,
-    Omit<ListSchema, 'type' | 'className'> {
+    Omit<AMISGridNavSchema, 'type' | 'className'> {
   handleClick: (item?: ListItemSchema) => void;
 }
 

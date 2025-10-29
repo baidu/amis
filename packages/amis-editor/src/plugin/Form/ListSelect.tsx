@@ -26,7 +26,7 @@ export class ListControlPlugin extends BasePlugin {
   static id = 'ListControlPlugin';
   // 关联渲染器名字
   rendererName = 'list-select';
-  $schema = '/schemas/ListControlSchema.json';
+  $schema = '/schemas/AMISListSelectSchema.json';
 
   // 组件名称
   name = '列表选择';

@@ -25,7 +25,7 @@ export class DrawerPlugin extends BasePlugin {
   static id = 'DrawerPlugin';
   // 关联渲染器名字
   rendererName = 'drawer';
-  $schema = '/schemas/DrawerSchema.json';
+  $schema = '/schemas/AMISDrawerSchema.json';
 
   // 组件名称
   name = '抽屉式弹框';
@@ -409,7 +409,7 @@ export class DrawerPlugin extends BasePlugin {
       for (const key in data) {
         if (!['&'].includes(key)) {
           dataSchema[key] = {
-            type: typeof data[key] ?? 'string', // 默认文本，不好确定类型
+            type: typeof data[key] || 'string', // 默认文本，不好确定类型
             title: key
           };
         }

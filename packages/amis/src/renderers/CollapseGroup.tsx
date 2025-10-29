@@ -7,9 +7,11 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   setThemeClassName,
-  CustomStyle
+  CustomStyle,
+  AMISSchemaCollection,
+  AMISSchemaBase
 } from 'amis-core';
-import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
+import {BaseSchema, SchemaObject} from '../Schema';
 import {CollapseGroup} from 'amis-ui';
 import cx from 'classnames';
 
@@ -17,9 +19,12 @@ import cx from 'classnames';
  * CollapseGroup 折叠渲染器，格式说明。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */
-export interface CollapseGroupSchema extends BaseSchema {
+/**
+ * 折叠面板组组件，用于管理多个折叠面板。支持手风琴模式。
+ */
+export interface AMISCollapseGroupSchema extends AMISSchemaBase {
   /**
-   * 指定为折叠器类型
+   * 指定为 collapse-group 组件
    */
   type: 'collapse-group';
 
@@ -46,16 +51,16 @@ export interface CollapseGroupSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: AMISSchemaCollection;
 
   /**
-   * 当Collapse作为Form组件的子元素时，开启该属性后组件样式设置为FieldSet组件的样式，默认开启
+   * 当Collapse作为Form组件的子元素时，开启该属性后组件样式设置为FieldSet组件的样式
    */
   enableFieldSetStyle?: boolean;
 }
 export interface CollapseGroupProps
   extends RendererProps,
-    Omit<CollapseGroupSchema, 'type' | 'className'> {
+    Omit<AMISCollapseGroupSchema, 'type' | 'className'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 

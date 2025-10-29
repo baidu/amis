@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import {matchSorter} from 'match-sorter';
-import {FormItem, FormControlProps, autobind} from 'amis-core';
+import {FormItem, FormControlProps, autobind, AMISFormItem} from 'amis-core';
 import {
   Modal,
   Button,
@@ -16,7 +16,7 @@ import find from 'lodash/find';
 import {FormBaseControlSchema} from '../../Schema';
 
 import * as IconSelectStore from './IconSelectStore';
-export interface IconSelectControlSchema extends FormBaseControlSchema {
+export interface AMISIconSelectSchema extends AMISFormItem {
   type: 'icon-select';
 
   placeholder?: string;

@@ -495,7 +495,7 @@ export class TableCellPlugin extends BasePlugin {
     if (renderer.name === 'table-cell') {
       return {
         name: schema.label ? `<${schema.label}>列` : '匿名列',
-        $schema: '/schemas/TableColumn.json',
+        $schema: '/schemas/AMISTableColumn.json',
         multifactor: true,
         wrapperResolve: (dom: HTMLTableCellElement, props: RendererProps) => {
           const index = props.colIndex;

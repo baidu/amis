@@ -19,57 +19,54 @@ import {filter} from 'amis-core';
 import {CustomStyle, setThemeClassName} from 'amis-core';
 // import css
 // import 'video-react/dist/video-react.css';
-import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
+import {BaseSchema, AMISClassName, SchemaUrlPath} from '../Schema';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
- * 视频播放器
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/video
+ * 视频播放器组件，用于播放视频内容。支持封面、自动播放、倍速、弹幕等配置。
  */
-export interface VideoSchema extends BaseSchema {
+export interface AMISVideoSchema extends AMISSchemaBase {
   /**
-   * 指定为视频类型
+   * 指定为 video 组件
    */
   type: 'video';
 
   /**
-   * 是否自动播放
+   * 是否自动播放视频
    */
   autoPlay?: boolean;
 
   /**
-   * 如果显示切帧，通过此配置项可以控制每行显示多少帧
+   * 切帧显示时每行显示的帧数
    */
   columnsCount?: number;
 
   /**
-   * 设置后，可以显示切帧.点击帧的时候会将视频跳到对应时间。
-   *
-   * frames: {
-   *  '01:22': 'http://domain/xxx.jpg'
-   * }
+   * 切帧配置
    */
   frames?: {
     [propName: string]: string;
   };
 
   /**
-   * 配置帧列表容器className
+   * 帧列表容器CSS类名
    */
-  framesClassName?: SchemaClassName;
+  framesClassName?: AMISClassName;
 
-  // 用于设置行内样式
+  /**
+   * 自定义样式
+   */
   style?: {
     [propName: string]: any;
   };
 
   /**
-   * 如果是实时的，请标记一下
+   * 是否为实时视频流
    */
   isLive?: boolean;
 
   /**
-   * 点击帧画面时是否跳转视频对应的点
-   *
+   * 点击帧画面时是否跳转到视频对应时间点
    * @default true
    */
   jumpFrame?: boolean;
@@ -85,12 +82,12 @@ export interface VideoSchema extends BaseSchema {
   loop?: boolean;
 
   /**
-   * 配置播放器 className
+   * 播放器容器CSS类名
    */
-  playerClassName?: SchemaClassName;
+  playerClassName?: AMISClassName;
 
   /**
-   * 视频封面地址
+   * 视频封面图片地址
    */
   poster?: SchemaUrlPath;
 
@@ -382,7 +379,7 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
 
 export interface VideoProps
   extends RendererProps,
-    Omit<VideoSchema, 'className'> {
+    Omit<AMISVideoSchema, 'className'> {
   columnsCount: number;
 }
 

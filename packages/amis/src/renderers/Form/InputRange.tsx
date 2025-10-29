@@ -23,6 +23,7 @@ import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
 import type {SchemaTokenizeableString} from '../../Schema';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * Range
@@ -34,7 +35,10 @@ export type FormatValue = MultipleValue | number;
 export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 export type InputRangeRendererEvent = 'change' | 'blur' | 'focus';
 export type InputRangeRendererAction = 'clear';
-export interface RangeControlSchema extends FormBaseControlSchema {
+/**
+ * InputRange 表单滑块组件，支持单滑块和双滑块，配置最小值、最大值、步长、分段、刻度和单位，可展示当前值及标签。
+ */
+export interface AMISInputRangeSchema extends AMISFormItem {
   type: 'input-range';
 
   /**

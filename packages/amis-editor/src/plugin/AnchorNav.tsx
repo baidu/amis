@@ -15,7 +15,7 @@ export class AnchorNavPlugin extends BasePlugin {
   static id = 'AnchorNavPlugin';
   // 关联渲染器名字
   rendererName = 'anchor-nav';
-  $schema = '/schemas/AnchorNavSchema.json';
+  $schema = '/schemas/AMISAnchorNavSchema.json';
 
   // 组件名称
   name = '锚点导航';
@@ -296,7 +296,7 @@ export class AnchorNavPlugin extends BasePlugin {
                     type={info.type}
                     plugin={info.plugin}
                     renderer={info.renderer}
-                    $schema="/schemas/SectionSchema.json"
+                    $schema="/schemas/AMISSectionSchema.json"
                     hostId={info.id}
                     memberIndex={index}
                     name={`${item.props.title || `锚点内容${index + 1}`}`}

@@ -6,7 +6,8 @@ import {
   resolveEventData,
   str2function,
   normalizeDate,
-  getVariable
+  getVariable,
+  AMISFormItem
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -19,54 +20,44 @@ import {supportStatic} from './StaticHoc';
 
 import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
 
-export interface InputDateBaseControlSchema extends FormBaseControlSchema {
-  /**
-   * 指定为日期选择控件
-   */
-  type:
-    | 'input-date'
-    | 'input-datetime'
-    | 'input-time'
-    | 'input-month'
-    | 'input-quarter'
-    | 'input-year';
-
+export interface AMISInputDateSchemaBase extends AMISFormItem {
   /**
    * 是否显示清除按钮
    */
   clearable?: boolean;
 
   /**
-   * 日期存储格式
+   * 存储格式
    */
   format?: string;
 
   /**
-   * 替代format
+   * 存储格式（替代 format）
    */
   valueFormat?: string;
 
   /**
-   * 日期展示格式
+   * 显示格式
    */
   inputFormat?: string;
 
   /**
-   * 日期展示格式(新：替代inputFormat)
+   * 显示格式（新版）
    */
   displayFormat?: string;
+
   /**
-   * 设定是否存储 utc 时间。
+   * 是否存储 UTC 时间
    */
   utc?: boolean;
 
   /**
-   * 是否为内联模式？
+   * 是否为内联模式
    */
   emebed?: boolean;
 
   /**
-   * 边框模式，全边框，还是半边框，或者没边框。
+   * 边框模式
    */
   borderMode?: 'full' | 'half' | 'none';
 
@@ -76,13 +67,12 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
   shortcuts?: string | ShortCuts[];
 
   /**
-   * 字符串函数，用来决定是否禁用某个日期。
-   *
-   * (currentDate: moment.Moment, props: any) => boolean;
+   * 日期禁用函数
    */
   disabledDate?: string;
 
-  /* * 是否禁止输入
+  /**
+   * 是否禁止手动输入
    */
   inputForbid?: boolean;
 }
@@ -91,9 +81,12 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
  * Date日期选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date
  */
-export interface DateControlSchema extends InputDateBaseControlSchema {
+/**
+ * 日期选择器，支持选择日期并自定义显示和存储格式，支持时间禁用、快捷键、边框模式等配置。
+ */
+export interface AMISInputDateSchema extends AMISInputDateSchemaBase {
   /**
-   * 指定为日期选择控件
+   * 指定为 date 组件
    */
   type: 'input-date';
 
@@ -144,7 +137,14 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
  * Datetime日期时间选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/datetime
  */
-export interface DateTimeControlSchema extends InputDateBaseControlSchema {
+/**
+ * InputDate 日期选择控件
+ * 用于表单中选择日期数据。支持设置日期格式、最大/最小日期、选择后自动关闭弹窗等功能，适用于各种需要日期输入的场景。
+ *
+ * @schemaType input-date
+ * @displayName 日期选择器（InputDate）
+ */
+export interface AMISInputDateTimeSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为日期时间选择控件
    */
@@ -204,7 +204,14 @@ export interface DateTimeControlSchema extends InputDateBaseControlSchema {
  * Time 时间选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/time
  */
-export interface TimeControlSchema extends InputDateBaseControlSchema {
+/**
+ * InputTime 时间选择控件
+ * 用于表单中选择时间数据。支持设置时间格式、时间输入范围限制、选择后自动关闭弹窗等功能，适用于各种需要时间输入的场景。
+ *
+ * @schemaType input-time
+ * @displayName 时间选择器（InputTime）
+ */
+export interface AMISInputTimeSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为日期时间选择控件
    */
@@ -249,7 +256,10 @@ export interface TimeControlSchema extends InputDateBaseControlSchema {
  * Month 月份选择控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/Month
  */
-export interface MonthControlSchema extends InputDateBaseControlSchema {
+/**
+ * 时间选择组件，用于表单中选择时间，可设置时间格式、输入范围、自动关闭等功能，适用于需要输入时间的场景。
+ */
+export interface AMISInputMonthSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为月份时间选择控件
    */
@@ -281,7 +291,7 @@ export interface MonthControlSchema extends InputDateBaseControlSchema {
 /**
  * 季度选择控件
  */
-export interface QuarterControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputQuarterSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为月份时间选择控件
    */
@@ -313,7 +323,7 @@ export interface QuarterControlSchema extends InputDateBaseControlSchema {
 /**
  * 年份选择控件
  */
-export interface YearControlSchema extends InputDateBaseControlSchema {
+export interface AMISInputYearSchema extends AMISInputDateSchemaBase {
   /**
    * 指定为月份时间选择控件
    */

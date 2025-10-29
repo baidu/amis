@@ -31,7 +31,13 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   parsePrimitiveQueryString,
-  JSONTraverse
+  JSONTraverse,
+  AMISSchemaBase,
+  AMISSpinnerConfig,
+  AMISApi,
+  AMISLocalSource,
+  AMISExpression,
+  AMISSchemaCollection
 } from 'amis-core';
 import pickBy from 'lodash/pickBy';
 import {Html, PullRefresh, SpinnerExtraProps} from 'amis-ui';
@@ -44,9 +50,8 @@ import {
   SchemaTokenizeableString
 } from '../Schema';
 import {BaseCardsSchema} from './Cards';
-import {BaseListSchema} from './List';
+import {AMISListBase} from './List';
 import {BaseTableSchema2} from './Table2';
-import {SchemaCollection} from '../Schema';
 
 import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
@@ -55,26 +60,26 @@ import isEmpty from 'lodash/isEmpty';
 
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
-export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
+export interface CRUD2CommonSchema extends AMISSchemaBase, AMISSpinnerConfig {
   /**
-   *  指定为 CRUD2 渲染器。
+   * 指定为 crud2 组件
    */
   type: 'crud2';
 
   /**
-   * 指定内容区的展示模式。
+   * 指定内容区的展示模式
    */
   mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list' | 'table2';
 
   /**
    * 初始化数据 API
    */
-  api?: SchemaApi;
+  api?: AMISApi;
 
   /**
-   * 也可以直接从环境变量中读取，但是不太推荐。
+   * 也可以直接从环境变量中读取
    */
-  source?: SchemaTokenizeableString;
+  source?: AMISLocalSource;
 
   /**
    * 静默拉取
@@ -84,15 +89,15 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
    * 设置自动刷新时间
    */
   interval?: number;
-  stopAutoRefreshWhen?: SchemaExpression;
+  stopAutoRefreshWhen?: AMISExpression;
 
   /**
-   * 数据展示模式 无限加载 or 分页
+   * 数据展示模式
    */
   loadType?: 'more' | 'pagination';
 
   /**
-   * 无限加载时，根据此项设置其每页加载数量，可以不限制
+   * 无限加载时，根据此项设置其每页加载数量
    */
   perPage?: number;
 
@@ -102,12 +107,12 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   loadDataOnce?: boolean;
 
   /**
-   * 是否可以选择数据，外部事件动作
+   * 是否可选择数据，外部事件动作
    */
   selectable?: boolean;
 
   /**
-   * 是否可以多选数据，仅当selectable为 true 时生效
+   * 是否可多选数据，仅当selectable为 true 时生效
    */
   multiple?: boolean;
 
@@ -119,17 +124,17 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 快速编辑后用来批量保存的 API
    */
-  quickSaveApi?: SchemaApi;
+  quickSaveApi?: AMISApi;
 
   /**
    * 快速编辑配置成及时保存时使用的 API
    */
-  quickSaveItemApi?: SchemaApi;
+  quickSaveItemApi?: AMISApi;
 
   /**
    * 保存排序的 api
    */
-  saveOrderApi?: SchemaApi;
+  saveOrderApi?: AMISApi;
 
   /**
    * 是否将过滤条件的参数同步到地址栏,默认为true
@@ -164,7 +169,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 顶部区域
    */
-  headerToolbar?: SchemaCollection;
+  headerToolbar?: AMISSchemaCollection;
 
   /**
    * 顶部区域CSS类名
@@ -174,7 +179,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   /**
    * 底部区域
    */
-  footerToolbar?: SchemaCollection;
+  footerToolbar?: AMISSchemaCollection;
 
   /**
    * 底部区域CSS类名
@@ -192,7 +197,7 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   keepItemSelectionOnPageChange?: boolean;
 
   /**
-   * 内容区域占满屏幕剩余空间
+   * 内容区域是否占满屏幕剩余空间
    */
   autoFillHeight?: boolean;
 
@@ -285,13 +290,16 @@ export type CRUD2CardsSchema = CRUD2CommonSchema & {
 
 export type CRUD2ListSchema = CRUD2CommonSchema & {
   mode: 'list';
-} & BaseListSchema;
+} & AMISListBase;
 
 export type CRUD2TableSchema = CRUD2CommonSchema & {
   mode?: 'table2';
 } & BaseTableSchema2;
 
-export type CRUD2Schema = CRUD2CardsSchema | CRUD2ListSchema | CRUD2TableSchema;
+export type AMISCRUD2Schema =
+  | CRUD2CardsSchema
+  | CRUD2ListSchema
+  | CRUD2TableSchema;
 
 export interface CRUD2Props
   extends RendererProps,
@@ -1346,7 +1354,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
     });
   }
 
-  renderToolbar(region: string, toolbar?: SchemaCollection) {
+  renderToolbar(region: string, toolbar?: AMISSchemaCollection) {
     if (!toolbar) {
       return null;
     }

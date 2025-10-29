@@ -2,31 +2,37 @@
  * @file Password
  */
 import React from 'react';
-import {autobind, Renderer, RendererProps} from 'amis-core';
+import {AMISSchemaBase, autobind, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Icon} from 'amis-ui';
 
 /**
  * Password
  */
-export interface PasswordSchema extends BaseSchema {
+/**
+ * 密码展示组件，用于安全显示或校验密码字段。
+ */
+export interface AMISPasswordSchema extends AMISSchemaBase {
   type: 'password';
 
   /**
-  * 打码模式的文本
-  */
+   * 打码模式的文本
+   */
   mosaicText?: string;
 }
 
 export interface PasswordProps
   extends RendererProps,
-    Omit<PasswordSchema, 'type' | 'className'> {}
+    Omit<AMISPasswordSchema, 'type' | 'className'> {}
 
 export interface PasswordState {
   visible: boolean;
 }
 
-export class PasswordField extends React.Component<PasswordProps, PasswordState> {
+export class PasswordField extends React.Component<
+  PasswordProps,
+  PasswordState
+> {
   state = {
     visible: false
   };
@@ -50,10 +56,15 @@ export class PasswordField extends React.Component<PasswordProps, PasswordState>
     return (
       <span className={cx('Password-field', className)} style={style}>
         {this.state.visible ? value : mosaicText}
-        {this.state.visible
-          ? <Icon icon="view" className="icon" onClick={this.toggleVisible} />
-          : <Icon icon="invisible" className="icon" onClick={this.toggleVisible} />
-        }
+        {this.state.visible ? (
+          <Icon icon="view" className="icon" onClick={this.toggleVisible} />
+        ) : (
+          <Icon
+            icon="invisible"
+            className="icon"
+            onClick={this.toggleVisible}
+          />
+        )}
       </span>
     );
   }

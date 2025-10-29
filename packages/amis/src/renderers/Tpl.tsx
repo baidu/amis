@@ -14,15 +14,17 @@ import {escapeHtml} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {buildStyle} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 /**
  * tpl 渲染器
  */
-export interface TplSchema extends BaseSchema {
+/**
+ * 模板组件，用于渲染 HTML/文本模板。支持变量插值与表达式。
+ */
+export interface AMISTplSchema extends AMISSchemaBase {
   /**
-   * 指定为模板渲染器。
-   *
-   * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
+   * 指定为 tpl 组件
    */
   type: 'tpl' | 'html';
 
@@ -32,7 +34,7 @@ export interface TplSchema extends BaseSchema {
   raw?: string;
 
   /**
-   * 是否内联显示？
+   * 是否内联显示
    */
   inline?: boolean;
 
@@ -56,7 +58,7 @@ export interface TplSchema extends BaseSchema {
   testidBuilder?: TestIdBuilder;
 }
 
-export interface TplProps extends RendererProps, TplSchema {
+export interface TplProps extends RendererProps, AMISTplSchema {
   className?: string;
   value?: string;
 }

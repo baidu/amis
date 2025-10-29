@@ -16,7 +16,8 @@ import {
   OptionsControlProps,
   Option,
   toNumber,
-  CustomStyle
+  CustomStyle,
+  AMISSchemaCollection
 } from 'amis-core';
 
 import {Tree as TreeSelector} from 'amis-ui';
@@ -31,11 +32,11 @@ import {autobind, getTreeAncestors, isMobile, createObject} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from 'amis-core';
 import {ActionObject} from 'amis-core';
-import {FormOptionsSchema, SchemaApi, SchemaCollection} from '../../Schema';
+import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
-import {TooltipWrapperSchema} from '../TooltipWrapper';
+import {AMISTooltipWrapperSchema} from '../TooltipWrapper';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISFormItemWithOptions, TestIdBuilder} from 'amis-core';
 
 type NodeBehaviorType = 'unfold' | 'check';
 
@@ -43,10 +44,12 @@ type NodeBehaviorType = 'unfold' | 'check';
  * Tree 下拉选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree
  */
-export interface TreeSelectControlSchema extends FormOptionsSchema {
+/**
+ * Tree 下拉选择组件，支持多选、异步、节点搜索与自定义节点行为，用于以树形结构选择表单数据。
+ */
+export interface AMISTreeSelectSchema extends AMISFormItemWithOptions {
   /**
-   * 指定为 TreeSelect 渲染器。
-   * https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tree-select
+   * 指定为 tree-select 组件
    */
   type: 'tree-select';
 
@@ -71,17 +74,17 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
   showIcon?: boolean;
 
   /**
-   * 父子之间是否完全独立。
+   * 父子之间是否完全独立
    */
   cascade?: boolean;
 
   /**
-   * 节点行为配置，默认为选中
+   * 节点行为配置
    */
   nodeBehavior?: NodeBehaviorType[];
 
   /**
-   * 选父级的时候是否把子节点的值也包含在内。
+   * 选父级的时候是否把子节点的值也包含在内
    */
   withChildren?: boolean;
 
@@ -96,7 +99,7 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
   onlyLeaf?: boolean;
 
   /**
-   * 顶级节点是否可以创建子节点
+   * 顶级节点是否可创建子节点
    */
   rootCreatable?: boolean;
 
@@ -133,7 +136,7 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
   /**
    * 收纳标签的Popover配置
    */
-  overflowTagPopover?: TooltipWrapperSchema;
+  overflowTagPopover?: AMISTooltipWrapperSchema;
 
   /**
    * 自定义选项
@@ -148,7 +151,7 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
   /**
    * 自定义节点操作栏区域
    */
-  itemActions?: SchemaCollection;
+  itemActions?: AMISSchemaCollection;
 
   /**
    * 是否为选项添加默认的Icon，默认值为true

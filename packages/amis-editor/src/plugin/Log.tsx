@@ -9,7 +9,7 @@ export class LogPlugin extends BasePlugin {
   static id = 'LogPlugin';
   // 关联渲染器名字
   rendererName = 'log';
-  $schema = '/schemas/LogSchema.json';
+  $schema = '/schemas/AMISLogSchema.json';
 
   // 组件名称
   name = '日志';

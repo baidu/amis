@@ -23,7 +23,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
   // 关联渲染器名字
   rendererName = 'container';
   useLazyRender = true; // 使用懒渲染
-  $schema = '/schemas/ContainerSchema.json';
+  $schema = '/schemas/AMISContainerSchema.json';
 
   // 组件名称
   name = '容器';

@@ -17,7 +17,7 @@ export class ActionPlugin extends BasePlugin {
   panelTitle = '按钮';
   rendererName = 'action';
   name = '行为按钮';
-  $schema = '/schemas/ActionSchema.json';
+  $schema = '/schemas/AMISButtonSchema.json';
 
   panelBodyCreator = (context: BaseEventContext) => {
     const isInDialog = /(?:\/|^)dialog\/.+$/.test(context.path);

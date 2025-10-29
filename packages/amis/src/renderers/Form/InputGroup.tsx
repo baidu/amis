@@ -6,29 +6,34 @@ import {
   FormControlProps,
   IFormItemStore,
   IFormStore,
-  anyChanged
+  anyChanged,
+  AMISFormItem,
+  AMISSchemaCollection
 } from 'amis-core';
-import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
+import {FormBaseControlSchema} from '../../Schema';
 import {isMobile} from 'amis-core';
 
 /**
  * InputGroup
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-group
  */
-export interface InputGroupControlSchema extends FormBaseControlSchema {
+/**
+ * InputGroup 表单组件，用于将多个表单输入项组合在一起进行统一布局和校验提示。
+ */
+export interface AMISInputGroupSchema extends AMISFormItem {
   type: 'input-group';
 
   /**
    * FormItem 集合
    */
-  body: SchemaCollection;
+  body: AMISSchemaCollection;
 
   /**
    * 校验提示信息配置
    */
   validationConfig?: {
     /**
-     * 错误提示的展示模式, full为整体飘红, highlight为仅错误项飘红, 默认为full
+     * 错误提示的展示模式
      */
     errorMode?: 'full' | 'partial';
 

@@ -21,7 +21,7 @@ export class TabsTransferPlugin extends BasePlugin {
   static id = 'TabsTransferPlugin';
   // 关联渲染器名字
   rendererName = 'tabs-transfer';
-  $schema = '/schemas/TransferControlSchema.json';
+  $schema = '/schemas/AMISTabsTransferSchema.json';
 
   // 组件名称
   name = '组合穿梭器';

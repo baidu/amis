@@ -26,7 +26,7 @@ export interface AlertProps extends ThemeProps, LocaleProps {
   cancelBtnLevel?: string;
 }
 
-interface ConfirmOptions {
+export interface ConfirmOptions {
   className?: string;
   closeOnEsc?: AlertProps['closeOnEsc'];
   size?: AlertProps['size'];

@@ -32,7 +32,7 @@ export class PickerControlPlugin extends BasePlugin {
   static id = 'PickerControlPlugin';
   // 关联渲染器名字
   rendererName = 'picker';
-  $schema = '/schemas/PickerControlSchema.json';
+  $schema = '/schemas/AMISPickerSchema.json';
 
   // 组件名称
   name = '列表选取';

@@ -22,7 +22,7 @@ export class ColumnToggler extends BasePlugin {
 
   tags = ['自定义显示列'];
 
-  $schema = '/schemas/ColumnTogglerSchema.json';
+  $schema = '/schemas/AMISColumnTogglerSchema.json';
 
   description = '用来展示表格的自定义显示列按钮，你可以配置不同的展示样式。';
 

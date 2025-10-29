@@ -12,12 +12,16 @@ import {Rating} from 'amis-ui';
 import type {textPositionType} from 'amis-ui/lib/components/Rating';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import {AMISFormItem} from 'amis-core';
 
 /**
  * Rating
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/rating
  */
-export interface RatingControlSchema extends FormBaseControlSchema {
+/**
+ * 评分组件，用于展示和录入评分，支持自定义分数、半星、只读模式、颜色和提示文字等配置。
+ */
+export interface AMISInputRatingSchema extends AMISFormItem {
   type: 'input-rating';
 
   /**
@@ -43,14 +47,10 @@ export interface RatingControlSchema extends FormBaseControlSchema {
   /**
    * 星星被选中的颜色
    */
-  // colors?: string | {
-  //   [propName: string | number]: string;
-  // };
-
   colors?: string | {[propName: string]: string};
 
   /**
-   * 未被选中的星星的颜色
+   * 未被选中的星星颜色
    */
   inactiveColor?: string;
 
@@ -60,7 +60,7 @@ export interface RatingControlSchema extends FormBaseControlSchema {
   texts?: {[propName: string]: string};
 
   /**
-   * 文字的位置
+   * 文字位置
    */
   textPosition?: textPositionType;
 

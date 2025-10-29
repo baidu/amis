@@ -8,30 +8,32 @@ import {BaseSchema, SchemaExpression, SchemaObject, SchemaTpl} from '../Schema';
 import {resolveVariableAndFilter} from 'amis-core';
 import {visibilityFilter} from 'amis-core';
 import {buildStyle} from 'amis-core';
+import {AMISExpression} from 'amis-core';
+import {AMISSchemaBase} from 'amis-core';
 
 export type PropertyItemProps = {
   /**
-   * 属性名
+   * 属性名称标签
    */
   label?: SchemaTpl;
 
   /**
-   * 属性值
+   * 属性值内容
    */
   content?: SchemaTpl;
 
   /**
-   * 配置是否显示，如果不显示，后续的节点会补上来
+   * 控制属性项是否显示的表达式
    */
-  visibleOn?: SchemaExpression;
+  visibleOn?: AMISExpression;
 
   /**
-   * 配置是否显示，如果不显示，后续的节点会补上来
+   * 控制属性项是否隐藏的表达式
    */
-  hiddenOn?: SchemaExpression;
+  hiddenOn?: AMISExpression;
 
   /**
-   * 跨几列
+   * 跨列数
    */
   span?: number;
 };
@@ -42,19 +44,22 @@ export type PropertyItem = PropertyItemProps & SchemaObject;
  * Property 属性列表
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/property
  */
-export interface PropertySchema extends BaseSchema {
+/**
+ * 属性列表组件，用于展示键值对信息。支持分组、搜索与复制。
+ */
+export interface AMISPropertySchema extends AMISSchemaBase {
   /**
-   * 指定为 property 展示类型
+   * 指定为 property 组件
    */
   type: 'property';
 
   /**
-   * 标题
+   * 属性列表标题
    */
   title?: string;
 
   /**
-   * 一共几列
+   * 每行显示的列数
    */
   column?: number;
 
@@ -64,35 +69,38 @@ export interface PropertySchema extends BaseSchema {
   mode?: 'table' | 'simple';
 
   /**
-   * 每个 property 的设置
+   * 属性项配置数组
    */
   items: Array<PropertyItem>;
 
   /**
-   * 自定义样式
+   * 自定义容器样式
    */
   style?: {
     [propName: string]: any;
   };
 
   /**
-   * 标题样式
+   * 标题样式配置
    */
   titleStyle?: {
     [propName: string]: any;
   };
 
   /**
-   * 自定义样式
+   * 属性名称标签样式配置
    */
   labelStyle?: {
     [propName: string]: any;
   };
 
+  /**
+   * 属性名称和值之间的分隔符
+   */
   separator?: string;
 
   /**
-   * 自定义样式
+   * 属性值内容样式配置
    */
   contentStyle?: {
     [propName: string]: any;
@@ -101,7 +109,7 @@ export interface PropertySchema extends BaseSchema {
 
 export interface PropertyProps
   extends RendererProps,
-    Omit<PropertySchema, 'type' | 'className'> {}
+    Omit<AMISPropertySchema, 'type' | 'className'> {}
 
 interface PropertyContent {
   label: any;

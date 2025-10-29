@@ -2,7 +2,7 @@ import React from 'react';
 import {FormItem} from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
-import InputDateRange, {BaseDateRangeControlSchema} from './InputDateRange';
+import InputDateRange, {AMISDateRangeSchemaBase} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
 import {supportStatic} from './StaticHoc';
 import {isMobile} from 'amis-core';
@@ -10,7 +10,10 @@ import {isMobile} from 'amis-core';
  * QuarterRange 季度范围控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-quarter-range
  */
-export interface QuarterRangeControlSchema extends BaseDateRangeControlSchema {
+/**
+ * QuarterRange 季度范围控件，用于选择季度范围，通常用于报表和时间筛选场景。
+ */
+export interface AMISInputQuarterRangeSchema extends AMISDateRangeSchemaBase {
   type: 'input-quarter-range';
 }
 

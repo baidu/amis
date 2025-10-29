@@ -2,10 +2,11 @@ import {CT_PieChart} from '../../../../openxml/ChartTypes';
 import {Workbook} from '../../../Workbook';
 import {getData} from './getData';
 import {buildLabel} from './buildLabel';
+import type {SeriesOption} from 'echarts';
 
 export function fromPieChart(workbook: Workbook, pieChart: CT_PieChart) {
   const categories: string[] = [];
-  const series = [];
+  const series: SeriesOption[] = [];
   const chartSer = pieChart.ser || [];
 
   for (const ser of chartSer) {
@@ -17,7 +18,7 @@ export function fromPieChart(workbook: Workbook, pieChart: CT_PieChart) {
     const label = buildLabel(ser.dLbls);
     series.push({
       name,
-      data: seriesData,
+      data: seriesData as number[],
       type: 'pie'
     });
   }

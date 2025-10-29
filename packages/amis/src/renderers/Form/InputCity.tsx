@@ -17,17 +17,18 @@ import {localeable, LocaleProps} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
-import type {TestIdBuilder} from 'amis-core';
+import type {AMISFormItem, AMISSpinnerConfig, TestIdBuilder} from 'amis-core';
 
 /**
  * City 城市选择框。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/city
  */
-export interface InputCityControlSchema
-  extends FormBaseControlSchema,
-    SpinnerExtraProps {
+/**
+ * 城市选择框组件，用于省市区街道等多级城市信息的选择，支持提取编码、拼接值、自定义级别和搜索等功能。
+ */
+export interface AMISInputCitySchema extends AMISFormItem, AMISSpinnerConfig {
   /**
-   * 指定为城市选择框。
+   * 指定为 city 组件
    */
   type: 'input-city';
 
@@ -37,27 +38,27 @@ export interface InputCityControlSchema
   extractValue?: boolean;
 
   /**
-   * 是否将各个信息拼接成字符串。
+   * 是否将各个信息拼接成字符串
    */
   joinValues?: boolean;
 
   /**
-   * 拼接的符号是啥？
+   * 拼接的符号
    */
   delimiter?: string;
 
   /**
-   * 允许选择城市？
+   * 允许选择城市
    */
   allowCity?: boolean;
 
   /**
-   * 允许选择地区？
+   * 允许选择地区
    */
   allowDistrict?: boolean;
 
   /**
-   * 允许选择街道？
+   * 允许选择街道
    */
   allowStreet?: boolean;
 
@@ -73,7 +74,7 @@ export interface InputCityControlSchema
 }
 
 export interface CityPickerProps
-  extends Omit<InputCityControlSchema, 'type' | 'className'>,
+  extends Omit<AMISInputCitySchema, 'type' | 'className'>,
     LocaleProps,
     ThemeProps {
   value: any;

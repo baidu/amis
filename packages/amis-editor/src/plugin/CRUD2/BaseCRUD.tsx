@@ -86,7 +86,7 @@ export class BaseCRUDPlugin extends BasePlugin {
 
   order = -1000;
 
-  $schema = '/schemas/CRUD2Schema.json';
+  $schema = '/schemas/AMISCRUD2Schema.json';
 
   docLink = '/amis/zh-CN/components/table2';
 
