@@ -104,6 +104,9 @@
     overflow: hidden;
     margin-left: calc(var(--gap-md) * -1);
     transition: all var(--animation-duration) ease-in-out 0s;
+    .#{$ns}Layout--folded & {
+      transition: none !important;
+    }
     background: var(--Layout-aside-subList-bg);
 
     .#{$ns}Layout--folded .#{$ns}AsideNav-item > & {
@@ -340,10 +343,20 @@ img.#{$ns}AsideNav-itemIcon {
       height: 0 !important;
       position: absolute;
       left: 100%;
-      top: 0 !important;
+      top: 0;
       z-index: 1050;
       width: var(--Layout-aside-width);
       box-shadow: 0 px2rem(2px) px2rem(6px) rgba(0, 0, 0, 0.1);
+
+      &[data-pop-direction="left"] {
+        left: auto !important;
+        right: 100% !important;
+      }
+
+      &[data-pop-vertical="up"] {
+        top: auto !important;
+        bottom: 0 !important;
+      }
     }
 
     &.#{$ns}Layout--sm .#{$ns}AsideNav-subList {
