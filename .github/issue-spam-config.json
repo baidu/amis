@@ -1,47 +1,26 @@
-name: Bug 报告
-description: 提交 bug 请尽量完整填写（强制字段可以显著降低垃圾 issue）。
-title: "[Bug] ${{inputs.short_description}}"
-labels: ["bug", "needs-triage"]
-body:
-  - type: input
-    id: short_description
-    attributes:
-      label: 简短描述
-      description: 用一句话概述问题
-      placeholder: 例如：编辑器中表情无法渲染
-      required: true
-
-  - type: textarea
-    id: steps
-    attributes:
-      label: 复现步骤
-      description: 请给出可复现步骤（必填）
-      placeholder: 1. 打开... 2. 点击...
-      min_length: 20
-      required: true
-
-  - type: textarea
-    id: expected
-    attributes:
-      label: 期望结果
-      required: true
-
-  - type: textarea
-    id: actual
-    attributes:
-      label: 实际结果
-      required: true
-
-  - type: input
-    id: version
-    attributes:
-      label: AMIS 版本（或 commit sha）
-      description: 例如：v2.0.1 或 7f8e9d
-  - type: checkbox
-    id: confirm
-    attributes:
-      label: 我已确认
-      options:
-        - label: 我已阅读 CONTRIBUTING，并确认这不是广告/滥用
-          value: confirmed
-      required: true
+{
+  "dry_run": true,
+  "min_account_age_days": 3,
+  "max_urls_for_spam": 1,
+  "min_body_len_for_links": 40,
+  "spam_words": [
+    "call now",
+    "zadzwoń",
+    "zadzwoń teraz",
+    "kontakt",
+    "telefon",
+    "telefone",
+    "contato",
+    "suporte",
+    "infolinii",
+    "click here",
+    "buy now",
+    "subscribe",
+    "visit"
+  ],
+  "bracket_max": 6,
+  "special_char_density_threshold": 0.12,
+  "phone_regex": "\\+?\\d[\\d\\-\\s\\(\\)\\.]{6,}\\d",
+  "labels_for_spam": ["spam"],
+  "labels_for_review": ["needs-triage"]
+}
