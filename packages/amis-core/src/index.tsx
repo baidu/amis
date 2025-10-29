@@ -408,6 +408,10 @@ function AMISSchema({
     return schema;
   }, [schema, locale, options.replaceText]);
 
+  React.useEffect(() => {
+    env.pageMetaEffect?.(schema.meta || {});
+  }, [schema.meta]);
+
   const partialProps = React.useContext(AMISPartialPropsContext);
 
   return (

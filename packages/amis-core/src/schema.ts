@@ -1658,3 +1658,32 @@ export interface AMISFeedbackDialog extends AMISDialogSchemaBase {
    */
   skipRestOnConfirm?: boolean;
 }
+
+export interface AMISPageMeta {
+  /**
+   * 页面标题，影响浏览器窗口展示
+   */
+  title?: string;
+
+  /**
+   * 页面 meta 描述
+   */
+  description?: string;
+
+  /**
+   * 页面图标
+   */
+  icon?: string;
+
+  /**
+   * 路由地址
+   */
+  routePath?: string;
+
+  /**
+   * 是否在菜单中可见, 当页面采用动态路由时设置成 false
+   */
+  visibleInMenu?: boolean;
+
+  [propName: string]: any;
+}
