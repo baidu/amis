@@ -31,7 +31,7 @@ import {Placeholder} from './renderers/Placeholder';
 import {StatusScopedProps} from './StatusScoped';
 import type {IScopedContext} from './Scoped';
 import {getPageId} from './utils/getPageId';
-import type {AMISSchemaCollection} from './schema';
+import type {AMISPageMeta, AMISSchemaCollection} from './schema';
 export interface TestFunc {
   (
     path: string,
@@ -558,7 +558,10 @@ export const defaultOptions: RenderOptions = {
    */
   filterHtml: (input: string) => input,
   isMobile: isMobile,
-  getPageId: getPageId
+  getPageId: getPageId,
+  pageMetaEffect: (meta: AMISPageMeta) => {
+    // console.log(meta)
+  }
 };
 
 export const RenderOptionsContext =

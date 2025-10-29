@@ -6,6 +6,7 @@ import {
   AMISDefaultData,
   AMISDefinitions,
   AMISExpression,
+  AMISPageMeta,
   Renderer,
   RendererProps,
   filterTarget,
@@ -69,6 +70,11 @@ export interface AMISPageSchema extends AMISSchemaBase, AMISSpinnerConfig {
    * 指定为 page 组件
    */
   type: 'page';
+
+  /**
+   * 页面 meta 信息
+   */
+  meta?: AMISPageMeta;
 
   /**
    * 页面标题
