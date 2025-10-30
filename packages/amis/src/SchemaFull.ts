@@ -617,4 +617,4 @@ export type RootRenderer = AMISPageSchema;
 //   definitions?: AMISDefinitions;
 //   type?: AMISSchemaType;
 // };
-export {AMISSchemaType} from 'amis-core';
+export type {AMISSchemaType} from 'amis-core';
