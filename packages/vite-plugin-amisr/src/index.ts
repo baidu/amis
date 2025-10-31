@@ -1,10 +1,23 @@
-import type {Plugin} from 'vite';
+import {createFilter, type Plugin} from 'vite';
 import fs from 'fs';
 import path from 'path';
 
 export interface AMISROptions {
+  /**
+   * The JavaScript template used to generate the React module in production mode.
+   */
   jsTemplate?: string;
+  /**
+   * The JavaScript template used to generate the React module in development mode.
+   */
   jsDevTemplate?: string;
+  /**
+   * The query key used on imports to indicate JSON should be transformed to a React module.
+   * For example `import x from './a.json?react'` -> query = 'react'
+   */
+  query?: string;
+  include?: ReadonlyArray<string | RegExp> | string | RegExp | null;
+  exclude?: ReadonlyArray<string | RegExp> | string | RegExp | null;
 }
 
 const defaultDevTemplate = `
@@ -50,13 +63,16 @@ export default function AMISPage(props) {
 }
 `;
 
+const defaultIncludePattern = /(?:amis|dslpage)\.json(?:$|\?)/;
+
 export default function vitePluginAmisR({
   jsTemplate = defaultJsTemplate,
-  jsDevTemplate = defaultDevTemplate
+  jsDevTemplate = defaultDevTemplate,
+  query = 'react',
+  include = defaultIncludePattern,
+  exclude
 }: AMISROptions = {}): Plugin {
-  const match = (id: string) => {
-    return /(?:amis|dslpage)\.json(?:$|\?)/.test(id);
-  };
+  const filter = createFilter(include, exclude);
   let skipHotReload = false;
 
   return {
@@ -72,14 +88,13 @@ export default function vitePluginAmisR({
 
     // 添加 resolveId 方法来标记处理过的文件
     async resolveId(source: string, importer: string | undefined) {
-      if (!match(source) || !source.includes('?react')) return null;
+      const [filepath, q] = source.split('?');
+      if (!filter(filepath) || !q.includes(query)) return null;
 
-      // 解析实际文件路径（去掉 ?react）
-      const withoutQuery = source.replace('?react', '');
-      const resolved = await this.resolve(withoutQuery, importer, {
+      const resolved = await this.resolve(filepath, importer, {
         skipSelf: true
       });
-      const finalId = resolved?.id ?? withoutQuery;
+      const finalId = resolved?.id ?? filepath;
 
       // 返回一个以 '\0' 开头的虚拟 id，避免后续 json 插件匹配原始 .json
       return `\0${finalId}.amisr.jsx`;
@@ -108,7 +123,7 @@ export default function vitePluginAmisR({
 
     // 热更新逻辑：当 amis.json/dslpage.json 文件变更时，触发虚拟模块热更新
     handleHotUpdate({file, server}) {
-      if (!match(file)) return [];
+      if (!filter(file)) return [];
 
       const virtualId = `\0${file}.amisr.jsx`;
       const mod = server.moduleGraph.getModuleById(virtualId);
