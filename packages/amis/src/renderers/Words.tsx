@@ -23,10 +23,10 @@ type Words = string | string[];
  * Words
  */
 /**
- * 词云组件，用于展示关键词权重。支持形状、配色与尺寸。
+ * Tags 用来展示一组标签文字，可以配置展开和收起。
  */
 export interface AMISWordsSchema extends AMISSchemaBase {
-  type: 'words';
+  type: 'words' | 'tags';
 
   /**
    * 展示限制, 为0时也无限制

@@ -586,9 +586,9 @@ declare module 'amis-core' {
     /** 标签 */
     // 'tag': AMISTagSchema;
     /** 标签（别名） */
-    'tags': AMISTagSchema;
-    /** 词云 */
-    'words': AMISWordsSchema;
+    'tag': AMISTagSchema;
+    'tags': AMISWordsSchema;
+    // 'words': AMISWordsSchema;
     /** 密码（别名） */
     'password': AMISPasswordSchema;
     /** 多行文本 */
