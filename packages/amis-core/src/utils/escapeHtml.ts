@@ -9,6 +9,6 @@ const entityMap: {
   '/': '&#x2F;'
 };
 export const escapeHtml = (str: string) =>
-  String(str).replace(/[&<>"'\/]/g, function (s) {
+  String(str).replace(/[&<>"']/g, function (s) {
     return entityMap[s];
   });
