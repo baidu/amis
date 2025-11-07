@@ -36,7 +36,7 @@ test(`filter:complex`, async () => {
         a: '<br />'
       }
     })
-  ).toEqual('&lt;br &#x2F;&gt;');
+  ).toEqual('&lt;br /&gt;');
 });
 
 test(`filter:json`, async () => {
