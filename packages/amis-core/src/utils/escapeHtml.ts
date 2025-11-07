@@ -5,8 +5,7 @@ const entityMap: {
   '<': '&lt;',
   '>': '&gt;',
   '"': '&quot;',
-  "'": '&#39;',
-  '/': '&#x2F;'
+  "'": '&#39;'
 };
 export const escapeHtml = (str: string) =>
   String(str).replace(/[&<>"']/g, function (s) {
