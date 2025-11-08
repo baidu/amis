@@ -16,7 +16,10 @@
     "click here",
     "buy now",
     "subscribe",
-    "visit"
+    "visit",
+    "Contact",
+    "téléphone",
+    "Etihad Airway"
   ],
   "bracket_max": 6,
   "special_char_density_threshold": 0.12,
