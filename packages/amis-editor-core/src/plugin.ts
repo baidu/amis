@@ -14,6 +14,7 @@ import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
 import {RAW_TYPE_MAP} from './util';
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import type {
   GlobalVariableItem,
   RendererConfig,
@@ -1521,4 +1522,34 @@ export class LayoutBasePlugin extends BasePlugin {
       }
     });
   }
+}
+
+/**
+ * 自动扩展插件类，使其继承自 BasePlugin
+ * 如果插件类已经继承自 BasePlugin，则直接返回原类、
+ * @param PluginClass 要扩展的插件类
+ * @returns 扩展后的插件类（继承自 BasePlugin）
+ */
+export function autoExtendsBasePlugin(PluginClass: any): typeof BasePlugin {
+  // 检查是否继承自 BasePlugin
+  if (PluginClass.prototype instanceof BasePlugin) {
+    return PluginClass;
+  }
+
+  // 创建一个包装类继承 BasePlugin
+  class NewPluginWrapper extends BasePlugin {
+    constructor(manager: EditorManager) {
+      super(manager);
+      // Object.assign(this, new PluginClass(manager));
+    }
+  }
+
+  // 将 ModelClass 相关属性设置到 新的 ModelClass 中
+  Object.assign(NewPluginWrapper.prototype, PluginClass.prototype);
+  Object.assign(NewPluginWrapper.prototype, new PluginClass());
+
+  // 使用 hoistNonReactStatic 复制所有静态属性和方法
+  hoistNonReactStatic(NewPluginWrapper, PluginClass);
+
+  return NewPluginWrapper;
 }

@@ -48,7 +48,8 @@ import {
   BasePlugin,
   GlobalVariablesEventContext,
   GlobalVariableEventContext,
-  InlineEditableElement
+  InlineEditableElement,
+  autoExtendsBasePlugin
 } from './plugin';
 import {
   EditorStoreType,
@@ -500,6 +501,9 @@ export class EditorManager {
       newPluginClass = window.AMISEditorCustomPlugins[pluginName];
     }
     if (newPluginClass) {
+      // 使其继承自 BasePlugin
+      newPluginClass = autoExtendsBasePlugin(newPluginClass);
+
       const newPlugin = new newPluginClass(this); // 进行一次实例化
       newPlugin.order = newPlugin.order ?? 0;
       this.plugins.push(newPlugin);
