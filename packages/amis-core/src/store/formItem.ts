@@ -512,15 +512,19 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         yield hook();
       }
 
-      addError(
-        doValidate(
-          self.tmpValue,
-          data,
-          customRules ? str2rules(customRules) : self.rules,
-          self.messages,
-          self.__
-        )
-      );
+      try {
+        addError(
+          doValidate(
+            self.tmpValue,
+            data,
+            customRules ? str2rules(customRules) : self.rules,
+            self.messages,
+            self.__
+          )
+        );
+      } catch (e) {
+        addError(String(e.message));
+      }
 
       if (!self.errors.length && isEffectiveApi(self.validateApi, data)) {
         if (validateCancel) {

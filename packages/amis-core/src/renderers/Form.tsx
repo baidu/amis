@@ -1836,7 +1836,13 @@ export default class Form extends React.Component<FormProps, object> {
         body.some(
           item =>
             item &&
-            !!~['submit', 'button', 'button-group', 'reset'].indexOf(
+            !!~[
+              'submit',
+              'button',
+              'button-group',
+              'reset',
+              'button-toolbar'
+            ].indexOf(
               (item as any)?.body?.[0]?.type ||
                 (item as any)?.body?.type ||
                 (item as any).type
