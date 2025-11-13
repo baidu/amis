@@ -11,11 +11,11 @@ import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import {saveAs} from 'file-saver';
 import {normalizeApi} from './utils/api';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from './utils/findDomCompat';
 import LazyComponent from './components/LazyComponent';
 import {hasAsyncRenderers, loadAsyncRenderersByType} from './factory';
 import {dispatchEvent} from './utils/renderer-event';
-import {GlobalVariableItem} from 'amis-core';
+import {GlobalVariableItem} from './globalVar';
 
 export interface RootRendererProps extends RootProps {
   /**

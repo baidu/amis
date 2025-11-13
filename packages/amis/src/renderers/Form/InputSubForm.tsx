@@ -7,7 +7,7 @@ import {createObject, guid} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {FormBaseControlSchema, AMISClassName} from '../../Schema';
 import Sortable from 'sortablejs';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {isMobile} from 'amis-core';
 import {PopUp} from 'amis-ui';
 import {autobind} from 'amis-core';

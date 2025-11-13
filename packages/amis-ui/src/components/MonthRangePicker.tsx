@@ -6,7 +6,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import cx from 'classnames';
 import {Icon} from './icons';
 import {Overlay} from 'amis-core';

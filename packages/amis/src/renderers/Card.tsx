@@ -28,7 +28,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {Card} from 'amis-ui';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {Icon} from 'amis-ui';
 import type {
   AMISButtonSchema,

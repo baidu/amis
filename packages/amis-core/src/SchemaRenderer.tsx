@@ -46,6 +46,7 @@ import {observeGlobalVars} from './globalVar';
 import type {IRootStore} from './store/root';
 import {createObjectFromChain, extractObjectChain} from './utils';
 import {IIRendererStore} from './store/index';
+import TaggerWrapper from './TaggerWrapper';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -653,6 +654,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           component={component}
           show={animationShow}
         />
+      );
+    }
+
+    if (schema.$$tagger) {
+      component = (
+        <TaggerWrapper tagger={schema.$$tagger}>{component}</TaggerWrapper>
       );
     }
 

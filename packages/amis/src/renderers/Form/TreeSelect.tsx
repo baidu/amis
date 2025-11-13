@@ -29,7 +29,7 @@ import {isEffectiveApi} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {ResultBox} from 'amis-ui';
 import {autobind, getTreeAncestors, isMobile, createObject} from 'amis-core';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {normalizeOptions} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';

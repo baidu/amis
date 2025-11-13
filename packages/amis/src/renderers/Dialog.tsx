@@ -24,7 +24,7 @@ import {
 import {reaction} from 'mobx';
 import {Icon} from 'amis-ui';
 import {ModalStore, IModalStore} from 'amis-core';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {
   IServiceStore,

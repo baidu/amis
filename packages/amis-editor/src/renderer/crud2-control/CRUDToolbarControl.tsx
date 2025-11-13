@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
 import {FormItem, Button, Icon, toast, Spinner, autobind} from 'amis';

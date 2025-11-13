@@ -1,7 +1,7 @@
 import {FormItem, utils, Button, Overlay, PopOver, RendererProps} from 'amis';
 import React from 'react';
 import type {Schema} from 'amis';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 
 interface ClassNameControlProps extends RendererProps {
   schema: Schema;

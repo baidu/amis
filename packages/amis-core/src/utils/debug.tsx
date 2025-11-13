@@ -4,7 +4,8 @@
 
 import React, {Component, useEffect, useRef, useState, version} from 'react';
 import cx from 'classnames';
-import {findDOMNode, render, unmountComponentAtNode} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from './findDomCompat';
 // import {createRoot} from 'react-dom/client';
 import {autorun, observable, action} from 'mobx';
 import {observer} from 'mobx-react';

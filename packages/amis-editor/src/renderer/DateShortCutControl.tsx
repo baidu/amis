@@ -4,7 +4,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Sortable from 'sortablejs';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {FormItem, Icon} from 'amis';
 
 import {FormControlProps, Option, optionValueCompare} from 'amis-core';

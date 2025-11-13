@@ -1,5 +1,5 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {matchSorter} from 'match-sorter';
 import isEqual from 'lodash/isEqual';
 import isString from 'lodash/isString';

@@ -7,7 +7,7 @@
 import React from 'react';
 import Html from './Html';
 import {EnvContext, uncontrollable} from 'amis-core';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import Tooltip from './Tooltip';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {Overlay} from 'amis-core';

@@ -14,7 +14,7 @@ import FormulaPicker, {CustomFormulaPickerProps} from './FormulaPicker';
 import {reaction} from 'mobx';
 import {renderFormulaValue} from '../FormulaControl';
 import {getVariables, getQuickVariables} from 'amis-editor-core';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 
 import type {VariableItem, CodeMirror} from 'amis-ui';
 

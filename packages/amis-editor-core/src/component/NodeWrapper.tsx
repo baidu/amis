@@ -2,7 +2,7 @@ import {RendererProps, isObject} from 'amis-core';
 import {observer} from 'mobx-react';
 import {isAlive} from 'mobx-state-tree';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
 import {RendererInfo} from '../plugin';

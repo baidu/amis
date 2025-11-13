@@ -1,5 +1,5 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import cloneDeep from 'lodash/cloneDeep';
 import isNumber from 'lodash/isNumber';
 import get from 'lodash/get';
@@ -1108,6 +1108,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     const ns = this.props.classPrefix;
     const submitOnChange = this.props.submitOnChange;
     const dom = findDOMNode(this) as HTMLElement;
+
     this.sortable = new Sortable(
       dom.querySelector(`.${ns}Combo-items`) as HTMLElement,
       {

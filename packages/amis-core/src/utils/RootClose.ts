@@ -4,7 +4,7 @@
 
 import React, {useState} from 'react';
 import useRootClose from 'react-overlays/useRootClose';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from '../utils/findDomCompat';
 
 export const RootClose = ({children, onRootClose, ...props}: any) => {
   const [rootComponent, attachRef] = useState(null);

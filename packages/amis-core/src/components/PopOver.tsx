@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from '../utils/findDomCompat';
 import {ClassNamesFn, themeable} from '../theme';
 import {autobind, camel, preventDefault, TestIdBuilder} from '../utils';
 import {SubPopoverDisplayedID} from './Overlay';

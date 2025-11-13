@@ -1,4 +1,4 @@
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {JSONPipeOut} from '../util';
 import React from 'react';
 import {NodeWrapper} from './NodeWrapper';

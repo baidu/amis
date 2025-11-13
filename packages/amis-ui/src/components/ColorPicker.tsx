@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
 import {Icon} from './icons';
 import {Overlay} from 'amis-core';

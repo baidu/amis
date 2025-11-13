@@ -6,7 +6,8 @@
 
 import Portal from 'react-overlays/Portal';
 import classNames from 'classnames';
-import ReactDOM, {findDOMNode} from 'react-dom';
+import ReactDOM from 'react-dom';
+import {findDomCompat as findDOMNode} from '../utils';
 import React, {cloneElement} from 'react';
 import {
   autobind,
@@ -134,7 +135,7 @@ class Position extends React.Component<any, any> {
   getTarget = () => {
     const {target} = this.props;
     const targetElement = typeof target === 'function' ? target() : target;
-    return (targetElement && ReactDOM.findDOMNode(targetElement)) || null;
+    return (targetElement && findDOMNode(targetElement)) || null;
   };
 
   componentDidUpdate(prevProps: any) {
