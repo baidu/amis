@@ -20,7 +20,7 @@ import {isObjectShallowModified} from 'amis-core';
 import {autobind, guid} from 'amis-core';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import TooltipWrapper from './TooltipWrapper';
 import {resizeSensor} from 'amis-core';
 import PopOverContainer from './PopOverContainer';

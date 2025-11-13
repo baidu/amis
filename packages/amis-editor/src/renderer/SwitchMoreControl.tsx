@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import cx from 'classnames';
 import {FormItem, Button, Overlay, PopOver, Icon, Switch} from 'amis';
 

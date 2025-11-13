@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';

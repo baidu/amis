@@ -22,7 +22,7 @@ import {
   isObjectShallowModified
 } from 'amis-core';
 import {reaction} from 'mobx';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {IModalStore, ModalStore} from 'amis-core';
 import {filter} from 'amis-core';
 import {Spinner} from 'amis-ui';

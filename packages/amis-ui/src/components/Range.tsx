@@ -18,7 +18,7 @@ import {themeable} from 'amis-core';
 import {autobind, camel} from 'amis-core';
 import {stripNumber} from 'amis-core';
 import {safeAdd, safeSub} from 'amis-core';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {Icon} from './icons';
 
 type MarksType = {

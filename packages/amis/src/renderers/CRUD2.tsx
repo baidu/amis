@@ -1,5 +1,5 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import omitBy from 'lodash/omitBy';
 import pick from 'lodash/pick';
 import findIndex from 'lodash/findIndex';

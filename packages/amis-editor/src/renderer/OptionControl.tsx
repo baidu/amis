@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import cx from 'classnames';
 import DeepDiff from 'deep-diff';
 import uniqBy from 'lodash/uniqBy';

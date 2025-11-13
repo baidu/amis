@@ -5,7 +5,7 @@ import Drawer from './Drawer';
 import {localeable, LocaleProps, themeable, ThemeProps} from 'amis-core';
 import Spinner from './Spinner';
 import PopUp from './PopUp';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import type {TestIdBuilder} from 'amis-core';
 
 export interface ConfirmBoxProps extends LocaleProps, ThemeProps {

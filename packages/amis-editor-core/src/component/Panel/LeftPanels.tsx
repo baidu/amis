@@ -6,7 +6,7 @@ import {EditorManager} from '../../manager';
 import {EditorStoreType} from '../../store/editor';
 import {Tab, Tabs} from 'amis';
 import {autobind} from '../../util';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import find from 'lodash/find';
 import {PanelItem} from '../../plugin';
 import {DrawerPanel} from './DrawerPanel';

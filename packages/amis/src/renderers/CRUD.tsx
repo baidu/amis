@@ -51,7 +51,7 @@ import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
 import {Select} from 'amis-ui';
 import {getExprProperties, isObject} from 'amis-core';
 import pick from 'lodash/pick';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated, str2function} from 'amis-core';
 import omit from 'lodash/omit';

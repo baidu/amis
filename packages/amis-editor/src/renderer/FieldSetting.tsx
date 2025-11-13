@@ -9,7 +9,7 @@ import pick from 'lodash/pick';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import {isObject} from 'amis-core';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {
   FormItem,
   FormControlProps,

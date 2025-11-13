@@ -7,7 +7,7 @@ import Button from './Button';
 import {autobind, guid} from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import Sortable from 'sortablejs';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 
 export interface ArrayInputProps extends ThemeProps, LocaleProps {
   value?: Array<any>;

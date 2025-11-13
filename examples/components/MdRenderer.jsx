@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {createRoot} from 'react-dom/client';
 import {getTheme, render} from 'amis';
 import {LazyComponent} from 'amis-core';

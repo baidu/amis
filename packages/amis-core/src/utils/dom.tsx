@@ -3,16 +3,16 @@ import React from 'react';
 import getOffset from './offset';
 import getPosition from './position';
 import {getScrollParent} from './helper';
+import {findDomCompat} from './findDomCompat';
 
 export function getContainer(container: any, defaultContainer: any) {
   container = typeof container === 'function' ? container() : container;
-  return ReactDOM.findDOMNode(container) || defaultContainer;
+  return findDomCompat(container) || defaultContainer;
 }
 
 export function ownerDocument(componentOrElement: any) {
   return (
-    (ReactDOM.findDOMNode(componentOrElement) as Element)?.ownerDocument ||
-    document
+    (findDomCompat(componentOrElement) as Element)?.ownerDocument || document
   );
 }
 

@@ -38,7 +38,7 @@ import {HocStoreFactory} from '../WithStore';
 import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from '../utils/findDomCompat';
 import {
   createObjectFromChain,
   dataMapping,

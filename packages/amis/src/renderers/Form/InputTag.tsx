@@ -12,7 +12,7 @@ import isInteger from 'lodash/isInteger';
 import unionWith from 'lodash/unionWith';
 import compact from 'lodash/compact';
 import uniq from 'lodash/uniq';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {PopUp, ResultBox, SpinnerExtraProps} from 'amis-ui';
 import {autobind, filterTree, createObject} from 'amis-core';
 import {Spinner} from 'amis-ui';

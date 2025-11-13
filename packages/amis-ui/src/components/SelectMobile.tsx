@@ -1,5 +1,5 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import Picker from './Picker';
 import PopUp from './PopUp';
 import {autobind, highlight} from 'amis-core';

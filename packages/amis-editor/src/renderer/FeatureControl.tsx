@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import Sortable from 'sortablejs';
 import cx from 'classnames';
 import cloneDeep from 'lodash/cloneDeep';

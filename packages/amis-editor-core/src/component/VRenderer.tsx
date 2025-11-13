@@ -3,7 +3,7 @@
  */
 import {isAlive} from 'mobx-state-tree';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import {RendererInfo} from '../plugin';
 import {EditorNodeContext, EditorNodeType} from '../store/node';
 

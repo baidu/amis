@@ -4,7 +4,7 @@
  */
 
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {findDOMNode} from 'react-dom';
+import {findDomCompat as findDOMNode} from 'amis-core';
 import omit from 'lodash/omit';
 import {themeable, isObject} from 'amis-core';
 import TooltipWrapper from './TooltipWrapper';
