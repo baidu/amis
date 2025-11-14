@@ -265,7 +265,6 @@ export class QueryBuilder extends React.Component<
       showNot,
       showANDOR,
       data,
-      disabled,
       draggable = true,
       searchable,
       builderMode,
@@ -279,6 +278,8 @@ export class QueryBuilder extends React.Component<
       formulaForIf,
       testIdBuilder
     } = this.props;
+
+    const disabled = value?.disabled ?? this.props.disabled;
 
     const normalizedValue = Array.isArray(value?.children)
       ? {
@@ -359,11 +360,12 @@ export class QueryBuilder extends React.Component<
       onChange: onFinalChange,
       value,
       title,
-      disabled,
       popOverContainer,
       testIdBuilder,
       mobileUI
     } = this.props;
+
+    const disabled = value?.disabled ?? this.props.disabled;
 
     if (embed) {
       return this.renderBody(onFinalChange, value, popOverContainer);

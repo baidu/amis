@@ -34,7 +34,7 @@ export interface ValueProps extends ThemeProps, LocaleProps {
 export class Value extends React.Component<ValueProps> {
   @autobind
   renderCustomValue(props: any) {
-    const {renderEtrValue, data, classnames: cx} = this.props;
+    const {renderEtrValue, data, classnames: cx, disabled} = this.props;
     const field = props.inputSettings;
 
     return renderEtrValue
@@ -43,6 +43,7 @@ export class Value extends React.Component<ValueProps> {
 
           {
             data,
+            disabled,
             onChange: props.onChange,
             value: props.value,
             inputClassName: cx(field.className, props.className)

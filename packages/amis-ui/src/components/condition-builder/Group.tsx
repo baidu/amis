@@ -193,7 +193,6 @@ export class ConditionGroup extends React.Component<
       onDragStart,
       showNot,
       showANDOR = false,
-      disabled,
       searchable,
       translate: __,
       formula,
@@ -209,6 +208,7 @@ export class ConditionGroup extends React.Component<
       testIdBuilder
     } = this.props;
     const {isCollapsed} = this.state;
+    const disabled = value?.disabled ?? this.props.disabled;
 
     const body =
       Array.isArray(value?.children) && value!.children.length
@@ -294,7 +294,7 @@ export class ConditionGroup extends React.Component<
                   funcs={funcs}
                   onRemove={this.handleItemRemove}
                   data={data}
-                  disabled={disabled}
+                  disabled={item.disabled ?? disabled}
                   searchable={searchable}
                   builderMode={builderMode}
                   formula={formula}
