@@ -98,7 +98,6 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       funcs,
       draggable,
       data,
-      disabled,
       searchable,
       onDragStart,
       formula,
@@ -114,6 +113,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       testIdBuilder,
       mobileUI
     } = this.props;
+
+    const disabled = value?.disabled ?? this.props.disabled;
 
     return (
       <div

@@ -236,6 +236,7 @@ export interface AMISConditionRule {
   op?: AMISOperatorType;
   right?: AMISExpressionComplex | Array<AMISExpressionComplex>;
   if?: string;
+  disabled?: boolean;
 }
 
 export interface AMISConditionGroupValue {
@@ -244,6 +245,7 @@ export interface AMISConditionGroupValue {
   not?: boolean;
   children?: Array<AMISConditionRule | AMISConditionGroupValue>;
   if?: string;
+  disabled?: boolean;
 }
 
 export interface AMISConditionValue extends AMISConditionGroupValue {}
