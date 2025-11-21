@@ -2538,6 +2538,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
             hasNext: store.hasNext,
             mode: store.mode,
             perPage: store.perPage,
+            total: store.total,
             popOverContainer: this.parentContainer,
             onPageChange: this.handleChangePage,
             testIdBuilder: testIdBuilder?.getChild('pagination')
