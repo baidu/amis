@@ -123,7 +123,7 @@ export default function vitePluginAmisR({
 
     // 热更新逻辑：当 amis.json/dslpage.json 文件变更时，触发虚拟模块热更新
     handleHotUpdate({file, server}) {
-      if (!filter(file)) return [];
+      if (!filter(file)) return;
 
       const virtualId = `\0${file}.amisr.jsx`;
       const mod = server.moduleGraph.getModuleById(virtualId);
@@ -132,7 +132,7 @@ export default function vitePluginAmisR({
         return [mod];
       }
 
-      return [];
+      return;
     }
   };
 }
