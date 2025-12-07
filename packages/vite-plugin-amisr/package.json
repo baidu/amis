@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-amisr",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "将 amis json 文件转换为 react 组件",
   "main": "dist/index.cjs.js",
