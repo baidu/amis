@@ -2031,8 +2031,6 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     } = this.props;
     let newItems = items;
 
-    debugger;
-
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
       let compareFn: Function;
       // 这个是 loadDataOnce 前端分页模式
