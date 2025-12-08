@@ -2031,6 +2031,8 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     } = this.props;
     let newItems = items;
 
+    debugger;
+
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
       let compareFn: Function;
       // 这个是 loadDataOnce 前端分页模式
@@ -2049,7 +2051,10 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         };
       }
 
-      const itemsRest = items.concat();
+      // 如果没有配置对 primaryField，不要把那些没有 id 的数据带上，避免脏数据问题
+      const itemsRest = items.filter(item =>
+        item.hasOwnProperty(primaryField || 'id')
+      );
 
       newItems = store.selectedItems
         .map(item => {
