@@ -142,6 +142,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   rootCreatable?: boolean;
   rootCreateTip?: string;
   creatable?: boolean;
+  createMaxLength?: number;
   createTip?: string;
   // 是否开启虚拟滚动
   virtualThreshold?: number;
@@ -151,6 +152,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
     skipForm?: boolean
   ) => void;
   editable?: boolean;
+  editMaxLength?: number;
   editTip?: string;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
@@ -877,11 +879,26 @@ export class TreeSelector extends React.Component<
       flattenedOptions: flattenedOptionsWithoutAdding
     });
   }
-
+  valueToString(value: any) {
+    return typeof value === 'undefined' || value === null
+      ? ''
+      : typeof value === 'string'
+      ? value
+      : value instanceof Date
+      ? value.toISOString()
+      : JSON.stringify(value);
+  }
   renderInput(prfix: JSX.Element | null = null, testIdBuilder?: TestIdBuilder) {
-    const {classnames: cx, mobileUI, translate: __} = this.props;
-    const {inputValue} = this.state;
-
+    const {
+      classnames: cx,
+      mobileUI,
+      translate: __,
+      editMaxLength,
+      createMaxLength
+    } = this.props;
+    const {inputValue, isEditing} = this.state;
+    const maxLength = isEditing ? editMaxLength : createMaxLength;
+    const showCounter = maxLength ? true : false;
     return (
       <div
         className={cx('Tree-itemLabel', {
@@ -894,12 +911,24 @@ export class TreeSelector extends React.Component<
           })}
         >
           {prfix}
-          <input
-            onChange={this.handleInputChange}
-            value={inputValue}
-            placeholder={__('placeholder.enter')}
-            {...testIdBuilder?.getChild('input').getTestId()}
-          />
+          <div className={cx('TextControl-input')}>
+            <input
+              onChange={this.handleInputChange}
+              value={inputValue}
+              maxLength={maxLength}
+              placeholder={__('placeholder.enter')}
+              {...testIdBuilder?.getChild('input').getTestId()}
+            />
+            {showCounter ? (
+              <span className={cx('Tree-counter')}>
+                {`${this.valueToString(inputValue)?.length}${
+                  typeof maxLength === 'number' && maxLength
+                    ? `/${maxLength}`
+                    : ''
+                }`}
+              </span>
+            ) : null}
+          </div>
           <a
             data-tooltip={__('cancel')}
             onClick={this.handleCancel}
