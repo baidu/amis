@@ -579,6 +579,11 @@ export class TreeControlPlugin extends BasePlugin {
                     label: '新增文案提示',
                     value: '添加子节点',
                     name: 'createTip'
+                  },
+                  {
+                    type: 'input-number',
+                    label: '最大长度',
+                    name: 'creatLength'
                   }
                 ]
               }),
@@ -591,6 +596,11 @@ export class TreeControlPlugin extends BasePlugin {
                     label: '编辑文案提示',
                     value: '编辑该节点',
                     name: 'editTip'
+                  },
+                  {
+                    type: 'input-number',
+                    label: '最大长度',
+                    name: 'editLength'
                   }
                 ]
               }),

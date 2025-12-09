@@ -173,6 +173,10 @@
       margin-top: 0;
     }
   }
+  &-counter{
+    color: var(--input-count-multi-color);
+    font-size: var(--input-count-multi-fontSize);
+  }
 
   &-item {
     &:hover {

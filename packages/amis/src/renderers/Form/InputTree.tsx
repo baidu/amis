@@ -577,10 +577,12 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       showOutline,
       onAdd,
       creatable,
+      creatLength,
       createTip,
       addControls,
       onEdit,
       editable,
+      editLength,
       editTip,
       editControls,
       removable,
@@ -661,11 +663,13 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         selfDisabledAffectChildren={false}
         onAdd={onAdd}
         creatable={creatable}
+        creatLength={creatLength}
         createTip={createTip}
         rootCreatable={rootCreatable}
         rootCreateTip={rootCreateTip}
         onEdit={onEdit}
         editable={editable}
+        editLength={editLength}
         editTip={editTip}
         removable={removable}
         removeTip={removeTip}
