@@ -142,7 +142,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   rootCreatable?: boolean;
   rootCreateTip?: string;
   creatable?: boolean;
-  creatLength?: number;
+  createMaxLength?: number;
   createTip?: string;
   // 是否开启虚拟滚动
   virtualThreshold?: number;
@@ -152,7 +152,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
     skipForm?: boolean
   ) => void;
   editable?: boolean;
-  editLength?: number;
+  editMaxLength?: number;
   editTip?: string;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
@@ -893,12 +893,11 @@ export class TreeSelector extends React.Component<
       classnames: cx,
       mobileUI,
       translate: __,
-      editLength,
-      creatLength
+      editMaxLength,
+      createMaxLength
     } = this.props;
     const {inputValue, isEditing} = this.state;
-    debugger;
-    const maxLength = isEditing ? editLength : creatLength;
+    const maxLength = isEditing ? editMaxLength : createMaxLength;
     const showCounter = maxLength ? true : false;
     return (
       <div

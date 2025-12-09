@@ -583,7 +583,7 @@ export class TreeControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     label: '最大长度',
-                    name: 'creatLength'
+                    name: 'createMaxLength'
                   }
                 ]
               }),
@@ -600,7 +600,7 @@ export class TreeControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     label: '最大长度',
-                    name: 'editLength'
+                    name: 'editMaxLength'
                   }
                 ]
               }),
