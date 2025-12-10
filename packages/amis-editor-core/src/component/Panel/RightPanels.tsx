@@ -86,7 +86,7 @@ export class RightPanels extends React.Component<
           info: node?.info,
           path: node?.path,
           node: node,
-          value: store.value,
+          value: store.panelsValue,
           onChange: this.handlePanelChangeValue,
           store: store,
           manager: manager,
