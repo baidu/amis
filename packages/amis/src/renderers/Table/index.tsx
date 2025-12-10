@@ -44,7 +44,8 @@ import {
   getTree,
   resolveVariableAndFilterForAsync,
   getMatchedEventTargets,
-  loopTooMuch
+  loopTooMuch,
+  filterClassNameObject
 } from 'amis-core';
 import {
   Button,
@@ -2045,15 +2046,15 @@ export default class Table<
     }
 
     const {key, ...restProps} = props;
+    const columnClassName = filterClassNameObject(
+      column.pristine.className,
+      data
+    );
+    const thClassName = cx(columnClassName, stickyClassName);
 
     if (column.type === '__checkme') {
       return (
-        <th
-          {...restProps}
-          key={key}
-          style={style}
-          className={cx(column.pristine.className, stickyClassName)}
-        >
+        <th {...restProps} key={key} style={style} className={thClassName}>
           {store.rows.length && store.multiple ? (
             <Checkbox
               classPrefix={ns}
@@ -2071,21 +2072,11 @@ export default class Table<
       );
     } else if (column.type === '__dragme') {
       return (
-        <th
-          {...restProps}
-          key={key}
-          style={style}
-          className={cx(column.pristine.className, stickyClassName)}
-        />
+        <th {...restProps} key={key} style={style} className={thClassName} />
       );
     } else if (column.type === '__expandme') {
       return (
-        <th
-          {...restProps}
-          key={key}
-          style={style}
-          className={cx(column.pristine.className, stickyClassName)}
-        >
+        <th {...restProps} key={key} style={style} className={thClassName}>
           {(store.footable &&
             (store.footable.expandAll === false || store.footable.accordion)) ||
           (store.expandConfig &&
@@ -2109,12 +2100,7 @@ export default class Table<
       );
     } else if (column.type === '__index') {
       return (
-        <th
-          {...restProps}
-          key={key}
-          style={style}
-          className={cx(column.pristine.className, stickyClassName)}
-        >
+        <th {...restProps} key={key} style={style} className={thClassName}>
           {__('Table.index')}
 
           {resizable === false ? null : resizeLine}
@@ -2272,7 +2258,7 @@ export default class Table<
           key="content"
           className={cx(
             `TableCell--title`,
-            column.pristine.className,
+            columnClassName,
             column.pristine.labelClassName
           )}
           style={props.style}

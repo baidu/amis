@@ -79,6 +79,35 @@ const renderTable = () =>
     )
   );
 
+const renderTableWithClassName = (className: any) =>
+  render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          items: [
+            {
+              id: 1
+            }
+          ]
+        },
+        body: {
+          type: 'crud',
+          source: '${items}',
+          columns: [
+            {
+              name: 'id',
+              label: 'id',
+              className: className
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
 describe('层级选择', () => {
   it('选择根节点,所有后代节点都会自动选中', async () => {
     renderTable();
@@ -173,5 +202,19 @@ describe('层级选择', () => {
     expect(checkMeFirst.parentElement!.classList).not.toContain(
       'cxd-Checkbox--partial checked'
     );
+  });
+});
+
+describe('column className', () => {
+  it('对象形式的className, 能够正确计算表达式的值', async () => {
+    const {container} = renderTableWithClassName({
+      primary: '${id > 0}', // 应该为true，因为id=1
+      danger: '${id < 0}'
+    });
+
+    await waitFor(() => {
+      expect(container.querySelector('.primary')).toBeInTheDocument();
+      expect(container.querySelector('.danger')).not.toBeInTheDocument();
+    });
   });
 });
