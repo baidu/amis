@@ -616,7 +616,6 @@ export class TableCell2Plugin extends BasePlugin {
                   name: 'align',
                   label: '对齐方式',
                   pipeIn: defaultValue('left'),
-                  hidden: this._isOpColumn,
                   options: [
                     {label: '左对齐', value: 'left'},
                     {label: '居中对齐', value: 'center'},
