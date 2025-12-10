@@ -508,6 +508,8 @@ export default class FormTable<
       items = items.slice((page - 1) * perPage, page * perPage);
     }
 
+    console.log(items.map(item => item.periodStartDt));
+
     return {
       filteredItems: items,
       page,
@@ -1937,7 +1939,9 @@ export default class FormTable<
   @autobind
   handlePristineChange(data: Record<string, any>, rowIndex: string) {
     const {needConfirm} = this.props;
-    const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
+    const indexes = this.convertToRawPath(rowIndex)
+      .split('.')
+      .map(item => parseInt(item, 10));
 
     this.setState(
       prevState => {
