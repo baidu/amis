@@ -91,6 +91,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'lodash/memoize';
 import {Spinner} from 'amis-ui';
 import {AutoFoldedList} from 'amis-ui';
+import {getQuickEditApi, type AMISQuickEditObject} from './QuickEdit';
 
 interface AMISLoadMoreConfig {
   /**
@@ -1753,10 +1754,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
-    options?: {
-      resetOnFailed?: boolean;
-      reload?: string;
-    }
+    options?: AMISQuickEditObject
   ) {
     const {
       store,
@@ -1828,7 +1826,9 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
           );
         });
     } else {
-      if (!isEffectiveApi(quickSaveItemApi)) {
+      const api = getQuickEditApi(options?.saveImmediately, quickSaveItemApi);
+
+      if (!isEffectiveApi(api)) {
         env && env.alert('CRUD quickSaveItemApi is required!');
         return;
       }
@@ -1841,7 +1841,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
 
       const sendData = createObject(data, rows);
       return store
-        .saveRemote(quickSaveItemApi, sendData)
+        .saveRemote(api, sendData)
         .then(async (result: any) => {
           // 如果请求 cancel 了，会来到这里
           if (!result) {
