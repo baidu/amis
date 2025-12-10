@@ -381,6 +381,7 @@ export class App extends React.Component<AppProps, object> {
       <>
         {asideBefore ? render('aside-before', asideBefore) : null}
         <AsideNav
+          folded={store.folded}
           navigations={store.navigations}
           renderLink={(
             {link, active, toggleExpand, classnames: cx, depth, subHeader}: any,
