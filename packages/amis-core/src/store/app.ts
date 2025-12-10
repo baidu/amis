@@ -85,33 +85,46 @@ export const AppStore = ServiceStore.named('AppStore')
         return;
       }
 
-      pages = mapTree(pages, (item, index, level, paths) => {
+      pages = mapTree(pages, (item, index, level, paths, indexes) => {
         let path = item.link || item.url;
 
         if (item.schema || item.schemaApi) {
-          path =
-            item.url ||
-            `/${paths
-              .map(item => item.index)
-              .concat(index)
-              .map(index => `page-${index + 1}`)
-              .join('/')}`;
+          // get current path either url exist or generated url page-index
+          let currentPath = item.url || `page-${index + 1}`;
 
-          if (path && path[0] !== '/') {
-            let parentPath = '/';
-            let index = paths.length;
-            while (index > 0) {
-              const item = paths[index - 1];
+          // if start with '/', absolute path, return directly
+          if (currentPath.startsWith('/')) {
+            path = item.url;
+          } else {
+            let closestIndex = paths.length - 1;
+            let fullPaths: string[] = [currentPath];
+            while (closestIndex >= 0) {
+              const item = paths[closestIndex];
 
+              // if parent path exists
               if (item?.path) {
-                parentPath = item.path + '/';
-                break;
+                fullPaths = fullPaths.concat(item.path);
+                // if its a scheme, the path might not be generated, so keep moving upwards
+                if (item.schema || item.schemaApi) {
+                  break;
+                }
+              } else {
+                fullPaths = fullPaths.concat(
+                  `page-${indexes[closestIndex] + 1}`
+                );
               }
-              index--;
+              closestIndex--;
             }
 
-            path = parentPath + path;
+            path = fullPaths.reverse().join('/');
+            // maybe add /??,
+            // if (path && path[0] !== '/') {
+            //     path = `/${path}`;
+            // }
           }
+        } else {
+          // the above code would be lot cleaner if we set path for no schema node here.
+          // but there might be other issue. keep as is.
         }
 
         return {
