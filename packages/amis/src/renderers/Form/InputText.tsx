@@ -151,7 +151,7 @@ export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
   resetValue?: any;
   autoComplete?: any;
   allowInputText?: boolean;
-  spinnerClassName: string;
+  spinnerClassName?: string;
   revealPassword?: boolean;
   transform?: {
     lowerCase?: boolean; // 用户输入的字符自动转小写
