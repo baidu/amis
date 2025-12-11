@@ -139,7 +139,7 @@ export type InputTextRendererEvent =
   | 'enter';
 
 export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
-  placeholder?: string;
+  placeholder?: string | { [propName: string]: string; };
   addOn?: ActionObject & {
     position?: 'left' | 'right';
     label?: string;
