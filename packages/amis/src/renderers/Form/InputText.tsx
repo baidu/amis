@@ -147,7 +147,7 @@ export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
     className?: string;
   };
   creatable?: boolean;
-  clearable: boolean;
+  clearable?: boolean;
   resetValue?: any;
   autoComplete?: any;
   allowInputText?: boolean;
