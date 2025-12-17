@@ -287,5 +287,11 @@ extendLocale('en-US', {
   '0383d6f467ed0dd89860a7b8cc793ce9': 'Upper {{@1}} layer {{@2}}',
   'b818d2fd22f70de2d912f19048e2cde2': 'Intercepted {{@1}} rendering error',
   'e9a11b908a9b4f3d9dc947d9a64c0dab':
-    'A rendering error occurred. Please refer to the console output for detailed error information.'
+    'A rendering error occurred. Please refer to the console output for detailed error information.',
+  'f407c6b6264be4b590e28085d392b73d':
+    'It can be dragged into the following area to fix the drag-and-drop container',
+  '4d681c4aa93c8d005ec2ca2370618d6e': 'Visible',
+  'dce5379cb978a8259ecfca8f08f00817': 'Hide',
+  '02cc4f8f5a9aefbc03c778f7a5c989c7': 'Enter',
+  '35ba83e053cef95e55dfffde279822b5': 'No data displayed'
 });
