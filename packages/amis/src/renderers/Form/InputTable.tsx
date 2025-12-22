@@ -508,8 +508,6 @@ export default class FormTable<
       items = items.slice((page - 1) * perPage, page * perPage);
     }
 
-    console.log(items.map(item => item.periodStartDt));
-
     return {
       filteredItems: items,
       page,
