@@ -11,7 +11,7 @@ import {RendererStore} from '../../src/store/index';
 import {FormItemProps} from '../../src/renderers/Item';
 
 const renderComponent = (WrappedComponent: any, props: any) => {
-  const store = RendererStore.create({});
+  const store = RendererStore.create({}, {});
   return render(
     <RootStoreContext.Provider value={store}>
       <WrappedComponent rootStore={{}} $schema={{}} {...props} />

@@ -1671,7 +1671,9 @@ export const TableStore = iRendererStore
         result.push(current.id);
 
         if (current.children && current.children.length) {
-          result = result.concat(getExpandAllRows(current.children));
+          result = result.concat(
+            getExpandAllRows(Array.from(current.children))
+          );
         }
 
         return result;

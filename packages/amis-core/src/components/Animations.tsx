@@ -23,6 +23,7 @@ function Animations({
   const observer = useMemo(newObserver, []);
   const animationClassNames = useMemo(initAnimationClassNames, []);
   const animationTimeout = useMemo(initAnimationTimeout, []);
+  const transitionRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     createAnimationStyle(id, schema.animations!);
@@ -108,7 +109,10 @@ function Animations({
     }
   }
 
-  const handleEntered = useCallback((node: HTMLElement) => {
+  const handleEntered = useCallback(() => {
+    const node = transitionRef.current;
+    if (!node) return;
+
     const {attention, exit, enter, hover} = schema.animations || {};
     if (attention) {
       node.classList.add(`${attention.type}-${id}-attention`);
@@ -124,7 +128,10 @@ function Animations({
     }
   }, []);
 
-  const handleExit = useCallback((node: HTMLElement) => {
+  const handleExit = useCallback(() => {
+    const node = transitionRef.current;
+    if (!node) return;
+
     const {attention, hover} = schema.animations || {};
     if (attention) {
       node.classList.remove(`${attention.type}-${id}-attention`);
@@ -159,8 +166,9 @@ function Animations({
         onExited={handleExited}
         appear
         unmountOnExit
+        nodeRef={transitionRef}
       >
-        {component}
+        <div ref={transitionRef}>{component}</div>
       </CSSTransition>
     </>
   );

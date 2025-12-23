@@ -197,6 +197,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
   intervalTimeout: NodeJS.Timer | number;
   durationTimeout: NodeJS.Timer | number;
+  transitionRefs: Map<number, React.RefObject<HTMLDivElement>> = new Map();
 
   static defaultProps: Pick<
     CarouselProps,
@@ -777,64 +778,74 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            {options.map((option: any, key: number) => (
-              <Transition
-                mountOnEnter
-                unmountOnExit
-                in={key === current}
-                timeout={timeout}
-                key={key}
-              >
-                {(status: string) => {
-                  if (status === ENTERING) {
-                    this.wrapperRef.current &&
-                      this.wrapperRef.current.childNodes.forEach(
-                        (item: HTMLElement) => item.offsetHeight
-                      );
-                  }
-                  if (multipleCount > 1) {
-                    if (
-                      (status === ENTERING || status === EXITING) &&
-                      !this.loading
-                    ) {
-                      this.loading = true;
-                    } else if (
-                      (status === ENTERED || status === EXITED) &&
-                      this.loading
-                    ) {
-                      this.loading = false;
+            {options.map((option: any, key: number) => {
+              if (!this.transitionRefs.has(key)) {
+                this.transitionRefs.set(key, React.createRef());
+              }
+              const transitionRef = this.transitionRefs.get(key)!;
+              return (
+                <Transition
+                  mountOnEnter
+                  unmountOnExit
+                  in={key === current}
+                  timeout={timeout}
+                  key={key}
+                  nodeRef={transitionRef}
+                >
+                  {(status: string) => {
+                    if (status === ENTERING) {
+                      this.wrapperRef.current &&
+                        this.wrapperRef.current.childNodes.forEach(
+                          (item: HTMLElement) => item.offsetHeight
+                        );
                     }
-                  }
+                    if (multipleCount > 1) {
+                      if (
+                        (status === ENTERING || status === EXITING) &&
+                        !this.loading
+                      ) {
+                        this.loading = true;
+                      } else if (
+                        (status === ENTERED || status === EXITED) &&
+                        this.loading
+                      ) {
+                        this.loading = false;
+                      }
+                    }
 
-                  return (
-                    <div
-                      className={cx(
-                        'Carousel-item',
-                        animationName,
-                        animationStyles[status]
-                      )}
-                      style={itemStyle}
-                    >
-                      {multipleCount === 1 ? itemRender(option) : null}
-                      {multipleCount > 1
-                        ? newOptions[key].map((option: any, index: number) => (
-                            <div
-                              key={index}
-                              style={{
-                                width: 100 / multipleCount + '%',
-                                height: '100%',
-                                float: 'left'
-                              }}
-                            >
-                              {itemRender(option)}
-                            </div>
-                          ))
-                        : null}
-                    </div>
-                  );
-                }}
-              </Transition>
-            ))}
+                    return (
+                      <div
+                        ref={transitionRef}
+                        className={cx(
+                          'Carousel-item',
+                          animationName,
+                          animationStyles[status]
+                        )}
+                        style={itemStyle}
+                      >
+                        {multipleCount === 1 ? itemRender(option) : null}
+                        {multipleCount > 1
+                          ? newOptions[key].map(
+                              (option: any, index: number) => (
+                                <div
+                                  key={index}
+                                  style={{
+                                    width: 100 / multipleCount + '%',
+                                    height: '100%',
+                                    float: 'left'
+                                  }}
+                                >
+                                  {itemRender(option)}
+                                </div>
+                              )
+                            )
+                          : null}
+                      </div>
+                    );
+                  }}
+                </Transition>
+              );
+            })}
           </div>
         );
     }

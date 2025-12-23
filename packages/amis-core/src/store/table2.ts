@@ -265,7 +265,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
             ...item.pristine,
             type: item.type,
             children: item.children
-              ? getAllFilteredColumns(item.children)
+              ? getAllFilteredColumns(Array.from(item.children))
               : undefined
           }));
       }
@@ -444,7 +444,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
             pristine: item,
             toggled: item.toggled !== false,
             breakpoint: item.breakpoint,
-            children: item.children ? updateColumns(item.children, options) : []
+            children: item.children
+              ? updateColumns(Array.from(item.children), options)
+              : []
           };
         });
 

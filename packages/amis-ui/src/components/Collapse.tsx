@@ -138,37 +138,53 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
 
   contentDom: any;
   contentRef = (ref: any) => (this.contentDom = ref);
+  transitionRef = React.createRef<HTMLDivElement>();
 
   @autobind
-  handleEnter(elem: HTMLElement) {
-    elem.style['height'] = '';
+  handleEnter() {
+    const elem = this.transitionRef.current;
+    if (elem) {
+      elem.style['height'] = '';
+    }
   }
 
   @autobind
-  handleEntering(elem: HTMLElement) {
-    elem.style['height'] = `${elem['scrollHeight']}px`;
+  handleEntering() {
+    const elem = this.transitionRef.current;
+    if (elem) {
+      elem.style['height'] = `${elem['scrollHeight']}px`;
+    }
   }
 
   @autobind
-  handleEntered(elem: HTMLElement) {
-    elem.style['height'] = '';
+  handleEntered() {
+    const elem = this.transitionRef.current;
+    if (elem) {
+      elem.style['height'] = '';
+    }
   }
 
   @autobind
-  handleExit(elem: HTMLElement) {
-    let offsetHeight = elem['offsetHeight'];
-    const height =
-      offsetHeight +
-      parseInt(getComputedStyle(elem).getPropertyValue('margin-top'), 10) +
-      parseInt(getComputedStyle(elem).getPropertyValue('margin-bottom'), 10);
-    elem.style['height'] = `${height}px`;
-    // trigger browser reflow
-    elem.offsetHeight;
+  handleExit() {
+    const elem = this.transitionRef.current;
+    if (elem) {
+      let offsetHeight = elem['offsetHeight'];
+      const height =
+        offsetHeight +
+        parseInt(getComputedStyle(elem).getPropertyValue('margin-top'), 10) +
+        parseInt(getComputedStyle(elem).getPropertyValue('margin-bottom'), 10);
+      elem.style['height'] = `${height}px`;
+      // trigger browser reflow
+      elem.offsetHeight;
+    }
   }
 
   @autobind
-  handleExiting(elem: HTMLElement) {
-    elem.style['height'] = '';
+  handleExiting() {
+    const elem = this.transitionRef.current;
+    if (elem) {
+      elem.style['height'] = '';
+    }
   }
 
   render() {
@@ -248,6 +264,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
         onEntered={this.handleEntered}
         onExit={this.handleExit}
         onExiting={this.handleExiting}
+        nodeRef={this.transitionRef}
       >
         {(status: string) => {
           if (status === ENTERING) {
@@ -256,7 +273,10 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
           return (
             <div
               className={cx('Collapse-contentWrapper', collapseStyles[status])}
-              ref={this.contentRef}
+              ref={node => {
+                this.contentRef(node);
+                (this.transitionRef as any).current = node;
+              }}
             >
               <div className={cx('Collapse-body', bodyClassName)}>
                 <div className={cx('Collapse-content')}>{body || children}</div>

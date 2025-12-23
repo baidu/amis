@@ -46,7 +46,7 @@
     "amis-theme-editor-helper": "*",
     "i18n-runtime": "1.0.10",
     "lodash": "^4.17.15",
-    "mobx-state-tree": "^3.17.3"
+    "mobx-state-tree": "^7.0.2"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",

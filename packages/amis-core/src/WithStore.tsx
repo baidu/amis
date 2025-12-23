@@ -68,6 +68,7 @@ export function HocStoreFactory(renderer: {
       ref: any;
       state: any;
       unReaction: any;
+      renderFn: any;
 
       constructor(
         props: Props,
@@ -78,6 +79,7 @@ export function HocStoreFactory(renderer: {
         const rootStore = context;
         this.renderChild = this.renderChild.bind(this);
         this.refFn = this.refFn.bind(this);
+        this.renderFn = props.render;
 
         const store = rootStore.addStore({
           id: guid(),
@@ -172,10 +174,10 @@ export function HocStoreFactory(renderer: {
           };
 
           this.unReaction = reaction(
-            () => JSON.stringify(getExprProperties(this.props, store.data)),
+            () => JSON.stringify(getExprProperties(rest, store.data)),
             () =>
               this.setState({
-                ...getExprProperties(this.props, store.data)
+                ...getExprProperties(rest, store.data)
               })
           );
         }
@@ -417,9 +419,7 @@ export function HocStoreFactory(renderer: {
           [propName: string]: any;
         } = {}
       ) {
-        let {render} = this.props;
-
-        return render(region, node, {
+        return this.renderFn(region, node, {
           data: this.store.data,
           dataUpdatedAt: this.store.updatedAt,
           ...subProps,

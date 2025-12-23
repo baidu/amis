@@ -74,6 +74,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   isRootClosed = false;
   resizer = React.createRef<HTMLDivElement>();
   resizeCoord: number = 0;
+  transitionRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     if (this.props.show) {
@@ -339,6 +340,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
           onEnter={this.handleEnter}
           onExited={this.handleExited}
           onEntered={this.handleEntered}
+          nodeRef={this.transitionRef}
         >
           {(status: string) => {
             if (status === ENTERING) {
@@ -350,7 +352,10 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
             return (
               <div
-                ref={this.modalRef}
+                ref={node => {
+                  this.modalRef(node);
+                  (this.transitionRef as any).current = node;
+                }}
                 role="dialog"
                 className={cx(
                   `amis-dialog-widget ${ns}Drawer`,

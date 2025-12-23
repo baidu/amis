@@ -89,6 +89,7 @@ export class ContextMenu extends React.Component<
 
   menuRef: React.RefObject<HTMLDivElement> = React.createRef();
   contentRef: React.RefObject<HTMLDivElement> = React.createRef();
+  transitionRef = React.createRef<HTMLDivElement>();
   originInstance: this | null;
   prevInfo: {
     // 记录当前右键位置: 方便下一次做对比
@@ -154,7 +155,9 @@ export class ContextMenu extends React.Component<
           preventClose: options?.preventClose
         },
         () => {
-          this.handleEnter(this.menuRef.current as HTMLElement);
+          if (this.menuRef.current) {
+            this.autoCalculatePosition(this.menuRef.current as HTMLElement);
+          }
         }
       );
     } else {
@@ -252,14 +255,18 @@ export class ContextMenu extends React.Component<
   resizeObserver: null | ResizeObserver = null;
 
   @autobind
-  handleEnter(menu: HTMLElement) {
-    this.autoCalculatePosition(menu);
+  handleEnter() {
+    const menu = this.transitionRef.current;
+    if (menu) {
+      this.autoCalculatePosition(menu);
+    }
   }
 
   @autobind
-  handleEntered(menu: HTMLElement) {
+  handleEntered() {
     this.menuEntered = true;
-    if (!this.contentRef.current || !window.ResizeObserver) {
+    const menu = this.transitionRef.current;
+    if (!this.contentRef.current || !window.ResizeObserver || !menu) {
       return;
     }
     // 监听菜单大小变化，并自动重新计算位置
@@ -352,10 +359,21 @@ export class ContextMenu extends React.Component<
         in={this.state.isOpened}
         timeout={500}
         onEntered={this.handleEntered}
+        nodeRef={this.transitionRef}
       >
         {(status: string) => (
           <div
-            ref={this.menuRef}
+            ref={node => {
+              if (node) {
+                (
+                  this.menuRef as React.MutableRefObject<HTMLDivElement | null>
+                ).current = node as HTMLDivElement;
+                (
+                  this
+                    .transitionRef as React.MutableRefObject<HTMLDivElement | null>
+                ).current = node as HTMLDivElement;
+              }
+            }}
             role="contextmenu"
             className={cx(
               'ContextMenu',
