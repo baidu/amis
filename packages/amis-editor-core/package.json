@@ -53,7 +53,7 @@
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
     "mobx": "^6.15.0",
-    "mobx-react": "^6.3.1",
+    "mobx-react": "^7.6.0",
     "mobx-state-tree": "^7.0.2",
     "react-frame-component": "^5.2.6",
     "react-json-view": "^1.21.3",
