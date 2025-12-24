@@ -89,6 +89,12 @@ export class SubFormControlPlugin extends BasePlugin {
         value: '设置'
       }),
       {
+        type: 'switch',
+        label: '多选模式',
+        name: 'multiple',
+        value: false
+      },
+      {
         name: 'minLength',
         visibleOn: 'this.multiple',
         label: '允许最少个数',
