@@ -8,7 +8,8 @@ import {
   resolveVariable,
   buildTrackExpression,
   evalTrackExpression,
-  TestIdBuilder
+  TestIdBuilder,
+  filterClassNameObject
 } from 'amis-core';
 import {BadgeObject, Checkbox, Icon, Spinner} from 'amis-ui';
 import React from 'react';
@@ -173,6 +174,12 @@ export default function Cell({
 
   const finalCanAccessSuperData =
     column.pristine.canAccessSuperData ?? canAccessSuperData;
+  const columnClassName = filterClassNameObject(
+    column.pristine.className,
+    data
+  );
+  const tdClassName = cx(columnClassName, stickyClassName);
+
   const subProps: any = {
     ...props,
     // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
@@ -204,22 +211,14 @@ export default function Cell({
       store.firstToggledColumnIndex === props.colIndex,
     onQuery: undefined,
     style,
-    className: cx(
-      column.pristine.className,
-      stickyClassName,
-      addtionalClassName
-    ),
+    className: cx(tdClassName, addtionalClassName),
     testIdBuilder: testIdBuilder?.getChild(column.name || column.value)
   };
   delete subProps.label;
 
   if (column.type === '__checkme') {
     return (
-      <td
-        style={style}
-        className={cx(column.pristine.className, stickyClassName)}
-        {...testIdBuilder?.getTestId()}
-      >
+      <td style={style} className={tdClassName} {...testIdBuilder?.getTestId()}>
         <Checkbox
           classPrefix={ns}
           type={multiple ? 'checkbox' : 'radio'}
@@ -235,7 +234,7 @@ export default function Cell({
     return (
       <td
         style={style}
-        className={cx(column.pristine.className, stickyClassName, {
+        className={cx(tdClassName, {
           'is-dragDisabled': !item.draggable
         })}
         {...testIdBuilder?.getChild('drag').getTestId()}
@@ -245,10 +244,7 @@ export default function Cell({
     );
   } else if (column.type === '__expandme') {
     return (
-      <td
-        style={style}
-        className={cx(column.pristine.className, stickyClassName)}
-      >
+      <td style={style} className={tdClassName}>
         {item.expandable ? (
           <a
             className={cx('Table-expandBtn', item.expanded ? 'is-active' : '')}
@@ -266,10 +262,7 @@ export default function Cell({
     );
   } else if (column.type === '__index') {
     return (
-      <td
-        style={style}
-        className={cx(column.pristine.className, stickyClassName)}
-      >
+      <td style={style} className={tdClassName}>
         {`${filterItemIndex ? filterItemIndex(item.path, item) : item.path}`
           .split('.')
           .map(a => parseInt(a, 10) + 1 + (offset || 0))
