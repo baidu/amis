@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "6.13.0",
+  "version": "7.0.0-next.1",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -37,8 +37,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^6.13.0",
-    "amis-ui": "^6.13.0",
+    "amis-core": "^7.0.0-next.1",
+    "amis-ui": "^7.0.0-next.1",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.2",
@@ -57,8 +57,9 @@
     "keycode": "^2.2.1",
     "lodash": "^4.17.15",
     "match-sorter": "^6.3.1",
-    "mobx": "6.15.0",
+    "mobx": "^6.15.0",
     "mobx-react": "^6.3.1",
+    "mobx-react-lite": "^2.2.0",
     "mobx-state-tree": "^7.0.2",
     "moment": "^2.19.4",
     "moment-timezone": "^0.5.34",
@@ -74,8 +75,7 @@
     "sortablejs": "1.15.0",
     "tslib": "^2.3.1",
     "video-react": "0.16.0",
-    "xlsx": "^0.18.5",
-    "mobx-react-lite": "^2.2.0"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",

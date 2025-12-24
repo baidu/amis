@@ -44,7 +44,7 @@
     ]
   },
   "dependencies": {
-    "mobx": "6.15.0",
+    "mobx": "^6.15.0",
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^7.0.2",
     "path-to-regexp": "^6.2.0",
