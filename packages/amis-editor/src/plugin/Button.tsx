@@ -296,6 +296,12 @@ export class ButtonPlugin extends BasePlugin {
                 name: 'disabledOnAction',
                 label: '动作完成前禁用',
                 value: false
+              }),
+              getSchemaTpl('switch', {
+                visibleOn: 'data.disabledOnAction',
+                name: 'actionLoading',
+                label: '启用loading效果',
+                value: false
               })
             ]
           },

@@ -735,6 +735,7 @@
   }
 
   &.is-disabled,
+  &.is-loading,
   &:disabled {
     box-shadow: none;
     cursor: not-allowed;
@@ -745,7 +746,7 @@
     }
   }
 
-  &:not(:disabled):not(.is-disabled) {
+  &:not(:disabled):not(.is-disabled):not(.is-loading) {
     cursor: pointer;
   }
 

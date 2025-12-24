@@ -94,7 +94,9 @@ export class Button extends React.Component<ButtonProps> {
       <Comp
         type={Comp === 'input' || Comp === 'button' ? type : undefined}
         {...pickEventsProps(rest)}
-        onClick={rest.onClick && disabled ? () => {} : rest.onClick}
+        onClick={
+          rest.onClick && (disabled || loading) ? () => {} : rest.onClick
+        }
         href={href}
         {...testIdBuilder?.getTestId()}
         className={cx(
@@ -107,7 +109,8 @@ export class Button extends React.Component<ButtonProps> {
                 [`Button--block`]: block,
                 [`Button--iconOnly`]: iconOnly,
                 'is-disabled': disabled,
-                'is-active': active
+                'is-active': active,
+                'is-loading': loading
               },
           className
         )}
