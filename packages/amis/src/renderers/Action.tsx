@@ -750,20 +750,29 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
   }
 
   render() {
-    const {env, disabled, btnDisabled, disabledOnAction, loading, ...rest} =
-      this.props;
+    const {
+      env,
+      disabled,
+      btnDisabled,
+      disabledOnAction,
+      loading,
+      actionLoading,
+      ...rest
+    } = this.props;
     const {actionDisabled} = this.state;
     return (
       <Action
         {...(rest as any)}
         env={env}
         disabled={
-          disabled || btnDisabled || (disabledOnAction ? actionDisabled : false)
+          disabled ||
+          btnDisabled ||
+          (disabledOnAction && !actionLoading ? actionDisabled : false)
         }
         onAction={this.handleAction}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        loading={loading}
+        loading={disabledOnAction && actionLoading ? actionDisabled : loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={rest.popOverContainer || env.getModalContainer}
       />
