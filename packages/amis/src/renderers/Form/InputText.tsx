@@ -403,8 +403,13 @@ export default class TextControl extends React.PureComponent<
     if (rendererEvent?.prevented) {
       return;
     }
+    // 修复 placeholder 点击无法聚焦的问题
+    const isClickedOnInput =
+      event.target === this.input ||
+      (this.input?.parentElement?.contains(event.target as HTMLElement) ??
+        false);
 
-    if (multiple || event.target === this.input) {
+    if (multiple || isClickedOnInput) {
       // 已经 focus 的就不重复执行，否则总重新定位光标
       this.state.isFocused || this.focus();
       this.setState({
