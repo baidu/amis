@@ -47,6 +47,7 @@ const fadeStyles: {
 };
 export class PopUp extends React.PureComponent<PopUpPorps> {
   scrollTop: number = 0;
+  transitionRef = React.createRef<HTMLDivElement>();
   static defaultProps = {
     className: '',
     overlay: true,
@@ -110,10 +111,12 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
           in={isShow}
           timeout={500}
           appear
+          nodeRef={this.transitionRef}
         >
           {(status: string) => {
             return (
               <div
+                ref={this.transitionRef}
                 className={cx(`${ns}PopUp`, className, fadeStyles[status])}
                 style={outerStyle}
                 {...rest}

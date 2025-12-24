@@ -75,7 +75,10 @@ const SpinnerSharedStore = types
        * @returns {boolean} 是否可以进入 loading
        */
       checkLoading: (spinnerContainerWillCheck: HTMLElement | null) => {
-        if (self.spinningContainers.has(spinnerContainerWillCheck)) {
+        if (
+          spinnerContainerWillCheck &&
+          self.spinningContainers.has(spinnerContainerWillCheck)
+        ) {
           if (!self.spinningContainers.size) {
             return false;
           }
@@ -127,6 +130,7 @@ export class Spinner extends React.Component<
   };
 
   parent: HTMLElement | null = null;
+  transitionRef = React.createRef<HTMLDivElement>();
 
   /**
    * 解决同级（same parent node） spinner 的 show 不全为 true 时
@@ -227,6 +231,7 @@ export class Spinner extends React.Component<
           unmountOnExit
           in={this.state.spinning}
           timeout={timeout}
+          nodeRef={this.transitionRef}
         >
           {(status: string) => {
             return (
@@ -238,6 +243,7 @@ export class Spinner extends React.Component<
 
                 {/* spinner图标和文案 */}
                 <div
+                  ref={this.transitionRef}
                   data-testid="spinner"
                   className={cx(
                     `Spinner`,

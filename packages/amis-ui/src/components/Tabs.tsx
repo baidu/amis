@@ -74,6 +74,7 @@ class TabComponent extends React.PureComponent<TabProps> {
   touch: any = {};
   touchStartTime: number;
   contentRef = (ref: any) => (this.contentDom = ref);
+  transitionRef = React.createRef<HTMLDivElement>();
 
   @autobind
   onTouchStart(event: React.TouchEvent) {
@@ -131,6 +132,7 @@ class TabComponent extends React.PureComponent<TabProps> {
         mountOnEnter={mountOnEnter}
         unmountOnExit={typeof reload === 'boolean' ? reload : unmountOnExit}
         timeout={500}
+        nodeRef={this.transitionRef}
       >
         {(status: string) => {
           if (status === ENTERING) {
@@ -138,7 +140,10 @@ class TabComponent extends React.PureComponent<TabProps> {
           }
           return (
             <div
-              ref={this.contentRef}
+              ref={node => {
+                this.contentRef(node);
+                (this.transitionRef as any).current = node;
+              }}
               className={cx(
                 transitionStyles[status],
                 activeKey === eventKey ? 'is-active' : '',

@@ -91,7 +91,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         props.disabled !== prevProps.disabled)
     ) {
       this.editor.contentWindow.removeEventListener(
-        'unload',
+        'pagehide',
         this.handleIframeUnload
       );
       tinymce.remove(this.editor);
@@ -102,7 +102,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
   componentWillUnmount() {
     if (this.editor) {
       this.editor.contentWindow.removeEventListener(
-        'unload',
+        'pagehide',
         this.handleIframeUnload
       );
       tinymce.remove(this.editor);
@@ -218,7 +218,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
   @autobind
   handleIframeUnload() {
     this.editor!.contentWindow.removeEventListener(
-      'unload',
+      'pagehide',
       this.handleIframeUnload
     );
     requestAnimationFrame(() => {
@@ -249,7 +249,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
 
     // iframe 移动后，就不可用了，那只能重新初始化
     // https://poeticcode.wordpress.com/2010/06/08/iframe-reloads-when-moved-around-the-dom-tree/
-    editor.contentWindow.addEventListener('unload', this.handleIframeUnload);
+    editor.contentWindow.addEventListener('pagehide', this.handleIframeUnload);
   }
 
   render() {

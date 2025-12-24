@@ -94,6 +94,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   isRootClosed = false;
   modalDom: HTMLElement;
+  transitionRef = React.createRef<HTMLDivElement>();
+  draggableRef = React.createRef<HTMLDivElement>();
 
   static Header = themeable(
     localeable(
@@ -418,11 +420,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         onEnter={this.handleEnter}
         onExited={this.handleExited}
         onEntered={this.handleEntered}
+        nodeRef={this.transitionRef}
       >
         {(status: string) => (
           <Portal container={getContainerWithFullscreen(container)}>
             <div
-              ref={this.modalRef}
+              ref={node => {
+                this.modalRef(node);
+                (this.transitionRef as any).current = node;
+              }}
               role="dialog"
               className={cx(
                 `amis-dialog-widget Modal`,
@@ -448,8 +454,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 onStop={this.handleDragStop}
                 cancel="Icon, svg, a, svg *"
                 handle={`.${classPrefix}Modal-header`}
+                nodeRef={this.draggableRef}
               >
                 <div
+                  ref={this.draggableRef}
                   className={cx(
                     `Modal-content`,
                     draggable && !mobileUI ? 'Modal-draggable' : '',

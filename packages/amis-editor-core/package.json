@@ -52,9 +52,9 @@
     "deep-diff": "1.0.2",
     "json-ast-comments": "^1.1.0",
     "lodash": "^4.17.15",
-    "mobx": "^4.5.0",
+    "mobx": "6.15.0",
     "mobx-react": "^6.3.1",
-    "mobx-state-tree": "^3.17.3",
+    "mobx-state-tree": "^7.0.2",
     "react-frame-component": "^5.2.6",
     "react-json-view": "^1.21.3",
     "sortablejs": "^1.14.0"

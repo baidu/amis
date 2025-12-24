@@ -294,6 +294,7 @@ export class ToastMessage extends React.Component<
   // content: React.RefObject<HTMLDivElement>;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean = false;
+  transitionRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.mounted = true;
@@ -357,10 +358,12 @@ export class ToastMessage extends React.Component<
         timeout={750}
         onEntered={this.handleEntered}
         onExited={onDismiss}
+        nodeRef={this.transitionRef}
       >
         {(status: string) => {
           return (
             <div
+              ref={this.transitionRef}
               className={cx(
                 `Toast Toast--${level}`,
                 className,

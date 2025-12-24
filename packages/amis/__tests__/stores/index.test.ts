@@ -3,7 +3,7 @@ import {getSnapshot, getEnv} from 'mobx-state-tree';
 import {ServiceStore} from '../../src';
 
 test('store:index', () => {
-  const store = RendererStore.create({});
+  const store = RendererStore.create({}, {});
 
   expect(getSnapshot(store)).toMatchSnapshot();
 
