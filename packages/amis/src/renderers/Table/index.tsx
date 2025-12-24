@@ -68,7 +68,7 @@ import {
   SchemaTpl
 } from '../../Schema';
 import {SchemaPopOver} from '../PopOver';
-import {AMISQuickEdit, SchemaQuickEdit} from '../QuickEdit';
+import {AMISQuickEdit, getQuickEditApi, SchemaQuickEdit} from '../QuickEdit';
 import {AMISCopyable, SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
 import ColumnToggler from './ColumnToggler';
@@ -1283,13 +1283,7 @@ export default class Table<
       return;
     }
 
-    const {
-      onSave,
-      onPristineChange,
-      saveImmediately: propsSaveImmediately,
-      primaryField,
-      onItemChange
-    } = this.props;
+    const {onSave, onPristineChange, primaryField, onItemChange} = this.props;
 
     item.change(values, savePristine);
 
@@ -1320,25 +1314,26 @@ export default class Table<
       item.path
     );
 
-    if (!saveImmediately && !propsSaveImmediately) {
-      return;
-    } else if (saveImmediately && saveImmediately.api) {
-      this.props.onAction(
-        null,
-        {
-          actionType: 'ajax',
-          api: saveImmediately.api,
-          reload: options?.reload
-        },
-        item.locals
-      );
-      return;
-    }
-
     if (!onSave) {
+      const api = getQuickEditApi(saveImmediately);
+
+      if (isEffectiveApi(api)) {
+        // 调用自身的onAction方法
+        this.props.onAction(
+          null,
+          {
+            actionType: 'ajax',
+            api,
+            reload: options?.reload
+          },
+          item.locals
+        );
+      }
+
       return;
     }
 
+    // 调用crud的onSave方法
     onSave(
       item.data,
       difference(item.data, item.pristine, ['id', primaryField]),
