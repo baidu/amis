@@ -946,7 +946,7 @@ export default class FormTable<
       if (needConfirm === false) {
         this.emitValue();
       }
-
+      this.table?.updateTableInfo?.();
       callback?.();
     });
 
