@@ -139,7 +139,7 @@ export type InputTextRendererEvent =
   | 'enter';
 
 export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
-  placeholder?: string;
+  placeholder?: string | { [propName: string]: string; };
   addOn?: ActionObject & {
     position?: 'left' | 'right';
     label?: string;
@@ -147,11 +147,11 @@ export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
     className?: string;
   };
   creatable?: boolean;
-  clearable: boolean;
+  clearable?: boolean;
   resetValue?: any;
   autoComplete?: any;
   allowInputText?: boolean;
-  spinnerClassName: string;
+  spinnerClassName?: string;
   revealPassword?: boolean;
   transform?: {
     lowerCase?: boolean; // 用户输入的字符自动转小写
