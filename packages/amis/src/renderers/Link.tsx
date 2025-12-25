@@ -94,7 +94,8 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       translate: __,
       title,
       icon,
-      rightIcon
+      rightIcon,
+      env
     } = this.props;
 
     let value =
@@ -106,7 +107,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       <Link
         className={className}
         style={style}
-        href={value}
+        href={env.filterHtml(value)}
         disabled={disabled}
         title={title}
         htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
