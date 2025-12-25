@@ -55,7 +55,7 @@ export function parse(input: string, options?: ParserOptions): ASTNode {
     return (
       token.type === TokenName[TokenEnum.Punctuator] &&
       (Array.isArray(operator)
-        ? ~operator.indexOf(token.value!)
+        ? (operator as string[]).includes(token.value!)
         : token.value === operator)
     );
   }
@@ -601,19 +601,17 @@ export function parse(input: string, options?: ParserOptions): ASTNode {
       let state = argListStates.START;
 
       while (true) {
-        if (state === argListStates.COMMA || !matchPunctuator(endOp)) {
-          const arg = assert(expression());
-          args.push(arg);
-          state = argListStates.START;
-
-          if (matchPunctuator(',')) {
-            next();
-            state = argListStates.COMMA;
-          }
-        } else if (matchPunctuator(endOp)) {
+        if (matchPunctuator(endOp)) {
           end = token;
           next();
           break;
+        }
+        const arg = assert(expression());
+        args.push(arg);
+        state = argListStates.START;
+        if (matchPunctuator(',')) {
+          next();
+          state = argListStates.COMMA;
         }
       }
       return {
@@ -715,10 +713,24 @@ export function parse(input: string, options?: ParserOptions): ASTNode {
             fatal();
           }
         } else {
-          if (state != objectStates.COMMA && matchPunctuator('}')) {
+          if (matchPunctuator('}')) {
             end = token;
             next();
             break;
+          }
+
+          if (matchPunctuator('...')) {
+            const spreadToken = token;
+            next();
+            const argument = assert(expression());
+            ast.members.push({
+              spread: true,
+              argument,
+              start: spreadToken.start,
+              end: argument.end
+            });
+            state = objectStates.VALUE;
+            continue;
           }
 
           key = assert(varibleKey(false, true));

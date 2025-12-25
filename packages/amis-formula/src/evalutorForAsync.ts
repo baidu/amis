@@ -266,19 +266,31 @@ export class AsyncEvaluator extends (Evaluator as any) {
     return runSequence(ast.members, member => this.evalute(member));
   }
 
-  async object(ast: {members: Array<{key: string; value: any}>}) {
-    let object: any = {};
-    await ast.members.reduce(
-      async (promise: any, {key, value}: any, index: number) => {
-        await promise;
-        const objKey = await this.evalute(key);
-        const objVal = await this.evalute(value);
-        object[objKey] = objVal;
-      },
-      Promise.resolve()
-    );
+  async object(ast: {
+    members: Array<{
+      key?: string;
+      value?: any;
+      spread?: boolean;
+      argument?: any;
+    }>;
+  }) {
+    const result: any = {};
 
-    return object;
+    for (const member of ast.members) {
+      if (member.spread) {
+        const spreadValue = await this.evalute(member.argument);
+        if (spreadValue && typeof spreadValue === 'object') {
+          Object.assign(result, spreadValue);
+        }
+        continue;
+      }
+
+      const objKey = await this.evalute(member.key);
+      const objVal = await this.evalute(member.value);
+      result[objKey] = objVal;
+    }
+
+    return result;
   }
 
   async conditional(ast: {

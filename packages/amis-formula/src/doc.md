@@ -1114,6 +1114,40 @@ CONCAT(['a', 'b', 'c'], ['1'], ['3']) 得到 ['a', 'b', 'c', '1', '3']。
 
 UNIQ([{a: '1'}, {b: '2'}, {a: '1'}]) 得到 [{a: '1'}, {b: '2'}]。
 
+### ARRAYUPDATE
+
+用法：`ARRAYUPDATE(array, 0, {name: 'new'})`
+
+ * `arr:array` 数组
+ * `index:number` 要更新的索引
+ * `updates:object` 更新的对象，浅合并
+
+返回：`array` 更新后的新数组
+
+更新数组指定索引的元素，与更新对象进行浅合并。
+
+示例：
+
+ARRAYUPDATE([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 0, {name: 'alice2'})
+得到 [{id: 1, name: 'alice2'}, {id: 2, name: 'bob'}]。
+
+### ARRAYUPDATEBY
+
+用法：`ARRAYUPDATEBY(array, item => item.id === 1, {status: 'done'})`
+
+ * `arr:array` 数组
+ * `predicate:Function` 条件函数，返回 true 的元素会被更新
+ * `updates:object` 更新的对象，浅合并
+
+返回：`array` 更新后的新数组
+
+根据条件更新数组元素，匹配条件的元素与更新对象进行浅合并。
+
+示例：
+
+ARRAYUPDATEBY([{id: 1, status: 'pending'}, {id: 2, status: 'active'}], item => item.id === 1, {status: 'done'})
+得到 [{id: 1, status: 'done'}, {id: 2, status: 'active'}]。
+
 ## 编码
 
 ### ENCODEJSON
@@ -1175,4 +1209,200 @@ GET({arr: [{name: 'amis', age: 18}]}, 'arr.1.name', 'not-found') 得到 'not-fou
 返回：`boolean` 结果
 
 判断是否为类型支持：string, number, array, date, plain-object。
+
+## 对象操作
+
+### KEYS
+
+用法：`KEYS({name: 'alice', age: 18})`
+
+ * `obj:object` 要处理的对象
+
+返回：`array` 属性名数组
+
+获取对象的所有属性名。
+
+示例：
+
+KEYS({name: 'alice', age: 18}) 得到 ['name', 'age']。
+
+### VALUES
+
+用法：`VALUES({name: 'alice', age: 18})`
+
+ * `obj:object` 要处理的对象
+
+返回：`array` 属性值数组
+
+获取对象的所有属性值。
+
+示例：
+
+VALUES({name: 'alice', age: 18}) 得到 ['alice', 18]。
+
+### ENTRIES
+
+用法：`ENTRIES({name: 'alice', age: 18})`
+
+ * `obj:object` 要处理的对象
+
+返回：`array` 键值对数组
+
+获取对象的键值对数组，每个元素为 [key, value] 的形式。
+
+示例：
+
+ENTRIES({name: 'alice', age: 18}) 得到 [['name', 'alice'], ['age', 18]]。
+
+### PICK
+
+用法：`PICK({name: 'alice', age: 18, email: 'a@b.com'}, 'name', 'age')`
+
+ * `obj:object` 要处理的对象
+ * `keys:...string` 要选择的属性名，可以是多个参数
+
+返回：`object` 新对象，只包含指定的属性
+
+从对象中选择指定的属性，返回新对象。
+
+示例：
+
+PICK({name: 'alice', age: 18, email: 'a@b.com'}, 'name', 'age') 得到 {name: 'alice', age: 18}。
+
+### OMIT
+
+用法：`OMIT({name: 'alice', age: 18, email: 'a@b.com'}, 'email')`
+
+ * `obj:object` 要处理的对象
+ * `keys:...string` 要排除的属性名，可以是多个参数
+
+返回：`object` 新对象，排除了指定的属性
+
+从对象中排除指定的属性，返回新对象。
+
+示例：
+
+OMIT({name: 'alice', age: 18, email: 'a@b.com'}, 'email') 得到 {name: 'alice', age: 18}。
+
+### MERGE
+
+用法：`MERGE({a: 1}, {b: 2}, {a: 3})`
+
+ * `objects:...object` 要合并的多个对象
+
+返回：`object` 合并后的新对象
+
+合并多个对象，后者的属性覆盖前者（浅合并）。
+
+示例：
+
+MERGE({a: 1}, {b: 2}, {a: 3}) 得到 {a: 3, b: 2}。
+
+### MAPVALUES
+
+用法：`MAPVALUES({a: 1, b: 2}, item => item * 2)`
+
+ * `obj:object` 要处理的对象
+ * `transformer:Function` 转换函数，接收 (value, key, obj) 参数
+
+返回：`object` 新对象，包含转换后的值
+
+使用箭头函数转换对象的所有属性值，需要搭配箭头函数一起使用。
+
+示例：
+
+MAPVALUES({a: 1, b: 2, c: 3}, item => item * 2) 得到 {a: 2, b: 4, c: 6}。
+
+### HASKEY
+
+用法：`HASKEY({name: 'alice'}, 'name')`
+
+ * `obj:object` 要检查的对象
+ * `key:string` 属性名
+
+返回：`boolean` 如果对象包含该属性返回 true，否则返回 false
+
+检查对象是否包含指定的属性。
+
+示例：
+
+HASKEY({name: 'alice'}, 'name') 得到 true，HASKEY({name: 'alice'}, 'age') 得到 false。
+
+### GROUPBY
+
+用法：`GROUPBY([{type: 'a', val: 1}, {type: 'a', val: 2}, {type: 'b', val: 3}], 'type')`
+
+ * `items:array` 要分组的数组
+ * `iteratee:string|Function` 分组键属性名或箭头函数
+
+返回：`object` 分组后的对象，键为分组值，值为该分组的数组
+
+根据指定属性或函数将数组元素分组成对象，相同分组键的元素放在同一个数组中。
+
+示例：
+
+GROUPBY([{type: 'a', val: 1}, {type: 'a', val: 2}, {type: 'b', val: 3}], 'type')
+得到 {a: [{type: 'a', val: 1}, {type: 'a', val: 2}], b: [{type: 'b', val: 3}]}。
+
+### INDEXBY
+
+用法：`INDEXBY([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 'id')`
+
+ * `items:array` 要转换的数组
+ * `iteratee:string|Function` 索引键属性名或箭头函数
+
+返回：`object` 转换后的索引对象，键为指定属性值，值为对应的数组元素
+
+将数组转换为对象索引，使用指定属性或函数的返回值作为键，每个键对应一个元素。
+如果有重复的键，后者会覆盖前者。
+
+示例：
+
+INDEXBY([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 'id')
+得到 {1: {id: 1, name: 'alice'}, 2: {id: 2, name: 'bob'}}。
+
+### DEFAULTS
+
+用法：`DEFAULTS({a: 1}, {b: 2, a: 3})`
+
+ * `obj:object` 要设置默认值的对象
+ * `defaults:...object` 包含默认值的对象，可以是多个参数
+
+返回：`object` 新对象，使用了默认值
+
+为对象设置默认值，仅当属性不存在或为 undefined 时才使用默认值。
+null 值和其他假值会被保留。
+
+示例：
+
+DEFAULTS({a: 1}, {b: 2, a: 3}) 得到 {a: 1, b: 2}，
+DEFAULTS({}, {status: 'pending', priority: 'normal'}) 得到 {status: 'pending', priority: 'normal'}。
+
+### INVERT
+
+用法：`INVERT({name: 'alice', age: 'eighteen'})`
+
+ * `obj:object` 要反转的对象
+
+返回：`object` 新对象，键值互换
+
+交换对象的键和值。适用于需要反向查询的映射关系。
+
+示例：
+
+INVERT({name: 'alice', age: 'eighteen'}) 得到 {alice: 'name', eighteen: 'age'}。
+
+### FROMTUPLE
+
+用法：`FROMTUPLE([['a', 1], ['b', 2]])`
+
+ * `entries:array` 键值对数组，每个元素应为 [key, value] 的形式
+
+返回：`object` 新对象，由键值对数组构成
+
+从键值对数组创建对象，将二维数组转换为对象形式。
+
+示例：
+
+FROMTUPLE([['a', 1], ['b', 2]]) 得到 {a: 1, b: 2}。
 
