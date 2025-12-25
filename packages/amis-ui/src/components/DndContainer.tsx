@@ -52,7 +52,7 @@ const DndContainer: React.FC<DndContainerProps> = (
     className,
     classnames: cx,
     children,
-    axis,
+    axis = 'both',
     position,
     defaultPosition,
     bounds,
@@ -60,8 +60,8 @@ const DndContainer: React.FC<DndContainerProps> = (
     handle,
     cancel,
     draggable,
-    scale,
-    enableUserSelect,
+    scale = 1,
+    enableUserSelect = false,
     nodeRef,
     onDrag,
     onStart,
@@ -91,12 +91,6 @@ const DndContainer: React.FC<DndContainerProps> = (
       {children}
     </Draggable>
   );
-};
-
-DndContainer.defaultProps = {
-  axis: 'both',
-  scale: 1,
-  enableUserSelect: false
 };
 
 export default localeable(themeable(DndContainer));

@@ -51,22 +51,6 @@ export interface PullRefreshState {
   offsetY: number;
 }
 
-const defaultProps: {
-  successDuration: number;
-  loadingDuration: number;
-  direction?: 'up' | 'down';
-  showIcon: boolean;
-  showText: boolean;
-  iconType: string;
-} = {
-  successDuration: 0,
-  loadingDuration: 0,
-  direction: 'down',
-  showIcon: true,
-  showText: true,
-  iconType: 'loading-outline'
-};
-
 const defaultHeaderHeight = 28;
 
 const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
@@ -74,13 +58,13 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     classnames: cx,
     translate: __,
     children,
-    successDuration,
-    loadingDuration,
-    direction,
+    successDuration = 0,
+    loadingDuration = 0,
+    direction = 'down',
     completed,
-    showIcon,
-    showText,
-    iconType,
+    showIcon = true,
+    showText = true,
+    iconType = 'loading-outline',
     color,
     contentText
   } = props;
@@ -271,7 +255,5 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     </div>
   );
 });
-
-PullRefresh.defaultProps = defaultProps;
 
 export default themeable(PullRefresh);
