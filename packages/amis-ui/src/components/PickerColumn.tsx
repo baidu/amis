@@ -389,14 +389,6 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
     </div>
   );
 });
-
-PickerColumn.defaultProps = {
-  options: [],
-  visibleItemCount: 5,
-  swipeDuration: 1000,
-  itemHeight: 48
-};
-
 export default themeable(
   uncontrollable(PickerColumn, {
     value: 'onChange'
