@@ -201,13 +201,26 @@ const GridNav: React.FC<GridNavProps> = ({
   classnames: cx,
   itemClassName,
   style,
+  direction = 'vertical',
+  center = true,
+  border = true,
+  columnNum = 4,
   ...props
 }) => {
+  const parentProps = {
+    ...props,
+    direction,
+    center,
+    border,
+    columnNum,
+    style
+  };
+
   return (
     <div
-      style={{paddingLeft: addUnit(props.gutter), ...style}}
+      style={{paddingLeft: addUnit(parentProps.gutter), ...style}}
       className={cx(`GridNav ${className || ''}`, {
-        'GridNav-top u-hairline': props.border && !props.gutter
+        'GridNav-top u-hairline': parentProps.border && !parentProps.gutter
       })}
     >
       {React.Children.toArray(children)
@@ -215,20 +228,13 @@ const GridNav: React.FC<GridNavProps> = ({
         .map((child: React.ReactElement, index: number) =>
           React.cloneElement(child, {
             index,
-            parent: props,
+            parent: parentProps,
             className: itemClassName,
             classnames: cx
           })
         )}
     </div>
   );
-};
-
-GridNav.defaultProps = {
-  direction: 'vertical',
-  center: true,
-  border: true,
-  columnNum: 4
 };
 
 export default GridNav;
