@@ -1,0 +1,26 @@
+/**
+ * Amis 基础样式重置文件
+ * 
+ * 该文件包含了会影响全局 HTML 元素的基础样式，包括：
+ * - reset: 基础样式重置
+ * - normalize: 浏览器样式规范化
+ * - typography: 基础排版样式
+ * 
+ * 这些样式具有一定的侵入性，会影响全局的 html、body、a、h1-h6 等元素。
+ * 
+ * 使用说明：
+ * 1. 如果你的项目中只使用 amis，或者希望使用 amis 的基础样式，可以引入此文件：
+ *    @import '~amis-ui/scss/reset';
+ * 
+ * 2. 如果你的项目中已有自己的 reset/normalize，或需要与其他 UI 库共存，
+ *    则不需要引入此文件，直接引入主题样式即可。
+ * 
+ * 3. 推荐的引入顺序：
+ *    @import '~amis-ui/scss/reset';  // 可选，放在最前面
+ *    @import '~amis-ui/scss/themes/cxd';  // 或其他主题
+ */
+@import './variables';
+@import './mixins';
+@import './base/reset';
+@import './base/normalize';
+@import './base/typography';
