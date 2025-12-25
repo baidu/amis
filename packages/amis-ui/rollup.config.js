@@ -78,6 +78,7 @@ export default [
       './scss/themes/cxd.scss',
       './scss/themes/dark.scss',
       './scss/themes/default.scss',
+      './scss/reset.scss',
       './scss/helper.scss'
     ]),
 
@@ -108,6 +109,13 @@ export default [
           include: `**/helper.scss`,
           // process: processSass,
           extract: path.resolve(`lib/helper.css`),
+          plugins: [postcssImport(), autoprefixer()]
+        })
+      )
+      .concat(
+        postcss({
+          include: `**/reset.scss`,
+          extract: path.resolve(`lib/reset.css`),
           plugins: [postcssImport(), autoprefixer()]
         })
       )

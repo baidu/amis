@@ -434,6 +434,7 @@ module.exports = {
 html 中引入：
 
 ```html
+<link href="./node_modules/amis/lib/reset.css" /><!--按需引用-->
 <link href="./node_modules/amis/lib/themes/cxd.css" />
 <link href="./node_modules/amis/lib/helper.css" />
 <link href="./node_modules/amis/sdk/iconfont.css" />
@@ -443,6 +444,7 @@ html 中引入：
 js 中引入：
 
 ```js
+import 'amis/lib/reset.css'; // 按需引用
 import 'amis/lib/themes/cxd.css';
 import 'amis/lib/helper.css';
 import 'amis/sdk/iconfont.css';

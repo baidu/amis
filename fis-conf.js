@@ -83,6 +83,7 @@ fis.set('project.files', [
   'schema.json',
   '/examples/map.json',
   '/scss/helper.scss',
+  '/scss/reset.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
   '/examples/app/*.html',
@@ -965,6 +966,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/style.scss',
         '!monaco-editor/**',
         '!scss/helper.scss',
+        '!scss/reset.scss',
         '!amis/**',
         '/examples/style.scss' // 让它在最下面
       ]

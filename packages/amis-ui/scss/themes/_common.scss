@@ -1,9 +1,8 @@
 @import '../thirds';
 
 @import '../mixins';
-@import '../base/reset';
-@import '../base/normalize';
-@import '../base/typography';
+// 注意：reset、normalize、typography 等侵入式基础样式已移至 reset.scss
+// 如需使用这些基础样式，请单独引入：@import '~amis-ui/scss/reset';
 @import '../base/common';
 @import '../base/animate';
 

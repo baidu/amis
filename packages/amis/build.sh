@@ -18,6 +18,7 @@ cp ../../node_modules/amis-ui/lib/themes/antd.css lib/themes/antd.css
 cp ../../node_modules/amis-ui/lib/themes/cxd.css lib/themes/cxd.css
 cp ../../node_modules/amis-ui/lib/themes/default.css lib/themes/default.css
 cp ../../node_modules/amis-ui/lib/helper.css lib/helper.css
+cp ../../node_modules/amis-ui/lib/reset.css lib/reset.css
 
 # 生成 sdk
 echo "===fis sdk==="

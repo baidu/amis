@@ -169,6 +169,11 @@
       "require": "./lib/helper.css",
       "import": "./lib/helper.css"
     },
+    "./lib/reset.css": {
+      "style": "./lib/reset.css",
+      "require": "./lib/reset.css",
+      "import": "./lib/reset.css"
+    },
     "./lib/themes/*": {
       "style": "./lib/themes/*",
       "require": "./lib/themes/*",
