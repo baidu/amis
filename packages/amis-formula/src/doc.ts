@@ -1891,6 +1891,62 @@ bulkRegisterFunctionDoc([
     namespace: '数组'
   },
   {
+    name: 'ARRAYUPDATE',
+    description:
+      "更新数组指定索引的元素，与更新对象进行浅合并。\n\n示例：\n\nARRAYUPDATE([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 0, {name: 'alice2'})\n得到 [{id: 1, name: 'alice2'}, {id: 2, name: 'bob'}]。",
+    example: "ARRAYUPDATE(array, 0, {name: 'new'})",
+    params: [
+      {
+        type: 'array',
+        name: 'arr',
+        description: '数组'
+      },
+      {
+        type: 'number',
+        name: 'index',
+        description: '要更新的索引'
+      },
+      {
+        type: 'object',
+        name: 'updates',
+        description: '更新的对象，浅合并'
+      }
+    ],
+    returns: {
+      type: 'array',
+      description: '更新后的新数组'
+    },
+    namespace: '数组'
+  },
+  {
+    name: 'ARRAYUPDATEBY',
+    description:
+      "根据条件更新数组元素，匹配条件的元素与更新对象进行浅合并。\n\n示例：\n\nARRAYUPDATEBY([{id: 1, status: 'pending'}, {id: 2, status: 'active'}], item => item.id === 1, {status: 'done'})\n得到 [{id: 1, status: 'done'}, {id: 2, status: 'active'}]。",
+    example: "ARRAYUPDATEBY(array, item => item.id === 1, {status: 'done'})",
+    params: [
+      {
+        type: 'array',
+        name: 'arr',
+        description: '数组'
+      },
+      {
+        type: 'Function',
+        name: 'predicate',
+        description: '条件函数，返回 true 的元素会被更新'
+      },
+      {
+        type: 'object',
+        name: 'updates',
+        description: '更新的对象，浅合并'
+      }
+    ],
+    returns: {
+      type: 'array',
+      description: '更新后的新数组'
+    },
+    namespace: '数组'
+  },
+  {
     name: 'ENCODEJSON',
     description:
       '将JS对象转换成JSON字符串。\n\n示例：\n\nENCODEJSON({name: \'amis\'}) 得到 \'{"name":"amis"}\'。',
@@ -1971,5 +2027,275 @@ bulkRegisterFunctionDoc([
       description: '结果'
     },
     namespace: '其他'
+  },
+  {
+    name: 'KEYS',
+    description:
+      "获取对象的所有属性名。\n\n示例：\n\nKEYS({name: 'alice', age: 18}) 得到 ['name', 'age']。",
+    example: "KEYS({name: 'alice', age: 18})",
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要处理的对象'
+      }
+    ],
+    returns: {
+      type: 'array',
+      description: '属性名数组'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'VALUES',
+    description:
+      "获取对象的所有属性值。\n\n示例：\n\nVALUES({name: 'alice', age: 18}) 得到 ['alice', 18]。",
+    example: "VALUES({name: 'alice', age: 18})",
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要处理的对象'
+      }
+    ],
+    returns: {
+      type: 'array',
+      description: '属性值数组'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'ENTRIES',
+    description:
+      "获取对象的键值对数组，每个元素为 [key, value] 的形式。\n\n示例：\n\nENTRIES({name: 'alice', age: 18}) 得到 [['name', 'alice'], ['age', 18]]。",
+    example: "ENTRIES({name: 'alice', age: 18})",
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要处理的对象'
+      }
+    ],
+    returns: {
+      type: 'array',
+      description: '键值对数组'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'PICK',
+    description:
+      "从对象中选择指定的属性，返回新对象。\n\n示例：\n\nPICK({name: 'alice', age: 18, email: 'a@b.com'}, 'name', 'age') 得到 {name: 'alice', age: 18}。",
+    example: "PICK({name: 'alice', age: 18, email: 'a@b.com'}, 'name', 'age')",
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要处理的对象'
+      },
+      {
+        type: '...string',
+        name: 'keys',
+        description: '要选择的属性名，可以是多个参数'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '新对象，只包含指定的属性'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'OMIT',
+    description:
+      "从对象中排除指定的属性，返回新对象。\n\n示例：\n\nOMIT({name: 'alice', age: 18, email: 'a@b.com'}, 'email') 得到 {name: 'alice', age: 18}。",
+    example: "OMIT({name: 'alice', age: 18, email: 'a@b.com'}, 'email')",
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要处理的对象'
+      },
+      {
+        type: '...string',
+        name: 'keys',
+        description: '要排除的属性名，可以是多个参数'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '新对象，排除了指定的属性'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'MERGE',
+    description:
+      '合并多个对象，后者的属性覆盖前者（浅合并）。\n\n示例：\n\nMERGE({a: 1}, {b: 2}, {a: 3}) 得到 {a: 3, b: 2}。',
+    example: 'MERGE({a: 1}, {b: 2}, {a: 3})',
+    params: [
+      {
+        type: '...object',
+        name: 'objects',
+        description: '要合并的多个对象'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '合并后的新对象'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'MAPVALUES',
+    description:
+      '使用箭头函数转换对象的所有属性值，需要搭配箭头函数一起使用。\n\n示例：\n\nMAPVALUES({a: 1, b: 2, c: 3}, item => item * 2) 得到 {a: 2, b: 4, c: 6}。',
+    example: 'MAPVALUES({a: 1, b: 2}, item => item * 2)',
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要处理的对象'
+      },
+      {
+        type: 'Function',
+        name: 'transformer',
+        description: '转换函数，接收 (value, key, obj) 参数'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '新对象，包含转换后的值'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'HASKEY',
+    description:
+      "检查对象是否包含指定的属性。\n\n示例：\n\nHASKEY({name: 'alice'}, 'name') 得到 true，HASKEY({name: 'alice'}, 'age') 得到 false。",
+    example: "HASKEY({name: 'alice'}, 'name')",
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要检查的对象'
+      },
+      {
+        type: 'string',
+        name: 'key',
+        description: '属性名'
+      }
+    ],
+    returns: {
+      type: 'boolean',
+      description: '如果对象包含该属性返回 true，否则返回 false'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'GROUPBY',
+    description:
+      "根据指定属性或函数将数组元素分组成对象，相同分组键的元素放在同一个数组中。\n\n示例：\n\nGROUPBY([{type: 'a', val: 1}, {type: 'a', val: 2}, {type: 'b', val: 3}], 'type')\n得到 {a: [{type: 'a', val: 1}, {type: 'a', val: 2}], b: [{type: 'b', val: 3}]}。",
+    example:
+      "GROUPBY([{type: 'a', val: 1}, {type: 'a', val: 2}, {type: 'b', val: 3}], 'type')",
+    params: [
+      {
+        type: 'array',
+        name: 'items',
+        description: '要分组的数组'
+      },
+      {
+        type: 'string|Function',
+        name: 'iteratee',
+        description: '分组键属性名或箭头函数'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '分组后的对象，键为分组值，值为该分组的数组'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'INDEXBY',
+    description:
+      "将数组转换为对象索引，使用指定属性或函数的返回值作为键，每个键对应一个元素。\n如果有重复的键，后者会覆盖前者。\n\n示例：\n\nINDEXBY([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 'id')\n得到 {1: {id: 1, name: 'alice'}, 2: {id: 2, name: 'bob'}}。",
+    example: "INDEXBY([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 'id')",
+    params: [
+      {
+        type: 'array',
+        name: 'items',
+        description: '要转换的数组'
+      },
+      {
+        type: 'string|Function',
+        name: 'iteratee',
+        description: '索引键属性名或箭头函数'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '转换后的索引对象，键为指定属性值，值为对应的数组元素'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'DEFAULTS',
+    description:
+      "为对象设置默认值，仅当属性不存在或为 undefined 时才使用默认值。\nnull 值和其他假值会被保留。\n\n示例：\n\nDEFAULTS({a: 1}, {b: 2, a: 3}) 得到 {a: 1, b: 2}，\nDEFAULTS({}, {status: 'pending', priority: 'normal'}) 得到 {status: 'pending', priority: 'normal'}。",
+    example: 'DEFAULTS({a: 1}, {b: 2, a: 3})',
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要设置默认值的对象'
+      },
+      {
+        type: '...object',
+        name: 'defaults',
+        description: '包含默认值的对象，可以是多个参数'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '新对象，使用了默认值'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'INVERT',
+    description:
+      "交换对象的键和值。适用于需要反向查询的映射关系。\n\n示例：\n\nINVERT({name: 'alice', age: 'eighteen'}) 得到 {alice: 'name', eighteen: 'age'}。",
+    example: "INVERT({name: 'alice', age: 'eighteen'})",
+    params: [
+      {
+        type: 'object',
+        name: 'obj',
+        description: '要反转的对象'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '新对象，键值互换'
+    },
+    namespace: '对象操作'
+  },
+  {
+    name: 'FROMTUPLE',
+    description:
+      "从键值对数组创建对象，将二维数组转换为对象形式。\n\n示例：\n\nFROMTUPLE([['a', 1], ['b', 2]]) 得到 {a: 1, b: 2}。",
+    example: "FROMTUPLE([['a', 1], ['b', 2]])",
+    params: [
+      {
+        type: 'array',
+        name: 'entries',
+        description: '键值对数组，每个元素应为 [key, value] 的形式'
+      }
+    ],
+    returns: {
+      type: 'object',
+      description: '新对象，由键值对数组构成'
+    },
+    namespace: '对象操作'
   }
 ]);

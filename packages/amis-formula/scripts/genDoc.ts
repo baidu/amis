@@ -38,6 +38,10 @@ function formatType(tag: any): string {
     return `Array<${tag.applications
       .map((item: any) => formatType(item))
       .join(',')}>`;
+  } else if (tag.type === 'UnionType') {
+    return tag.elements
+      .map((item: any) => formatType(item))
+      .join('|');
   }
 
   return tag.name;
