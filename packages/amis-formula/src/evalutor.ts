@@ -489,12 +489,29 @@ export class Evaluator {
     return ast.value;
   }
 
-  object(ast: {members: Array<{key: string; value: any}>}) {
-    let object: any = {};
-    ast.members.forEach(({key, value}) => {
-      object[this.evalute(key)] = this.evalute(value);
+  object(ast: {
+    members: Array<{
+      key?: string;
+      value?: any;
+      spread?: boolean;
+      argument?: any;
+    }>;
+  }) {
+    const result: any = {};
+
+    ast.members.forEach(member => {
+      if (member.spread) {
+        const spreadValue = this.evalute(member.argument);
+        if (spreadValue && typeof spreadValue === 'object') {
+          Object.assign(result, spreadValue);
+        }
+        return;
+      }
+
+      result[this.evalute(member.key)] = this.evalute(member.value);
     });
-    return object;
+
+    return result;
   }
 
   conditional(ast: {
@@ -2324,6 +2341,74 @@ export class Evaluator {
   }
 
   /**
+   * 更新数组指定索引的元素，与更新对象进行浅合并。
+   *
+   * 示例：
+   *
+   * ARRAYUPDATE([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 0, {name: 'alice2'})
+   * 得到 [{id: 1, name: 'alice2'}, {id: 2, name: 'bob'}]。
+   *
+   * @example ARRAYUPDATE(array, 0, {name: 'new'})
+   * @param {array} arr 数组
+   * @param {number} index 要更新的索引
+   * @param {object} updates 更新的对象，浅合并
+   * @namespace 数组
+   *
+   * @returns {array} 更新后的新数组
+   */
+  fnARRAYUPDATE(arr: any[], index: number, updates: any) {
+    const list = Array.isArray(arr) ? arr.slice() : [];
+    if (
+      typeof index === 'number' &&
+      index >= 0 &&
+      index < list.length &&
+      isPlainObject(updates)
+    ) {
+      const merged = this.fnMERGE
+        ? this.fnMERGE(list[index], updates)
+        : {...list[index], ...updates};
+      list[index] = merged;
+    }
+    return list;
+  }
+
+  /**
+   * 根据条件更新数组元素，匹配条件的元素与更新对象进行浅合并。
+   *
+   * 示例：
+   *
+   * ARRAYUPDATEBY([{id: 1, status: 'pending'}, {id: 2, status: 'active'}], item => item.id === 1, {status: 'done'})
+   * 得到 [{id: 1, status: 'done'}, {id: 2, status: 'active'}]。
+   *
+   * @example ARRAYUPDATEBY(array, item => item.id === 1, {status: 'done'})
+   * @param {array} arr 数组
+   * @param {Function} predicate 条件函数，返回 true 的元素会被更新
+   * @param {object} updates 更新的对象，浅合并
+   * @namespace 数组
+   *
+   * @returns {array} 更新后的新数组
+   */
+  fnARRAYUPDATEBY(arr: any[], predicate: any, updates: any) {
+    if (!Array.isArray(arr)) {
+      return [];
+    }
+    if (!predicate || predicate.type !== 'anonymous_function') {
+      throw new Error('expected an anonymous function');
+    }
+    if (!isPlainObject(updates)) {
+      return arr.slice();
+    }
+
+    return arr.map(item =>
+      this.callAnonymousFunction(predicate, [item])
+        ? this.fnMERGE
+          ? this.fnMERGE(item, updates)
+          : {...item, ...updates}
+        : item
+    );
+  }
+
+  /**
    * 将JS对象转换成JSON字符串。
    *
    * 示例：
@@ -2409,6 +2494,329 @@ export class Evaluator {
         return !target;
     }
     return false;
+  }
+
+  // ============ 对象操作函数 ============
+
+  /**
+   * 获取对象的所有属性名。
+   *
+   * 示例：
+   *
+   * KEYS({name: 'alice', age: 18}) 得到 ['name', 'age']。
+   *
+   * @example KEYS({name: 'alice', age: 18})
+   * @param {object} obj 要处理的对象
+   * @namespace 对象操作
+   *
+   * @returns {array} 属性名数组
+   */
+  fnKEYS(obj: any) {
+    return isPlainObject(obj) ? Object.keys(obj) : [];
+  }
+
+  /**
+   * 获取对象的所有属性值。
+   *
+   * 示例：
+   *
+   * VALUES({name: 'alice', age: 18}) 得到 ['alice', 18]。
+   *
+   * @example VALUES({name: 'alice', age: 18})
+   * @param {object} obj 要处理的对象
+   * @namespace 对象操作
+   *
+   * @returns {array} 属性值数组
+   */
+  fnVALUES(obj: any) {
+    return isPlainObject(obj) ? Object.values(obj) : [];
+  }
+
+  /**
+   * 获取对象的键值对数组，每个元素为 [key, value] 的形式。
+   *
+   * 示例：
+   *
+   * ENTRIES({name: 'alice', age: 18}) 得到 [['name', 'alice'], ['age', 18]]。
+   *
+   * @example ENTRIES({name: 'alice', age: 18})
+   * @param {object} obj 要处理的对象
+   * @namespace 对象操作
+   *
+   * @returns {array} 键值对数组
+   */
+  fnENTRIES(obj: any) {
+    return isPlainObject(obj) ? Object.entries(obj) : [];
+  }
+
+  /**
+   * 从对象中选择指定的属性，返回新对象。
+   *
+   * 示例：
+   *
+   * PICK({name: 'alice', age: 18, email: 'a@b.com'}, 'name', 'age') 得到 {name: 'alice', age: 18}。
+   *
+   * @example PICK({name: 'alice', age: 18, email: 'a@b.com'}, 'name', 'age')
+   * @param {object} obj 要处理的对象
+   * @param {...string} keys 要选择的属性名，可以是多个参数
+   * @namespace 对象操作
+   *
+   * @returns {object} 新对象，只包含指定的属性
+   */
+  fnPICK(obj: any, ...keys: string[]) {
+    if (!isPlainObject(obj)) return {};
+    const result: any = {};
+    keys.forEach(key => {
+      if (key in obj) {
+        result[key] = obj[key];
+      }
+    });
+    return result;
+  }
+
+  /**
+   * 从对象中排除指定的属性，返回新对象。
+   *
+   * 示例：
+   *
+   * OMIT({name: 'alice', age: 18, email: 'a@b.com'}, 'email') 得到 {name: 'alice', age: 18}。
+   *
+   * @example OMIT({name: 'alice', age: 18, email: 'a@b.com'}, 'email')
+   * @param {object} obj 要处理的对象
+   * @param {...string} keys 要排除的属性名，可以是多个参数
+   * @namespace 对象操作
+   *
+   * @returns {object} 新对象，排除了指定的属性
+   */
+  fnOMIT(obj: any, ...keys: string[]) {
+    if (!isPlainObject(obj)) return {};
+    const result: any = {};
+    const keySet = new Set(keys);
+    Object.keys(obj).forEach(key => {
+      if (!keySet.has(key)) {
+        result[key] = obj[key];
+      }
+    });
+    return result;
+  }
+
+  /**
+   * 合并多个对象，后者的属性覆盖前者（浅合并）。
+   *
+   * 示例：
+   *
+   * MERGE({a: 1}, {b: 2}, {a: 3}) 得到 {a: 3, b: 2}。
+   *
+   * @example MERGE({a: 1}, {b: 2}, {a: 3})
+   * @param {...object} objects 要合并的多个对象
+   * @namespace 对象操作
+   *
+   * @returns {object} 合并后的新对象
+   */
+  fnMERGE(...objects: any[]) {
+    const result: any = {};
+    objects.forEach(obj => {
+      if (isPlainObject(obj)) {
+        Object.assign(result, obj);
+      }
+    });
+    return result;
+  }
+
+  /**
+   * 使用箭头函数转换对象的所有属性值，需要搭配箭头函数一起使用。
+   *
+   * 示例：
+   *
+   * MAPVALUES({a: 1, b: 2, c: 3}, item => item * 2) 得到 {a: 2, b: 4, c: 6}。
+   *
+   * @example MAPVALUES({a: 1, b: 2}, item => item * 2)
+   * @param {object} obj 要处理的对象
+   * @param {Function} transformer 转换函数，接收 (value, key, obj) 参数
+   * @namespace 对象操作
+   *
+   * @returns {object} 新对象，包含转换后的值
+   */
+  fnMAPVALUES(obj: any, iterator: any) {
+    if (!iterator || iterator.type !== 'anonymous_function') {
+      throw new Error('expected an anonymous function');
+    }
+    if (!isPlainObject(obj)) return {};
+    const result: any = {};
+    Object.entries(obj).forEach(([key, value]) => {
+      result[key] = this.callAnonymousFunction(iterator, [value, key, obj]);
+    });
+    return result;
+  }
+
+  /**
+   * 检查对象是否包含指定的属性。
+   *
+   * 示例：
+   *
+   * HASKEY({name: 'alice'}, 'name') 得到 true，HASKEY({name: 'alice'}, 'age') 得到 false。
+   *
+   * @example HASKEY({name: 'alice'}, 'name')
+   * @param {object} obj 要检查的对象
+   * @param {string} key 属性名
+   * @namespace 对象操作
+   *
+   * @returns {boolean} 如果对象包含该属性返回 true，否则返回 false
+   */
+  fnHASKEY(obj: any, key: string) {
+    return isPlainObject(obj) && key in obj;
+  }
+
+  /**
+   * 根据指定属性或函数将数组元素分组成对象，相同分组键的元素放在同一个数组中。
+   *
+   * 示例：
+   *
+   * GROUPBY([{type: 'a', val: 1}, {type: 'a', val: 2}, {type: 'b', val: 3}], 'type')
+   * 得到 {a: [{type: 'a', val: 1}, {type: 'a', val: 2}], b: [{type: 'b', val: 3}]}。
+   *
+   * @example GROUPBY([{type: 'a', val: 1}, {type: 'a', val: 2}, {type: 'b', val: 3}], 'type')
+   * @param {array} items 要分组的数组
+   * @param {string|Function} iteratee 分组键属性名或箭头函数
+   * @namespace 对象操作
+   *
+   * @returns {object} 分组后的对象，键为分组值，值为该分组的数组
+   */
+  fnGROUPBY(items: any[], iteratee: string | any) {
+    if (!Array.isArray(items)) return {};
+    const result: any = {};
+
+    items.forEach(item => {
+      let groupKey: any;
+
+      if (typeof iteratee === 'string') {
+        groupKey = item?.[iteratee];
+      } else if (iteratee && iteratee.type === 'anonymous_function') {
+        groupKey = this.callAnonymousFunction(iteratee, [item]);
+      } else {
+        groupKey = item;
+      }
+
+      if (!(groupKey in result)) {
+        result[groupKey] = [];
+      }
+      result[groupKey].push(item);
+    });
+
+    return result;
+  }
+
+  /**
+   * 将数组转换为对象索引，使用指定属性或函数的返回值作为键，每个键对应一个元素。
+   * 如果有重复的键，后者会覆盖前者。
+   *
+   * 示例：
+   *
+   * INDEXBY([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 'id')
+   * 得到 {1: {id: 1, name: 'alice'}, 2: {id: 2, name: 'bob'}}。
+   *
+   * @example INDEXBY([{id: 1, name: 'alice'}, {id: 2, name: 'bob'}], 'id')
+   * @param {array} items 要转换的数组
+   * @param {string|Function} iteratee 索引键属性名或箭头函数
+   * @namespace 对象操作
+   *
+   * @returns {object} 转换后的索引对象，键为指定属性值，值为对应的数组元素
+   */
+  fnINDEXBY(items: any[], iteratee: string | any) {
+    if (!Array.isArray(items)) return {};
+    const result: any = {};
+
+    items.forEach(item => {
+      let key: any;
+
+      if (typeof iteratee === 'string') {
+        key = item?.[iteratee];
+      } else if (iteratee && iteratee.type === 'anonymous_function') {
+        key = this.callAnonymousFunction(iteratee, [item]);
+      } else {
+        key = item;
+      }
+
+      result[key] = item;
+    });
+
+    return result;
+  }
+
+  /**
+   * 为对象设置默认值，仅当属性不存在或为 undefined 时才使用默认值。
+   * null 值和其他假值会被保留。
+   *
+   * 示例：
+   *
+   * DEFAULTS({a: 1}, {b: 2, a: 3}) 得到 {a: 1, b: 2}，
+   * DEFAULTS({}, {status: 'pending', priority: 'normal'}) 得到 {status: 'pending', priority: 'normal'}。
+   *
+   * @example DEFAULTS({a: 1}, {b: 2, a: 3})
+   * @param {object} obj 要设置默认值的对象
+   * @param {...object} defaults 包含默认值的对象，可以是多个参数
+   * @namespace 对象操作
+   *
+   * @returns {object} 新对象，使用了默认值
+   */
+  fnDEFAULTS(obj: any, ...defaults: any[]) {
+    const result = isPlainObject(obj) ? {...obj} : {};
+    defaults.forEach(def => {
+      if (isPlainObject(def)) {
+        Object.entries(def).forEach(([key, value]) => {
+          if (!(key in result) || result[key] === undefined) {
+            result[key] = value;
+          }
+        });
+      }
+    });
+    return result;
+  }
+
+  /**
+   * 交换对象的键和值。适用于需要反向查询的映射关系。
+   *
+   * 示例：
+   *
+   * INVERT({name: 'alice', age: 'eighteen'}) 得到 {alice: 'name', eighteen: 'age'}。
+   *
+   * @example INVERT({name: 'alice', age: 'eighteen'})
+   * @param {object} obj 要反转的对象
+   * @namespace 对象操作
+   *
+   * @returns {object} 新对象，键值互换
+   */
+  fnINVERT(obj: any) {
+    if (!isPlainObject(obj)) return {};
+    const result: any = {};
+    Object.entries(obj).forEach(([key, value]) => {
+      result[value as any] = key;
+    });
+    return result;
+  }
+
+  /**
+   * 从键值对数组创建对象，将二维数组转换为对象形式。
+   *
+   * 示例：
+   *
+   * FROMTUPLE([['a', 1], ['b', 2]]) 得到 {a: 1, b: 2}。
+   *
+   * @example FROMTUPLE([['a', 1], ['b', 2]])
+   * @param {array} entries 键值对数组，每个元素应为 [key, value] 的形式
+   * @namespace 对象操作
+   *
+   * @returns {object} 新对象，由键值对数组构成
+   */
+  fnFROMTUPLE(entries: any[]) {
+    if (!Array.isArray(entries)) return {};
+    const result: any = {};
+    entries.forEach(entry => {
+      if (Array.isArray(entry) && entry.length >= 2) {
+        result[entry[0]] = entry[1];
+      }
+    });
+    return result;
   }
 }
 
