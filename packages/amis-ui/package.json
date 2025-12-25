@@ -3,7 +3,7 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
-  "version": "7.0.0-next.3",
+  "version": "7.0.0-next.4",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
-    "amis-core": "^7.0.0-next.3",
-    "amis-formula": "^7.0.0-next.3",
+    "amis-core": "^7.0.0-next.4",
+    "amis-formula": "^7.0.0-next.4",
     "animate.css": "4.1.1",
     "classnames": "2.3.2",
     "codemirror": "^5.63.0",
