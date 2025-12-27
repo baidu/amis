@@ -94,7 +94,7 @@ exports[`options:linkage 1`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span
@@ -112,7 +112,7 @@ exports[`options:linkage 1`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span
@@ -222,7 +222,7 @@ exports[`options:linkage 2`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span
@@ -240,7 +240,7 @@ exports[`options:linkage 2`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span
@@ -349,7 +349,7 @@ exports[`options:linkage 3`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span
@@ -458,7 +458,7 @@ exports[`options:linkage 4`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span
@@ -476,7 +476,7 @@ exports[`options:linkage 4`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span
@@ -494,7 +494,7 @@ exports[`options:linkage 4`] = `
           />
           <i>
             <div
-              class="radio-icon icon"
+              class="cxd-Icon radio-icon icon"
             />
           </i>
           <span

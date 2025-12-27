@@ -46,7 +46,7 @@ exports[`Renderer:Page 1`] = `
                   className="cxd-Remark-icon"
                 >
                   <icon-mock
-                    className="icon-question-mark"
+                    className="cxd-Icon icon-question-mark"
                     icon="question-mark"
                   />
                 </span>
@@ -166,7 +166,7 @@ exports[`Renderer:Page classNames 1`] = `
                   class="cxd-Remark-icon"
                 >
                   <icon-mock
-                    classname="icon-question-mark"
+                    classname="cxd-Icon icon-question-mark"
                     icon="question-mark"
                   />
                 </span>
@@ -271,7 +271,7 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -523,7 +523,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -689,7 +689,7 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
         class="cxd-Drawer-close"
       >
         <icon-mock
-          classname="icon icon-close"
+          classname="cxd-Icon icon icon-close"
           icon="close"
         />
       </a>
@@ -818,7 +818,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
         class="cxd-Drawer-close"
       >
         <icon-mock
-          classname="icon icon-close"
+          classname="cxd-Icon icon icon-close"
           icon="close"
         />
       </a>
@@ -995,7 +995,7 @@ exports[`Renderer:Page initApi error show Message 1`] = `
               type="button"
             >
               <icon-mock
-                classname="icon icon-close"
+                classname="cxd-Icon icon icon-close"
                 icon="close"
               />
             </button>
@@ -1191,7 +1191,7 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -1406,7 +1406,7 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
         class="cxd-Drawer-close"
       >
         <icon-mock
-          classname="icon icon-close"
+          classname="cxd-Icon icon icon-close"
           icon="close"
         />
       </a>

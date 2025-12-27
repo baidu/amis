@@ -31,7 +31,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   class="cxd-StepsItem-icon"
                 >
                   <icon-mock
-                    classname="icon icon-check"
+                    classname="cxd-Icon icon icon-check"
                     icon="check"
                   />
                 </span>
@@ -738,7 +738,7 @@ exports[`Renderer:Wizard dialog 1`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -1617,7 +1617,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                           class="cxd-StepsItem-icon"
                         >
                           <icon-mock
-                            classname="icon icon-check"
+                            classname="cxd-Icon icon icon-check"
                             icon="check"
                           />
                         </span>
@@ -1791,7 +1791,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                           class="cxd-StepsItem-icon"
                         >
                           <icon-mock
-                            classname="icon icon-check"
+                            classname="cxd-Icon icon icon-check"
                             icon="check"
                           />
                         </span>
@@ -2356,7 +2356,7 @@ exports[`Renderer:Wizard send data 1`] = `
                   class="cxd-StepsItem-icon"
                 >
                   <icon-mock
-                    classname="icon icon-check"
+                    classname="cxd-Icon icon icon-check"
                     icon="check"
                   />
                 </span>
@@ -2513,7 +2513,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
                   class="cxd-StepsItem-icon"
                 >
                   <icon-mock
-                    classname="icon icon-check"
+                    classname="cxd-Icon icon icon-check"
                     icon="check"
                   />
                 </span>
@@ -2789,7 +2789,7 @@ exports[`Renderer:Wizard target 1`] = `
                           class="cxd-StepsItem-icon"
                         >
                           <icon-mock
-                            classname="icon icon-check"
+                            classname="cxd-Icon icon icon-check"
                             icon="check"
                           />
                         </span>

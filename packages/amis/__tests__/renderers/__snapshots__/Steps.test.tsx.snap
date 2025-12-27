@@ -21,7 +21,7 @@ exports[`Renderer:steps 1`] = `
             class="cxd-StepsItem-icon"
           >
             <icon-mock
-              classname="icon icon-close"
+              classname="cxd-Icon icon icon-close"
               icon="close"
             />
           </span>
@@ -177,7 +177,7 @@ exports[`Renderer:steps 2`] = `
             class="cxd-StepsItem-icon"
           >
             <icon-mock
-              classname="icon icon-close"
+              classname="cxd-Icon icon icon-close"
               icon="close"
             />
           </span>

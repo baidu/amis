@@ -185,7 +185,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
             target="_blank"
           >
             <icon-mock
-              classname="icon icon-view"
+              classname="cxd-Icon icon icon-view"
               icon="view"
             />
           </a>
@@ -231,7 +231,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
             target="_blank"
           >
             <icon-mock
-              classname="icon icon-view"
+              classname="cxd-Icon icon icon-view"
               icon="view"
             />
           </a>
@@ -801,7 +801,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                       target="_blank"
                     >
                       <icon-mock
-                        classname="icon icon-view"
+                        classname="cxd-Icon icon icon-view"
                         icon="view"
                       />
                     </a>
@@ -839,7 +839,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                       target="_blank"
                     >
                       <icon-mock
-                        classname="icon icon-view"
+                        classname="cxd-Icon icon icon-view"
                         icon="view"
                       />
                     </a>
@@ -877,7 +877,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                       target="_blank"
                     >
                       <icon-mock
-                        classname="icon icon-view"
+                        classname="cxd-Icon icon icon-view"
                         icon="view"
                       />
                     </a>

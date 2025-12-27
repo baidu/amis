@@ -20,7 +20,7 @@ exports[`Renderer:audio 1`] = `
         class="cxd-Audio-play"
       >
         <icon-mock
-          classname="icon icon-play"
+          classname="cxd-Icon icon icon-play"
           icon="play"
         />
       </div>
@@ -46,7 +46,7 @@ exports[`Renderer:audio 1`] = `
         class="cxd-Audio-volume"
       >
         <icon-mock
-          classname="icon icon-volume"
+          classname="cxd-Icon icon icon-volume"
           icon="volume"
         />
       </div>

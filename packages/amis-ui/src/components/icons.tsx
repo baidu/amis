@@ -4,7 +4,6 @@
  * @author fex
  */
 import React, {createElement, useEffect, useMemo} from 'react';
-import cxClass from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
 import StatusCloseIcon from '../icons/status-close.svg';
@@ -115,7 +114,10 @@ import isObject from 'lodash/isObject';
 import {
   type CustomVendorFn,
   getCustomVendor,
-  type TestIdBuilder
+  type TestIdBuilder,
+  theme,
+  themeable,
+  ThemeProps
 } from 'amis-core';
 
 // 兼容原来的用法，后续不直接试用。
@@ -302,7 +304,7 @@ function svgString2Dom(
   const viewBox = /viewBox="(.*?)"/.exec(icon);
   const svgHTML = createElement('svg', {
     ...events,
-    className: cx('icon', className, classNameProp),
+    className: cx('Icon', 'icon', className, classNameProp),
     style,
     dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
     viewBox: viewBox?.[1] || '0 0 16 16'
@@ -369,14 +371,14 @@ function LinkIcon({
   );
 }
 
-export function Icon({
+function IconRaw({
   icon,
   className,
   classPrefix = '',
   classNameProp,
   iconContent,
   vendor,
-  cx: iconCx,
+  classnames: cx,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -400,8 +402,8 @@ export function Icon({
   icon: string;
   iconContent?: string;
   testIdBuilder?: TestIdBuilder;
-} & React.ComponentProps<any>) {
-  let cx = iconCx || cxClass;
+} & ThemeProps &
+  React.ComponentProps<any>) {
   const vendorFn = useMemo(() => getCustomVendor(vendor), [vendor]);
 
   // style = {
@@ -454,8 +456,10 @@ export function Icon({
     return React.cloneElement(icon, {
       ...events,
       ...((icon.props as any) || {}),
-      className: cxClass(
-        cx(className, classNameProp),
+      className: cx(
+        'Icon',
+        className,
+        classNameProp,
         (icon.props as any).className
       ),
       style
@@ -485,7 +489,7 @@ export function Icon({
     return (
       <div
         {...events}
-        className={cx(iconContent, className, classNameProp)}
+        className={cx('Icon', iconContent, className, classNameProp)}
         ref={refFn}
         style={style}
         {...testIdBuilder?.getTestId()}
@@ -499,7 +503,7 @@ export function Icon({
     return (
       <Component
         {...events}
-        className={cx(className, `icon-${icon}`, classNameProp)}
+        className={cx('Icon', className, `icon-${icon}`, classNameProp)}
         // @ts-ignore
         icon={icon}
         style={style}
@@ -532,7 +536,13 @@ export function Icon({
       return (
         <svg
           {...events}
-          className={cx('icon', 'icon-object', className, classNameProp)}
+          className={cx(
+            'Icon',
+            'icon',
+            'icon-object',
+            className,
+            classNameProp
+          )}
           style={style}
         >
           <use xlinkHref={'#' + id}></use>
@@ -595,7 +605,7 @@ export function Icon({
     return (
       <i
         {...events}
-        className={cx(icon, className, classNameProp, iconPrefix)}
+        className={cx('Icon', icon, className, classNameProp, iconPrefix)}
         style={style}
       />
     );
@@ -605,6 +615,7 @@ export function Icon({
   return <span className="text-danger">没有 icon {icon}</span>;
 }
 
+export const Icon = themeable(IconRaw);
 export default Icon;
 
 export {

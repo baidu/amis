@@ -159,7 +159,7 @@ exports[`Renderer:timeline itemTitleSchema 1`] = `
           class="cxd-TimelineItem-icon"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </div>
@@ -356,7 +356,7 @@ exports[`Renderer:timeline items 1`] = `
           class="cxd-TimelineItem-icon"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </div>
@@ -1296,7 +1296,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-icon"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </div>
@@ -1426,7 +1426,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-icon"
         >
           <icon-mock
-            classname="icon icon-compress-alt"
+            classname="cxd-Icon icon icon-compress-alt"
             icon="compress-alt"
           />
         </div>
@@ -1512,7 +1512,7 @@ exports[`Renderer:timeline source 1`] = `
           class="cxd-TimelineItem-icon"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </div>

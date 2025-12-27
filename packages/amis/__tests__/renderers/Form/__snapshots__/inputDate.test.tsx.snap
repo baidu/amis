@@ -68,7 +68,7 @@ exports[`Renderer:inputDate 1`] = `
                 class="cxd-DatePicker-clear"
               >
                 <icon-mock
-                  classname="icon icon-input-clear"
+                  classname="cxd-Icon icon icon-input-clear"
                   icon="input-clear"
                 />
               </a>
@@ -76,7 +76,7 @@ exports[`Renderer:inputDate 1`] = `
                 class="cxd-DatePicker-toggler"
               >
                 <icon-mock
-                  classname="icon icon-date"
+                  classname="cxd-Icon icon icon-date"
                   icon="date"
                 />
               </a>
@@ -173,7 +173,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                           class="cxd-DatePicker-clear"
                         >
                           <icon-mock
-                            classname="icon icon-input-clear"
+                            classname="cxd-Icon icon icon-input-clear"
                             icon="input-clear"
                           />
                         </a>
@@ -181,7 +181,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                           class="cxd-DatePicker-toggler"
                         >
                           <icon-mock
-                            classname="icon icon-date"
+                            classname="cxd-Icon icon icon-date"
                             icon="date"
                           />
                         </a>
@@ -256,7 +256,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                           class="cxd-DatePicker-clear"
                         >
                           <icon-mock
-                            classname="icon icon-input-clear"
+                            classname="cxd-Icon icon icon-input-clear"
                             icon="input-clear"
                           />
                         </a>
@@ -264,7 +264,7 @@ exports[`Renderer:inputDate compatible with format & inputFormat 1`] = `
                           class="cxd-DatePicker-toggler"
                         >
                           <icon-mock
-                            classname="icon icon-date"
+                            classname="cxd-Icon icon icon-date"
                             icon="date"
                           />
                         </a>
@@ -410,7 +410,7 @@ exports[`Renderer:inputDate with clearable: clearable false 1`] = `
                           class="cxd-DatePicker-toggler"
                         >
                           <icon-mock
-                            classname="icon icon-date"
+                            classname="cxd-Icon icon icon-date"
                             icon="date"
                           />
                         </a>
@@ -528,7 +528,7 @@ exports[`Renderer:inputDate with clearable: clearable true 1`] = `
                           class="cxd-DatePicker-toggler"
                         >
                           <icon-mock
-                            classname="icon icon-date"
+                            classname="cxd-Icon icon icon-date"
                             icon="date"
                           />
                         </a>
@@ -678,7 +678,7 @@ exports[`Renderer:inputDate with valueFormat & displayFormat 1`] = `
                           class="cxd-DatePicker-clear"
                         >
                           <icon-mock
-                            classname="icon icon-input-clear"
+                            classname="cxd-Icon icon icon-input-clear"
                             icon="input-clear"
                           />
                         </a>
@@ -686,7 +686,7 @@ exports[`Renderer:inputDate with valueFormat & displayFormat 1`] = `
                           class="cxd-DatePicker-toggler"
                         >
                           <icon-mock
-                            classname="icon icon-date"
+                            classname="cxd-Icon icon icon-date"
                             icon="date"
                           />
                         </a>

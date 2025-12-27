@@ -35,7 +35,7 @@ exports[`Renderer:PopOver with offset: default 1`] = `
           class="cxd-Field-popOverBtn"
         >
           <icon-mock
-            classname="icon icon-zoom-in"
+            classname="cxd-Icon icon icon-zoom-in"
             icon="zoom-in"
           />
         </span>
@@ -80,7 +80,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
           class="cxd-Field-popOverBtn"
         >
           <icon-mock
-            classname="icon icon-zoom-in"
+            classname="cxd-Icon icon icon-zoom-in"
             icon="zoom-in"
           />
         </span>
@@ -148,7 +148,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
           class="cxd-Field-popOverBtn"
         >
           <icon-mock
-            classname="icon icon-zoom-in"
+            classname="cxd-Icon icon icon-zoom-in"
             icon="zoom-in"
           />
         </span>

@@ -57,7 +57,7 @@ exports[`Renderer:link with title & icon & rightIcon 1`] = `
     title="linkTitleForTest"
   >
     <i
-      class="fa fa-search cxd-Link-icon fa fa-search"
+      class="cxd-Icon fa fa-search cxd-Link-icon fa fa-search"
     />
     <span
       class="cxd-TplField fr-view"
@@ -67,7 +67,7 @@ exports[`Renderer:link with title & icon & rightIcon 1`] = `
       </span>
     </span>
     <i
-      class="fa fa-cloud cxd-Link-icon fa fa-cloud"
+      class="cxd-Icon fa fa-cloud cxd-Link-icon fa fa-cloud"
     />
   </a>
 </div>

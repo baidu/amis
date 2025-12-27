@@ -68,7 +68,7 @@ exports[`Renderer:datetime 1`] = `
                 class="cxd-DatePicker-clear"
               >
                 <icon-mock
-                  classname="icon icon-input-clear"
+                  classname="cxd-Icon icon icon-input-clear"
                   icon="input-clear"
                 />
               </a>
@@ -76,7 +76,7 @@ exports[`Renderer:datetime 1`] = `
                 class="cxd-DatePicker-toggler"
               >
                 <icon-mock
-                  classname="icon icon-date"
+                  classname="cxd-Icon icon icon-date"
                   icon="date"
                 />
               </a>

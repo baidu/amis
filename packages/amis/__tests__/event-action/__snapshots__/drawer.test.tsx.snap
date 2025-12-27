@@ -41,7 +41,7 @@ exports[`EventAction:drawer 1`] = `
         class="cxd-Drawer-close"
       >
         <icon-mock
-          classname="icon icon-close"
+          classname="cxd-Icon icon icon-close"
           icon="close"
         />
       </a>
@@ -321,7 +321,7 @@ exports[`EventAction:drawer args 1`] = `
         class="cxd-Drawer-close"
       >
         <icon-mock
-          classname="icon icon-close"
+          classname="cxd-Icon icon icon-close"
           icon="close"
         />
       </a>

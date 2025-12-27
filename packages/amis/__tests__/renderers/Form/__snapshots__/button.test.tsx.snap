@@ -42,7 +42,7 @@ exports[`Renderer:button 1`] = `
             type="button"
           >
             <i
-              class="fa fa-plus cxd-Button-icon fa fa-plus"
+              class="cxd-Icon fa fa-plus cxd-Button-icon fa fa-plus"
             />
             <span>
               Text
@@ -136,7 +136,7 @@ exports[`Renderer:button 2`] = `
             type="button"
           >
             <i
-              class="fa fa-plus cxd-Button-icon fa fa-plus"
+              class="cxd-Icon fa fa-plus cxd-Button-icon fa fa-plus"
             />
             <span>
               Text
@@ -204,7 +204,7 @@ exports[`Renderer:button 2`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>

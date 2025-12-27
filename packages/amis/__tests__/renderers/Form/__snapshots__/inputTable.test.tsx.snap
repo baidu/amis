@@ -507,7 +507,7 @@ exports[`Renderer:input table add 1`] = `
                               type="button"
                             >
                               <icon-mock
-                                classname="icon icon-check"
+                                classname="cxd-Icon icon icon-check"
                                 icon="check"
                               />
                             </button>
@@ -516,7 +516,7 @@ exports[`Renderer:input table add 1`] = `
                               type="button"
                             >
                               <icon-mock
-                                classname="icon icon-close"
+                                classname="cxd-Icon icon icon-close"
                                 icon="close"
                               />
                             </button>
@@ -536,7 +536,7 @@ exports[`Renderer:input table add 1`] = `
                 disabled=""
               >
                 <i
-                  class="fa fa-plus cxd-Button-icon fa fa-plus"
+                  class="cxd-Icon fa fa-plus cxd-Button-icon fa fa-plus"
                 />
                 <span>
                   新增
@@ -727,7 +727,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                                       class="cxd-Select-valueIcon"
                                     >
                                       <icon-mock
-                                        classname="icon icon-close"
+                                        classname="cxd-Icon icon icon-close"
                                         icon="close"
                                       />
                                     </span>
@@ -744,7 +744,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                                       class="cxd-Select-valueIcon"
                                     >
                                       <icon-mock
-                                        classname="icon icon-close"
+                                        classname="cxd-Icon icon icon-close"
                                         icon="close"
                                       />
                                     </span>
@@ -754,7 +754,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                                   class="cxd-Select-arrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-right-arrow-bold"
+                                    classname="cxd-Icon icon icon-right-arrow-bold"
                                     icon="right-arrow-bold"
                                   />
                                 </span>

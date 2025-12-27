@@ -55,7 +55,7 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
                 data-index="0"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -73,7 +73,7 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
                 data-index="1"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -91,7 +91,7 @@ exports[`Renderer:InputTag InputTag input with batch tag 1`] = `
                 data-index="2"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -174,7 +174,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
                 data-index="0"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -192,7 +192,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
                 data-index="1"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -210,7 +210,7 @@ exports[`Renderer:InputTag InputTag input with batch tag and separator "|" 1`] =
                 data-index="2"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -292,7 +292,7 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
                 data-index="0"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -310,7 +310,7 @@ exports[`Renderer:InputTag InputTag input with max quantity 2 1`] = `
                 data-index="1"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -391,7 +391,7 @@ exports[`Renderer:InputTag InputTag input with maxTagLength 5 1`] = `
                 data-index="0"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
@@ -473,7 +473,7 @@ exports[`Renderer:InputTag InputTag input with single tag 1`] = `
                 data-index="0"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>

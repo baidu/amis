@@ -1,4 +1,28 @@
-.#{$ns}Icon {
+img.#{$ns}Icon {
   height: var(--fontSizeBase);
   vertical-align: middle;
+}
+
+svg.#{$ns}Icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  position: relative;
+  top: 0.125em;
+
+  &.icon-object {
+    top: 0;
+  }
+
+  &.r90 {
+    transform: rotate(90deg);
+  }
+
+  &.icon-success {
+    color: $success;
+  }
+
+  &.icon-fail {
+    color: $danger;
+  }
 }

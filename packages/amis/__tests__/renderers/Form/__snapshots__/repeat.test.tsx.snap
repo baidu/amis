@@ -85,7 +85,7 @@ exports[`Renderer:repeat 1`] = `
                         class="cxd-InputRange-handle-icon"
                       >
                         <icon-mock
-                          classname="icon icon-slider-handle"
+                          classname="cxd-Icon icon icon-slider-handle"
                           icon="slider-handle"
                         />
                       </div>
@@ -124,7 +124,7 @@ exports[`Renderer:repeat 1`] = `
                     class="cxd-Select-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>

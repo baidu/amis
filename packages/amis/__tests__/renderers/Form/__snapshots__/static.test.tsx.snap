@@ -161,7 +161,7 @@ exports[`Renderer:static-quickEdit-icon 1`] = `
           type="button"
         >
           <i
-            class="fa fa-search cxd-Button-icon fa fa-search"
+            class="cxd-Icon fa fa-search cxd-Button-icon fa fa-search"
           />
         </button>
       </div>

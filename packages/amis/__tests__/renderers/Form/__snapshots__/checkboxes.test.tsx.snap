@@ -62,7 +62,7 @@ exports[`Renderer:checkboxes 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -80,7 +80,7 @@ exports[`Renderer:checkboxes 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -98,7 +98,7 @@ exports[`Renderer:checkboxes 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -116,7 +116,7 @@ exports[`Renderer:checkboxes 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -231,7 +231,7 @@ exports[`Renderer:checkboxes 2`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -249,7 +249,7 @@ exports[`Renderer:checkboxes 2`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -267,7 +267,7 @@ exports[`Renderer:checkboxes 2`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -285,7 +285,7 @@ exports[`Renderer:checkboxes 2`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -397,7 +397,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -423,7 +423,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -441,7 +441,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -460,7 +460,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -478,7 +478,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -506,7 +506,7 @@ exports[`Renderer:checkboxes with checkall: all selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -626,7 +626,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -652,7 +652,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -670,7 +670,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -689,7 +689,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -707,7 +707,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -735,7 +735,7 @@ exports[`Renderer:checkboxes with checkall: default value 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -855,7 +855,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -881,7 +881,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -899,7 +899,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -918,7 +918,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -936,7 +936,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -964,7 +964,7 @@ exports[`Renderer:checkboxes with checkall: no selected 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -1089,7 +1089,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1111,7 +1111,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1137,7 +1137,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1159,7 +1159,7 @@ exports[`Renderer:checkboxes with columnsCount 1`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1262,7 +1262,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1288,7 +1288,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1310,7 +1310,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1336,7 +1336,7 @@ exports[`Renderer:checkboxes with columnsCount 2`] = `
                   />
                   <i>
                     <div
-                      class="checkbox-icon icon"
+                      class="cxd-Icon checkbox-icon icon"
                     />
                   </i>
                   <span
@@ -1447,7 +1447,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -1469,7 +1469,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -1507,7 +1507,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -1529,7 +1529,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -1551,7 +1551,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -1577,7 +1577,7 @@ exports[`Renderer:checkboxes with columnsCount 3`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -1681,7 +1681,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -1699,7 +1699,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -1717,7 +1717,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -1735,7 +1735,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -1753,7 +1753,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -1766,7 +1766,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
               class="cxd-Checkboxes-addBtn"
             >
               <icon-mock
-                classname="icon icon-plus"
+                classname="cxd-Icon icon icon-plus"
                 icon="plus"
               />
               我是新增按钮
@@ -1861,7 +1861,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -1879,7 +1879,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -1897,7 +1897,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -1915,7 +1915,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -1928,7 +1928,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                 class="cxd-Checkboxes-addBtn"
               >
                 <icon-mock
-                  classname="icon icon-plus"
+                  classname="cxd-Icon icon icon-plus"
                   icon="plus"
                 />
                 我是新增按钮
@@ -1974,7 +1974,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -2197,7 +2197,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2215,7 +2215,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2233,7 +2233,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2251,7 +2251,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2292,7 +2292,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2310,7 +2310,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2328,7 +2328,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2346,7 +2346,7 @@ exports[`Renderer:checkboxes with defaultCheckAll & inline 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2445,7 +2445,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -2457,7 +2457,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                     data-tooltip="编辑"
                   >
                     <icon-mock
-                      classname="icon icon-pencil"
+                      classname="cxd-Icon icon icon-pencil"
                       icon="pencil"
                     />
                   </a>
@@ -2472,7 +2472,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -2484,7 +2484,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                     data-tooltip="编辑"
                   >
                     <icon-mock
-                      classname="icon icon-pencil"
+                      classname="cxd-Icon icon icon-pencil"
                       icon="pencil"
                     />
                   </a>
@@ -2499,7 +2499,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -2511,7 +2511,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                     data-tooltip="编辑"
                   >
                     <icon-mock
-                      classname="icon icon-pencil"
+                      classname="cxd-Icon icon icon-pencil"
                       icon="pencil"
                     />
                   </a>
@@ -2526,7 +2526,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -2538,7 +2538,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
                     data-tooltip="编辑"
                   >
                     <icon-mock
-                      classname="icon icon-pencil"
+                      classname="cxd-Icon icon icon-pencil"
                       icon="pencil"
                     />
                   </a>
@@ -2585,7 +2585,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -2776,7 +2776,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2788,7 +2788,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -2803,7 +2803,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2815,7 +2815,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -2830,7 +2830,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2842,7 +2842,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -2857,7 +2857,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2869,7 +2869,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: edit succes
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -2961,7 +2961,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -2973,7 +2973,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -2988,7 +2988,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3000,7 +3000,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -3015,7 +3015,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3027,7 +3027,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -3042,7 +3042,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3054,7 +3054,7 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: hover edit 
                   data-tooltip="编辑"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -3154,7 +3154,7 @@ exports[`Renderer:checkboxes with group 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3172,7 +3172,7 @@ exports[`Renderer:checkboxes with group 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3199,7 +3199,7 @@ exports[`Renderer:checkboxes with group 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3217,7 +3217,7 @@ exports[`Renderer:checkboxes with group 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3235,7 +3235,7 @@ exports[`Renderer:checkboxes with group 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3253,7 +3253,7 @@ exports[`Renderer:checkboxes with group 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3272,7 +3272,7 @@ exports[`Renderer:checkboxes with group 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3367,7 +3367,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3395,7 +3395,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3423,7 +3423,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3451,7 +3451,7 @@ exports[`Renderer:checkboxes with menuTpl 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3556,7 +3556,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3574,7 +3574,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3593,7 +3593,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3611,7 +3611,7 @@ exports[`Renderer:checkboxes with optionType & labelClassName & itemClassName 1`
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3710,7 +3710,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3722,7 +3722,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                     data-tooltip="移除"
                   >
                     <icon-mock
-                      classname="icon icon-minus"
+                      classname="cxd-Icon icon icon-minus"
                       icon="minus"
                     />
                   </a>
@@ -3737,7 +3737,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3749,7 +3749,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                     data-tooltip="移除"
                   >
                     <icon-mock
-                      classname="icon icon-minus"
+                      classname="cxd-Icon icon icon-minus"
                       icon="minus"
                     />
                   </a>
@@ -3764,7 +3764,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3776,7 +3776,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                     data-tooltip="移除"
                   >
                     <icon-mock
-                      classname="icon icon-minus"
+                      classname="cxd-Icon icon icon-minus"
                       icon="minus"
                     />
                   </a>
@@ -3791,7 +3791,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -3803,7 +3803,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: dialog open 1`] = `
                     data-tooltip="移除"
                   >
                     <icon-mock
-                      classname="icon icon-minus"
+                      classname="cxd-Icon icon icon-minus"
                       icon="minus"
                     />
                   </a>
@@ -3943,7 +3943,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3955,7 +3955,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
                   data-tooltip="移除"
                 >
                   <icon-mock
-                    classname="icon icon-minus"
+                    classname="cxd-Icon icon icon-minus"
                     icon="minus"
                   />
                 </a>
@@ -3970,7 +3970,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -3982,7 +3982,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
                   data-tooltip="移除"
                 >
                   <icon-mock
-                    classname="icon icon-minus"
+                    classname="cxd-Icon icon icon-minus"
                     icon="minus"
                   />
                 </a>
@@ -3997,7 +3997,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -4009,7 +4009,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
                   data-tooltip="移除"
                 >
                   <icon-mock
-                    classname="icon icon-minus"
+                    classname="cxd-Icon icon icon-minus"
                     icon="minus"
                   />
                 </a>
@@ -4024,7 +4024,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -4036,7 +4036,7 @@ exports[`Renderer:checkboxes with removable & deleteApi: hover edit 1`] = `
                   data-tooltip="移除"
                 >
                   <icon-mock
-                    classname="icon icon-minus"
+                    classname="cxd-Icon icon icon-minus"
                     icon="minus"
                   />
                 </a>

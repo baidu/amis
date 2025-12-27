@@ -80,7 +80,7 @@ exports[`Renderer:Carousel 1`] = `
       class="cxd-Carousel-leftArrow"
     >
       <icon-mock
-        classname="icon icon-left-arrow"
+        classname="cxd-Icon icon icon-left-arrow"
         icon="left-arrow"
       />
     </div>
@@ -88,7 +88,7 @@ exports[`Renderer:Carousel 1`] = `
       class="cxd-Carousel-rightArrow"
     >
       <icon-mock
-        classname="icon icon-right-arrow"
+        classname="cxd-Icon icon icon-right-arrow"
         icon="right-arrow"
       />
     </div>
@@ -166,7 +166,7 @@ exports[`Renderer:Carousel with itemSchema & width & height 1`] = `
       class="cxd-Carousel-leftArrow"
     >
       <icon-mock
-        classname="icon icon-left-arrow"
+        classname="cxd-Icon icon icon-left-arrow"
         icon="left-arrow"
       />
     </div>
@@ -174,7 +174,7 @@ exports[`Renderer:Carousel with itemSchema & width & height 1`] = `
       class="cxd-Carousel-rightArrow"
     >
       <icon-mock
-        classname="icon icon-right-arrow"
+        classname="cxd-Icon icon icon-right-arrow"
         icon="right-arrow"
       />
     </div>
