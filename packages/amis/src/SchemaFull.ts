@@ -1,14 +1,9 @@
 import {AMISPageSchema} from './renderers/Page';
-import {
-  AMISButtonSchema,
-  AMISDefinitions,
-  AMISFormSchema,
-  AMISSchemaType
-} from 'amis-core';
+import {AMISButtonSchema, AMISFormSchema} from 'amis-core';
 import {AMISAlertSchema} from './renderers/Alert';
 import {AMISFlexSchema} from './renderers/Flex';
 import {AMISTplSchema} from './renderers/Tpl';
-import {AMISRemarkSchema, RemarkSchema, SchemaRemark} from './renderers/Remark';
+import {AMISRemarkSchema} from './renderers/Remark';
 import {AMISAudioSchema} from './renderers/Audio';
 import {AMISButtonGroupSchema} from './renderers/ButtonGroup';
 import {AMISButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
