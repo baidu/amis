@@ -89,7 +89,7 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-clear"
                         >
                           <icon-mock
-                            classname="icon icon-input-clear"
+                            classname="cxd-Icon icon icon-input-clear"
                             icon="input-clear"
                           />
                         </a>
@@ -97,7 +97,7 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -122,7 +122,7 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-clear"
                         >
                           <icon-mock
-                            classname="icon icon-input-clear"
+                            classname="cxd-Icon icon icon-input-clear"
                             icon="input-clear"
                           />
                         </a>
@@ -130,7 +130,7 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -155,7 +155,7 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-clear"
                         >
                           <icon-mock
-                            classname="icon icon-input-clear"
+                            classname="cxd-Icon icon icon-input-clear"
                             icon="input-clear"
                           />
                         </a>
@@ -163,7 +163,7 @@ exports[`Renderer:inputCity 1`] = `
                           class="cxd-Select-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -287,7 +287,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                           class="cxd-Select-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -307,7 +307,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                               class="cxd-Select-input"
                             >
                               <icon-mock
-                                classname="icon icon-search"
+                                classname="cxd-Icon icon icon-search"
                                 icon="search"
                               />
                               <input

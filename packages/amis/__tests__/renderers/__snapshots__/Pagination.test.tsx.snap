@@ -19,7 +19,7 @@ exports[`Renderer:Pagination 1`] = `
           >
             <span>
               <icon-mock
-                classname="icon icon-left-arrow"
+                classname="cxd-Icon icon icon-left-arrow"
                 icon="left-arrow"
               />
             </span>
@@ -74,7 +74,7 @@ exports[`Renderer:Pagination 1`] = `
           >
             <span>
               <icon-mock
-                classname="icon icon-right-arrow"
+                classname="cxd-Icon icon icon-right-arrow"
                 icon="right-arrow"
               />
             </span>
@@ -249,7 +249,7 @@ exports[`Renderer:Pagination 2`] = `
           class="cxd-Select-arrow"
         >
           <icon-mock
-            classname="icon icon-right-arrow-bold"
+            classname="cxd-Icon icon icon-right-arrow-bold"
             icon="right-arrow-bold"
           />
         </span>
@@ -262,7 +262,7 @@ exports[`Renderer:Pagination 2`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-left-arrow"
+              classname="cxd-Icon icon icon-left-arrow"
               icon="left-arrow"
             />
           </span>
@@ -288,7 +288,7 @@ exports[`Renderer:Pagination 2`] = `
             class="icon"
           >
             <icon-mock
-              classname="icon icon-arrow-double-left"
+              classname="cxd-Icon icon icon-arrow-double-left"
               icon="arrow-double-left"
             />
           </span>
@@ -323,7 +323,7 @@ exports[`Renderer:Pagination 2`] = `
             class="icon"
           >
             <icon-mock
-              classname="icon icon-arrow-double-right"
+              classname="cxd-Icon icon icon-arrow-double-right"
               icon="arrow-double-right"
             />
           </span>
@@ -342,7 +342,7 @@ exports[`Renderer:Pagination 2`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-right-arrow"
+              classname="cxd-Icon icon icon-right-arrow"
               icon="right-arrow"
             />
           </span>
@@ -388,7 +388,7 @@ exports[`Renderer:Pagination with disabled 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-left-arrow"
+              classname="cxd-Icon icon icon-left-arrow"
               icon="left-arrow"
             />
           </span>
@@ -468,7 +468,7 @@ exports[`Renderer:Pagination with disabled 1`] = `
             class="icon"
           >
             <icon-mock
-              classname="icon icon-arrow-double-right"
+              classname="cxd-Icon icon icon-arrow-double-right"
               icon="arrow-double-right"
             />
           </span>
@@ -487,7 +487,7 @@ exports[`Renderer:Pagination with disabled 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-right-arrow"
+              classname="cxd-Icon icon icon-right-arrow"
               icon="right-arrow"
             />
           </span>
@@ -550,7 +550,7 @@ exports[`Renderer:Pagination with layout 1`] = `
           class="cxd-Select-arrow"
         >
           <icon-mock
-            classname="icon icon-right-arrow-bold"
+            classname="cxd-Icon icon icon-right-arrow-bold"
             icon="right-arrow-bold"
           />
         </span>
@@ -563,7 +563,7 @@ exports[`Renderer:Pagination with layout 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-left-arrow"
+              classname="cxd-Icon icon icon-left-arrow"
               icon="left-arrow"
             />
           </span>
@@ -643,7 +643,7 @@ exports[`Renderer:Pagination with layout 1`] = `
             class="icon"
           >
             <icon-mock
-              classname="icon icon-arrow-double-right"
+              classname="cxd-Icon icon icon-arrow-double-right"
               icon="arrow-double-right"
             />
           </span>
@@ -662,7 +662,7 @@ exports[`Renderer:Pagination with layout 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-right-arrow"
+              classname="cxd-Icon icon icon-right-arrow"
               icon="right-arrow"
             />
           </span>
@@ -689,7 +689,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-left-arrow"
+              classname="cxd-Icon icon icon-left-arrow"
               icon="left-arrow"
             />
           </span>
@@ -715,7 +715,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
             class="icon"
           >
             <icon-mock
-              classname="icon icon-arrow-double-left"
+              classname="cxd-Icon icon icon-arrow-double-left"
               icon="arrow-double-left"
             />
           </span>
@@ -804,7 +804,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
             class="icon"
           >
             <icon-mock
-              classname="icon icon-arrow-double-right"
+              classname="cxd-Icon icon icon-arrow-double-right"
               icon="arrow-double-right"
             />
           </span>
@@ -823,7 +823,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-right-arrow"
+              classname="cxd-Icon icon icon-right-arrow"
               icon="right-arrow"
             />
           </span>
@@ -856,7 +856,7 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
     class="cxd-Select-arrow"
   >
     <icon-mock
-      classname="icon icon-right-arrow-bold"
+      classname="cxd-Icon icon icon-right-arrow-bold"
       icon="right-arrow-bold"
     />
   </span>
@@ -958,7 +958,7 @@ exports[`Renderer:Pagination with simple mode 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-left-arrow"
+              classname="cxd-Icon icon icon-left-arrow"
               icon="left-arrow"
             />
           </span>
@@ -973,7 +973,7 @@ exports[`Renderer:Pagination with simple mode 1`] = `
         >
           <span>
             <icon-mock
-              classname="icon icon-right-arrow"
+              classname="cxd-Icon icon icon-right-arrow"
               icon="right-arrow"
             />
           </span>

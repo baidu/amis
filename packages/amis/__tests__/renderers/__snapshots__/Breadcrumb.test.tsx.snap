@@ -13,7 +13,7 @@ exports[`Renderer:breadcrumb 1`] = `
         href="https://baidu.gitee.com/"
       >
         <i
-          class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+          class="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
         />
         <span
           class="cxd-TplField fr-view"
@@ -75,7 +75,7 @@ exports[`Renderer:breadcrumb className 1`] = `
         href="https://baidu.gitee.com/"
       >
         <i
-          class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+          class="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
         />
         <span
           class="cxd-TplField fr-view"
@@ -105,7 +105,7 @@ exports[`Renderer:breadcrumb className 1`] = `
         class="cxd-Breadcrumb-item-caret"
       >
         <icon-mock
-          classname="icon icon-down"
+          classname="cxd-Icon icon icon-down"
           icon="down"
         />
       </span>
@@ -185,7 +185,7 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  class="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   class="cxd-TplField fr-view"
@@ -215,7 +215,7 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 class="cxd-Breadcrumb-item-caret"
               >
                 <icon-mock
-                  classname="icon icon-down"
+                  classname="cxd-Icon icon icon-down"
                   icon="down"
                 />
               </span>
@@ -272,7 +272,7 @@ exports[`Renderer:breadcrumb separator 1`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  class="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   class="cxd-TplField fr-view"
@@ -355,7 +355,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  className="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   className="cxd-TplField fr-view"
@@ -443,7 +443,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  className="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   className="cxd-TplField fr-view"
@@ -531,7 +531,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  className="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   className="cxd-TplField fr-view"
@@ -619,7 +619,7 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  className="cxd-Icon fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   className="cxd-TplField fr-view"

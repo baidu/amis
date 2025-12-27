@@ -82,7 +82,7 @@ exports[`Renderer:transfer-picker 1`] = `
                           class="cxd-TransferPicker-icon"
                         >
                           <icon-mock
-                            classname="icon icon-pencil"
+                            classname="cxd-Icon icon icon-pencil"
                             icon="pencil"
                           />
                         </span>

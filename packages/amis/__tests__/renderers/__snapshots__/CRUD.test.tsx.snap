@@ -511,7 +511,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-left-arrow"
+                                classname="cxd-Icon icon icon-left-arrow"
                                 icon="left-arrow"
                               />
                             </span>
@@ -591,7 +591,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                               class="icon"
                             >
                               <icon-mock
-                                classname="icon icon-arrow-double-right"
+                                classname="cxd-Icon icon icon-arrow-double-right"
                                 icon="arrow-double-right"
                               />
                             </span>
@@ -610,7 +610,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-right-arrow"
+                                classname="cxd-Icon icon icon-right-arrow"
                                 icon="right-arrow"
                               />
                             </span>
@@ -672,7 +672,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             class="cxd-Select-arrow"
                           >
                             <icon-mock
-                              classname="icon icon-right-arrow-bold"
+                              classname="cxd-Icon icon icon-right-arrow-bold"
                               icon="right-arrow-bold"
                             />
                           </span>
@@ -685,7 +685,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-left-arrow"
+                                classname="cxd-Icon icon icon-left-arrow"
                                 icon="left-arrow"
                               />
                             </span>
@@ -747,7 +747,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                               class="icon"
                             >
                               <icon-mock
-                                classname="icon icon-arrow-double-right"
+                                classname="cxd-Icon icon icon-arrow-double-right"
                                 icon="arrow-double-right"
                               />
                             </span>
@@ -766,7 +766,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-right-arrow"
+                                classname="cxd-Icon icon icon-right-arrow"
                                 icon="right-arrow"
                               />
                             </span>
@@ -1110,7 +1110,7 @@ exports[`4. Renderer:crud list 1`] = `
                               >
                                 <span>
                                   <icon-mock
-                                    classname="icon icon-left-arrow"
+                                    classname="cxd-Icon icon icon-left-arrow"
                                     icon="left-arrow"
                                   />
                                 </span>
@@ -1190,7 +1190,7 @@ exports[`4. Renderer:crud list 1`] = `
                                   class="icon"
                                 >
                                   <icon-mock
-                                    classname="icon icon-arrow-double-right"
+                                    classname="cxd-Icon icon icon-arrow-double-right"
                                     icon="arrow-double-right"
                                   />
                                 </span>
@@ -1209,7 +1209,7 @@ exports[`4. Renderer:crud list 1`] = `
                               >
                                 <span>
                                   <icon-mock
-                                    classname="icon icon-right-arrow"
+                                    classname="cxd-Icon icon icon-right-arrow"
                                     icon="right-arrow"
                                   />
                                 </span>
@@ -2002,7 +2002,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-left-arrow"
+                                classname="cxd-Icon icon icon-left-arrow"
                                 icon="left-arrow"
                               />
                             </span>
@@ -2082,7 +2082,7 @@ exports[`5. Renderer:crud cards 1`] = `
                               class="icon"
                             >
                               <icon-mock
-                                classname="icon icon-arrow-double-right"
+                                classname="cxd-Icon icon icon-arrow-double-right"
                                 icon="arrow-double-right"
                               />
                             </span>
@@ -2101,7 +2101,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-right-arrow"
+                                classname="cxd-Icon icon icon-right-arrow"
                                 icon="right-arrow"
                               />
                             </span>
@@ -2630,7 +2630,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-left-arrow"
+                                classname="cxd-Icon icon icon-left-arrow"
                                 icon="left-arrow"
                               />
                             </span>
@@ -2649,7 +2649,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-right-arrow"
+                                classname="cxd-Icon icon icon-right-arrow"
                                 icon="right-arrow"
                               />
                             </span>
@@ -2848,7 +2848,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -2883,7 +2883,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               class="cxd-TableCell-sortBtn--down"
                             >
                               <icon-mock
-                                classname="icon icon-sort-desc"
+                                classname="cxd-Icon icon icon-sort-desc"
                                 icon="sort-desc"
                               />
                             </i>
@@ -2891,7 +2891,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               class="cxd-TableCell-sortBtn--up"
                             >
                               <icon-mock
-                                classname="icon icon-sort-asc"
+                                classname="cxd-Icon icon icon-sort-asc"
                                 icon="sort-asc"
                               />
                             </i>
@@ -2899,7 +2899,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               class="cxd-TableCell-sortBtn--default is-active"
                             >
                               <icon-mock
-                                classname="icon icon-sort-default"
+                                classname="cxd-Icon icon icon-sort-default"
                                 icon="sort-default"
                               />
                             </i>
@@ -2950,7 +2950,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -2982,7 +2982,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3006,7 +3006,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3038,7 +3038,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3062,7 +3062,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3094,7 +3094,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3118,7 +3118,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3150,7 +3150,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3175,7 +3175,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3207,7 +3207,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3232,7 +3232,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3264,7 +3264,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3289,7 +3289,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3321,7 +3321,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3346,7 +3346,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3378,7 +3378,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3403,7 +3403,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3435,7 +3435,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3460,7 +3460,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -3492,7 +3492,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             type="button"
                           >
                             <icon-mock
-                              classname="cxd-Button-icon icon-edit"
+                              classname="cxd-Icon cxd-Button-icon icon-edit"
                               icon="edit"
                             />
                           </button>
@@ -3534,7 +3534,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-left-arrow"
+                                classname="cxd-Icon icon icon-left-arrow"
                                 icon="left-arrow"
                               />
                             </span>
@@ -3614,7 +3614,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                               class="icon"
                             >
                               <icon-mock
-                                classname="icon icon-arrow-double-right"
+                                classname="cxd-Icon icon icon-arrow-double-right"
                                 icon="arrow-double-right"
                               />
                             </span>
@@ -3633,7 +3633,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             <span>
                               <icon-mock
-                                classname="icon icon-right-arrow"
+                                classname="cxd-Icon icon icon-right-arrow"
                                 icon="right-arrow"
                               />
                             </span>

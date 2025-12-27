@@ -288,7 +288,7 @@ exports[`Renderer:Nav with defer 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user mr-2 fa fa-user"
+                          class="cxd-Icon fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -335,7 +335,7 @@ exports[`Renderer:Nav with defer 1`] = `
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -380,7 +380,7 @@ exports[`Renderer:Nav with defer 1`] = `
                         class="cxd-Nav-Menu-submenu-arrow"
                       >
                         <icon-mock
-                          classname="icon icon-right-arrow-bold"
+                          classname="cxd-Icon icon icon-right-arrow-bold"
                           icon="right-arrow-bold"
                         />
                       </span>
@@ -454,7 +454,7 @@ exports[`Renderer:Nav with defer 1`] = `
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -613,7 +613,7 @@ exports[`Renderer:Nav with icons 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user mr-2 fa fa-user"
+                          class="cxd-Icon fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -660,7 +660,7 @@ exports[`Renderer:Nav with icons 1`] = `
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -697,11 +697,11 @@ exports[`Renderer:Nav with icons 1`] = `
                             class="cxd-Nav-Menu-item-icon"
                           >
                             <icon-mock
-                              classname="mr-2 icon-star"
+                              classname="cxd-Icon mr-2 icon-star"
                               icon="star"
                             />
                             <icon-mock
-                              classname="mr-2 icon-search"
+                              classname="cxd-Icon mr-2 icon-search"
                               icon="search"
                             />
                           </i>
@@ -725,7 +725,7 @@ exports[`Renderer:Nav with icons 1`] = `
                         class="cxd-Nav-Menu-submenu-arrow"
                       >
                         <icon-mock
-                          classname="icon icon-right-arrow-bold"
+                          classname="cxd-Icon icon icon-right-arrow-bold"
                           icon="right-arrow-bold"
                         />
                       </span>
@@ -804,7 +804,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user mr-2 fa fa-user"
+                          class="cxd-Icon fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -818,7 +818,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       class="cxd-Nav-Menu-item-extra"
                     >
                       <i
-                        class="cloud fa fa-cloud"
+                        class="cxd-Icon cloud fa fa-cloud"
                       />
                       <div
                         class="cxd-DropDown "
@@ -827,7 +827,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                            class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -874,7 +874,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                            class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -884,7 +884,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -934,7 +934,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                                class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -944,7 +944,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                         class="cxd-Nav-Menu-submenu-arrow"
                       >
                         <icon-mock
-                          classname="icon icon-right-arrow-bold"
+                          classname="cxd-Icon icon icon-right-arrow-bold"
                           icon="right-arrow-bold"
                         />
                       </span>
@@ -987,7 +987,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                                class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -1036,7 +1036,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                            class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -1046,7 +1046,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -1145,7 +1145,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user mr-2 fa fa-user"
+                          class="cxd-Icon fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -1159,7 +1159,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                       class="cxd-Nav-Menu-item-extra"
                     >
                       <i
-                        class="cloud fa fa-cloud"
+                        class="cxd-Icon cloud fa fa-cloud"
                       />
                       <div
                         class="cxd-DropDown  is-opened"
@@ -1168,7 +1168,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                            class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -1221,7 +1221,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                            class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -1231,7 +1231,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -1287,7 +1287,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                                class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -1297,7 +1297,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                         class="cxd-Nav-Menu-submenu-arrow"
                       >
                         <icon-mock
-                          classname="icon icon-right-arrow-bold"
+                          classname="cxd-Icon icon icon-right-arrow-bold"
                           icon="right-arrow-bold"
                         />
                       </span>
@@ -1347,7 +1347,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                                class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -1402,7 +1402,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
+                            class="cxd-Icon fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -1412,7 +1412,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                     class="cxd-Nav-Menu-submenu-arrow"
                   >
                     <icon-mock
-                      classname="icon icon-right-arrow-bold"
+                      classname="cxd-Icon icon icon-right-arrow-bold"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -1481,7 +1481,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
                 class="cxd-Nav-Menu-item-icon"
               >
                 <i
-                  class="fa fa-user mr-2 fa fa-user"
+                  class="cxd-Icon fa fa-user mr-2 fa fa-user"
                 />
               </i>
               <span
@@ -1528,7 +1528,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
             class="cxd-Nav-Menu-submenu-arrow"
           >
             <icon-mock
-              classname="icon icon-right-arrow-bold"
+              classname="cxd-Icon icon icon-right-arrow-bold"
               icon="right-arrow-bold"
             />
           </span>
@@ -1573,7 +1573,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
                 class="cxd-Nav-Menu-submenu-arrow"
               >
                 <icon-mock
-                  classname="icon icon-right-arrow-bold"
+                  classname="cxd-Icon icon icon-right-arrow-bold"
                   icon="right-arrow-bold"
                 />
               </span>
@@ -1773,7 +1773,7 @@ exports[`Renderer:Nav with overflow 1`] = `
                     class="cxd-Nav-Menu-item-icon cxd-Nav-Menu-overflowedIcon thisisoverflowClassName"
                   >
                     <i
-                      class="fas fa-angle-double-down icon Nav-item-icon fas fa-angle-double-down"
+                      class="cxd-Icon fas fa-angle-double-down icon cxd-Nav-item-icon fas fa-angle-double-down"
                     />
                     点击展开
                   </span>
@@ -1870,7 +1870,7 @@ exports[`Renderer:Nav with source 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user mr-2 fa fa-user"
+                          class="cxd-Icon fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -2008,7 +2008,7 @@ exports[`Renderer:Nav with stacked 1`] = `
                 class="cxd-Nav-Menu-item-icon"
               >
                 <i
-                  class="fa fa-user mr-2 fa fa-user"
+                  class="cxd-Icon fa fa-user mr-2 fa fa-user"
                 />
               </i>
               <span

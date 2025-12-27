@@ -63,7 +63,7 @@ exports[`Renderer:alert var 1`] = `
               class="cxd-Alert-icon"
             >
               <icon-mock
-                classname="icon icon-copy"
+                classname="cxd-Icon icon icon-copy"
                 icon="copy"
               />
             </div>
@@ -226,7 +226,7 @@ exports[`Renderer:alert with showCloseButton & closeButtonClassName 1`] = `
               type="button"
             >
               <icon-mock
-                classname="icon icon-close"
+                classname="cxd-Icon icon icon-close"
                 icon="close"
               />
             </button>
@@ -260,7 +260,7 @@ exports[`Renderer:alert with title & showIcon & icon & iconClassName 1`] = `
               class="cxd-Alert-icon starClass"
             >
               <icon-mock
-                classname="icon icon-star"
+                classname="cxd-Icon icon icon-star"
                 icon="star"
               />
             </div>

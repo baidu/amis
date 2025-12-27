@@ -29,7 +29,7 @@ exports[`Renderer:Searchbox 1`] = `
               class="cxd-SearchBox-searchBtn"
             >
               <icon-mock
-                classname="icon icon-search"
+                classname="cxd-Icon icon icon-search"
                 icon="search"
               />
             </a>
@@ -57,7 +57,7 @@ exports[`Renderer:Searchbox with clearable 1`] = `
       class="cxd-SearchBox-clearable"
     >
       <icon-mock
-        classname="icon icon-input-clear"
+        classname="cxd-Icon icon icon-input-clear"
         icon="input-clear"
       />
     </div>
@@ -65,7 +65,7 @@ exports[`Renderer:Searchbox with clearable 1`] = `
       class="cxd-SearchBox-searchBtn"
     >
       <icon-mock
-        classname="icon icon-search"
+        classname="cxd-Icon icon icon-search"
         icon="search"
       />
     </a>
@@ -102,7 +102,7 @@ exports[`Renderer:Searchbox with enhance 1`] = `
               class="cxd-SearchBox-searchBtn"
             >
               <icon-mock
-                classname="icon icon-search"
+                classname="cxd-Icon icon icon-search"
                 icon="search"
               />
             </a>
@@ -130,7 +130,7 @@ exports[`Renderer:Searchbox with mini 1`] = `
       class="cxd-SearchBox-activeBtn"
     >
       <icon-mock
-        classname="icon icon-search"
+        classname="cxd-Icon icon icon-search"
         icon="search"
       />
     </a>
@@ -154,7 +154,7 @@ exports[`Renderer:Searchbox with mini 2`] = `
       class="cxd-SearchBox-cancelBtn"
     >
       <icon-mock
-        classname="icon icon-close"
+        classname="cxd-Icon icon icon-close"
         icon="close"
       />
     </a>

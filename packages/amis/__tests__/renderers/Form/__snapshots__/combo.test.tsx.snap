@@ -133,7 +133,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -147,7 +147,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -247,7 +247,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -310,7 +310,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -420,7 +420,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -483,7 +483,7 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -651,7 +651,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -707,7 +707,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -763,7 +763,7 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -905,7 +905,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                                   class="cxd-Select-arrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-right-arrow-bold"
+                                    classname="cxd-Icon icon icon-right-arrow-bold"
                                     icon="right-arrow-bold"
                                   />
                                 </span>
@@ -998,7 +998,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -1014,7 +1014,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                               class="cxd-Button cxd-Button--info cxd-Button--size-sm"
                             >
                               <icon-mock
-                                classname="icon m-r-xs icon icon-plus-fine"
+                                classname="cxd-Icon cxd-Icon icon m-r-xs icon icon-plus-fine"
                                 icon="plus-fine"
                               />
                               新增
@@ -1022,7 +1022,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                                 class="cxd-DropDown-caret"
                               >
                                 <icon-mock
-                                  classname="icon icon-right-arrow-bold"
+                                  classname="cxd-Icon icon icon-right-arrow-bold"
                                   icon="right-arrow-bold"
                                 />
                               </span>
@@ -1172,7 +1172,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                 data-tooltip="拖拽排序"
                               >
                                 <icon-mock
-                                  classname="icon icon-drag-bar"
+                                  classname="cxd-Icon icon icon-drag-bar"
                                   icon="drag-bar"
                                 />
                               </a>
@@ -1258,7 +1258,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                               class="cxd-Select-arrow"
                                             >
                                               <icon-mock
-                                                classname="icon icon-right-arrow-bold"
+                                                classname="cxd-Icon icon icon-right-arrow-bold"
                                                 icon="right-arrow-bold"
                                               />
                                             </span>
@@ -1276,7 +1276,7 @@ exports[`Renderer:combo with draggable 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -1292,7 +1292,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                 data-tooltip="拖拽排序"
                               >
                                 <icon-mock
-                                  classname="icon icon-drag-bar"
+                                  classname="cxd-Icon icon icon-drag-bar"
                                   icon="drag-bar"
                                 />
                               </a>
@@ -1378,7 +1378,7 @@ exports[`Renderer:combo with draggable 1`] = `
                                               class="cxd-Select-arrow"
                                             >
                                               <icon-mock
-                                                classname="icon icon-right-arrow-bold"
+                                                classname="cxd-Icon icon icon-right-arrow-bold"
                                                 icon="right-arrow-bold"
                                               />
                                             </span>
@@ -1396,7 +1396,7 @@ exports[`Renderer:combo with draggable 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -1410,7 +1410,7 @@ exports[`Renderer:combo with draggable 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -1641,7 +1641,7 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -1823,7 +1823,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -1935,7 +1935,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -2047,7 +2047,7 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -2188,7 +2188,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                       data-tooltip="删除"
                                     >
                                       <icon-mock
-                                        classname="icon icon-status-close"
+                                        classname="cxd-Icon icon icon-status-close"
                                         icon="status-close"
                                       />
                                     </div>
@@ -2211,7 +2211,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                       data-tooltip="删除"
                                     >
                                       <icon-mock
-                                        classname="icon icon-status-close"
+                                        classname="cxd-Icon icon icon-status-close"
                                         icon="status-close"
                                       />
                                     </div>
@@ -2222,7 +2222,7 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                 >
                                   <a>
                                     <icon-mock
-                                      classname="icon icon-plus-fine"
+                                      classname="cxd-Icon icon icon-plus-fine"
                                       icon="plus-fine"
                                     />
                                     <span>

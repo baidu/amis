@@ -80,7 +80,7 @@ exports[`Renderer:InputSubForm base 1`] = `
                     class="cxd-SubForm-valueEdit"
                   >
                     <icon-mock
-                      classname="icon icon-pencil"
+                      classname="cxd-Icon icon icon-pencil"
                       icon="pencil"
                     />
                   </a>
@@ -127,7 +127,7 @@ exports[`Renderer:InputSubForm base 1`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -325,7 +325,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                   data-index="0"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -334,7 +334,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                   data-index="0"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -352,7 +352,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                   data-index="1"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -361,7 +361,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                   data-index="1"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -375,7 +375,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                 type="button"
               >
                 <icon-mock
-                  classname="icon icon-plus"
+                  classname="cxd-Icon icon icon-plus"
                   icon="plus"
                 />
                 <span>
@@ -470,7 +470,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueDragBar"
                 >
                   <icon-mock
-                    classname="icon icon-drag-bar"
+                    classname="cxd-Icon icon icon-drag-bar"
                     icon="drag-bar"
                   />
                 </a>
@@ -490,7 +490,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   data-index="0"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -499,7 +499,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   data-index="0"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -511,7 +511,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueDragBar"
                 >
                   <icon-mock
-                    classname="icon icon-drag-bar"
+                    classname="cxd-Icon icon icon-drag-bar"
                     icon="drag-bar"
                   />
                 </a>
@@ -531,7 +531,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   data-index="1"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -540,7 +540,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   data-index="1"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -552,7 +552,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   class="cxd-SubForm-valueDragBar"
                 >
                   <icon-mock
-                    classname="icon icon-drag-bar"
+                    classname="cxd-Icon icon icon-drag-bar"
                     icon="drag-bar"
                   />
                 </a>
@@ -572,7 +572,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   data-index="2"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -581,7 +581,7 @@ exports[`Renderer:InputSubForm with draggable & addable & removable 1`] = `
                   data-index="2"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -693,7 +693,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   data-index="0"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -702,7 +702,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   data-index="0"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -726,7 +726,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   data-index="1"
                 >
                   <icon-mock
-                    classname="icon icon-pencil"
+                    classname="cxd-Icon icon icon-pencil"
                     icon="pencil"
                   />
                 </a>
@@ -735,7 +735,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                   data-index="1"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -750,7 +750,7 @@ exports[`Renderer:InputSubForm with multiple & maxLength & btnLabel 1`] = `
                 type="button"
               >
                 <icon-mock
-                  classname="icon icon-plus"
+                  classname="cxd-Icon icon icon-plus"
                   icon="plus"
                 />
                 <span>

@@ -133,7 +133,7 @@ exports[`Renderer:inputArray 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -147,7 +147,7 @@ exports[`Renderer:inputArray 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -271,7 +271,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 data-tooltip="拖拽排序"
                               >
                                 <icon-mock
-                                  classname="icon icon-drag-bar"
+                                  classname="cxd-Icon icon icon-drag-bar"
                                   icon="drag-bar"
                                 />
                               </a>
@@ -331,7 +331,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -347,7 +347,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 data-tooltip="拖拽排序"
                               >
                                 <icon-mock
-                                  classname="icon icon-drag-bar"
+                                  classname="cxd-Icon icon icon-drag-bar"
                                   icon="drag-bar"
                                 />
                               </a>
@@ -407,7 +407,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -423,7 +423,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                                 data-tooltip="拖拽排序"
                               >
                                 <icon-mock
-                                  classname="icon icon-drag-bar"
+                                  classname="cxd-Icon icon icon-drag-bar"
                                   icon="drag-bar"
                                 />
                               </a>
@@ -483,7 +483,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -497,7 +497,7 @@ exports[`Renderer:inputArray with draggable & draggableTip 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -730,7 +730,7 @@ exports[`Renderer:inputArray with minLength & maxLength 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>
@@ -1116,7 +1116,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
                               data-tooltip="删除"
                             >
                               <icon-mock
-                                classname="icon icon-status-close"
+                                classname="cxd-Icon icon icon-status-close"
                                 icon="status-close"
                               />
                             </a>
@@ -1130,7 +1130,7 @@ exports[`Renderer:inputArray with removable & addable & addButtonText: false 2`]
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus-fine"
+                              classname="cxd-Icon icon icon-plus-fine"
                               icon="plus-fine"
                             />
                             <span>

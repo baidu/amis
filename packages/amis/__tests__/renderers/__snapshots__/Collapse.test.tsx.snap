@@ -16,7 +16,7 @@ exports[`1. Renderer:Collapse 1`] = `
           class="cxd-Collapse-arrow-wrap"
         >
           <icon-mock
-            classname="cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
+            classname="cxd-Icon cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
             icon="right-arrow-bold"
           />
         </span>
@@ -58,7 +58,7 @@ exports[`1. Renderer:Collapse 1`] = `
           class="cxd-Collapse-arrow-wrap"
         >
           <icon-mock
-            classname="cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
+            classname="cxd-Icon cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
             icon="right-arrow-bold"
           />
         </span>
@@ -100,7 +100,7 @@ exports[`1. Renderer:Collapse 1`] = `
           class="cxd-Collapse-arrow-wrap"
         >
           <icon-mock
-            classname="cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
+            classname="cxd-Icon cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
             icon="right-arrow-bold"
           />
         </span>
@@ -150,7 +150,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
         class="cxd-Collapse-header"
       >
         <i
-          class="caret-right cxd-Collapse-icon-tranform cxd-Collapse-icon-tranform fa fa-caret-right"
+          class="cxd-Icon caret-right cxd-Collapse-icon-tranform cxd-Collapse-icon-tranform fa fa-caret-right"
         />
         <span
           class="cxd-TplField fr-view"
@@ -187,7 +187,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
         class="cxd-Collapse-header"
       >
         <i
-          class="caret-right cxd-Collapse-icon-tranform cxd-Collapse-icon-tranform fa fa-caret-right"
+          class="cxd-Icon caret-right cxd-Collapse-icon-tranform cxd-Collapse-icon-tranform fa fa-caret-right"
         />
         <span
           class="cxd-TplField fr-view"
@@ -271,7 +271,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
           class="cxd-Collapse-arrow-wrap"
         >
           <icon-mock
-            classname="cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
+            classname="cxd-Icon cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
             icon="right-arrow-bold"
           />
         </span>
@@ -306,7 +306,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
                     class="cxd-Collapse-arrow-wrap"
                   >
                     <icon-mock
-                      classname="cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
+                      classname="cxd-Icon cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
                       icon="right-arrow-bold"
                     />
                   </span>
@@ -353,7 +353,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
           class="cxd-Collapse-arrow-wrap"
         >
           <icon-mock
-            classname="cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
+            classname="cxd-Icon cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
             icon="right-arrow-bold"
           />
         </span>

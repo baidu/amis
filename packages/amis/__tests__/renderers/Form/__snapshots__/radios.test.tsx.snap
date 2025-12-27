@@ -62,7 +62,7 @@ exports[`Renderer:radios 1`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -80,7 +80,7 @@ exports[`Renderer:radios 1`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -98,7 +98,7 @@ exports[`Renderer:radios 1`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -116,7 +116,7 @@ exports[`Renderer:radios 1`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -231,7 +231,7 @@ exports[`Renderer:radios 2`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -249,7 +249,7 @@ exports[`Renderer:radios 2`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -267,7 +267,7 @@ exports[`Renderer:radios 2`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -285,7 +285,7 @@ exports[`Renderer:radios 2`] = `
               />
               <i>
                 <div
-                  class="radio-icon icon"
+                  class="cxd-Icon radio-icon icon"
                 />
               </i>
               <span
@@ -403,7 +403,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
                   />
                   <i>
                     <div
-                      class="radio-icon icon"
+                      class="cxd-Icon radio-icon icon"
                     />
                   </i>
                   <span
@@ -425,7 +425,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
                   />
                   <i>
                     <div
-                      class="radio-icon icon"
+                      class="cxd-Icon radio-icon icon"
                     />
                   </i>
                   <span
@@ -447,7 +447,7 @@ exports[`Renderer:radios source & autoFill 1`] = `
                   />
                   <i>
                     <div
-                      class="radio-icon icon"
+                      class="cxd-Icon radio-icon icon"
                     />
                   </i>
                   <span

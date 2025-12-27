@@ -83,7 +83,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -94,7 +94,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-folder"
+                                  classname="cxd-Icon icon icon-folder"
                                   icon="folder"
                                 />
                               </i>
@@ -127,7 +127,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -154,7 +154,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -165,7 +165,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-folder"
+                                  classname="cxd-Icon icon icon-folder"
                                   icon="folder"
                                 />
                               </i>
@@ -198,7 +198,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -231,7 +231,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -264,7 +264,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -297,7 +297,7 @@ exports[`Tree: basic & disabled children & default check children 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -426,7 +426,7 @@ exports[`Tree: showOutline 1`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -437,7 +437,7 @@ exports[`Tree: showOutline 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-folder"
+                                  classname="cxd-Icon icon icon-folder"
                                   icon="folder"
                                 />
                               </i>
@@ -470,7 +470,7 @@ exports[`Tree: showOutline 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -497,7 +497,7 @@ exports[`Tree: showOutline 1`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -508,7 +508,7 @@ exports[`Tree: showOutline 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-folder"
+                                  classname="cxd-Icon icon icon-folder"
                                   icon="folder"
                                 />
                               </i>
@@ -541,7 +541,7 @@ exports[`Tree: showOutline 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -574,7 +574,7 @@ exports[`Tree: showOutline 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -607,7 +607,7 @@ exports[`Tree: showOutline 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -640,7 +640,7 @@ exports[`Tree: showOutline 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>

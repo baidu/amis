@@ -163,7 +163,7 @@ exports[`Renderer:tabs change active tab 1`] = `
                 class="cxd-Tabs-link-close"
               >
                 <icon-mock
-                  classname="cxd-Tabs-link-close-icon icon-close"
+                  classname="cxd-Icon cxd-Tabs-link-close-icon icon-close"
                   icon="close"
                 />
               </span>
@@ -184,7 +184,7 @@ exports[`Renderer:tabs change active tab 1`] = `
                 class="cxd-Tabs-link-close"
               >
                 <icon-mock
-                  classname="cxd-Tabs-link-close-icon icon-close"
+                  classname="cxd-Icon cxd-Tabs-link-close-icon icon-close"
                   icon="close"
                 />
               </span>
@@ -249,7 +249,7 @@ exports[`Renderer:tabs change active tab 2`] = `
                 class="cxd-Tabs-link-close"
               >
                 <icon-mock
-                  classname="cxd-Tabs-link-close-icon icon-close"
+                  classname="cxd-Icon cxd-Tabs-link-close-icon icon-close"
                   icon="close"
                 />
               </span>
@@ -270,7 +270,7 @@ exports[`Renderer:tabs change active tab 2`] = `
                 class="cxd-Tabs-link-close"
               >
                 <icon-mock
-                  classname="cxd-Tabs-link-close-icon icon-close"
+                  classname="cxd-Icon cxd-Tabs-link-close-icon icon-close"
                   icon="close"
                 />
               </span>
@@ -1092,7 +1092,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
                   class="cxd-Tabs-togglor-arrow"
                 >
                   <icon-mock
-                    classname="icon icon-right-arrow-bold"
+                    classname="cxd-Icon icon icon-right-arrow-bold"
                     icon="right-arrow-bold"
                   />
                 </span>

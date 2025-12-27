@@ -92,7 +92,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
                               data-index="0"
                             >
                               <icon-mock
-                                classname="icon icon-close"
+                                classname="cxd-Icon icon icon-close"
                                 icon="close"
                               />
                             </a>
@@ -101,7 +101,7 @@ exports[`Renderer:TabsTransferPicker 1`] = `
                             class="cxd-TransferPicker-icon"
                           >
                             <icon-mock
-                              classname="icon icon-pencil"
+                              classname="cxd-Icon icon icon-pencil"
                               icon="pencil"
                             />
                           </span>
@@ -225,7 +225,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             class="cxd-TransferPicker-icon"
                           >
                             <icon-mock
-                              classname="icon icon-pencil"
+                              classname="cxd-Icon icon icon-pencil"
                               icon="pencil"
                             />
                           </span>
@@ -281,7 +281,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -380,7 +380,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             class="cxd-Tree-itemArrow"
                           >
                             <icon-mock
-                              classname="icon icon-down-arrow-bold"
+                              classname="cxd-Icon icon icon-down-arrow-bold"
                               icon="down-arrow-bold"
                             />
                           </div>
@@ -393,7 +393,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -446,7 +446,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -498,7 +498,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             class="cxd-Tree-itemArrow"
                           >
                             <icon-mock
-                              classname="icon icon-down-arrow-bold"
+                              classname="cxd-Icon icon icon-down-arrow-bold"
                               icon="down-arrow-bold"
                             />
                           </div>
@@ -511,7 +511,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -564,7 +564,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -624,7 +624,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -676,7 +676,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             class="cxd-Tree-itemArrow"
                           >
                             <icon-mock
-                              classname="icon icon-down-arrow-bold"
+                              classname="cxd-Icon icon icon-down-arrow-bold"
                               icon="down-arrow-bold"
                             />
                           </div>
@@ -689,7 +689,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -742,7 +742,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -802,7 +802,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -862,7 +862,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -924,7 +924,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         />
                         <i>
                           <div
-                            class="checkbox-icon icon"
+                            class="cxd-Icon checkbox-icon icon"
                           />
                         </i>
                         <span
@@ -961,7 +961,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         />
                         <i>
                           <div
-                            class="checkbox-icon icon"
+                            class="cxd-Icon checkbox-icon icon"
                           />
                         </i>
                         <span
@@ -998,7 +998,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         />
                         <i>
                           <div
-                            class="checkbox-icon icon"
+                            class="cxd-Icon checkbox-icon icon"
                           />
                         </i>
                         <span
@@ -1035,7 +1035,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                         />
                         <i>
                           <div
-                            class="checkbox-icon icon"
+                            class="cxd-Icon checkbox-icon icon"
                           />
                         </i>
                         <span
@@ -1082,7 +1082,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             class="cxd-Tree-itemArrow"
                           >
                             <icon-mock
-                              classname="icon icon-down-arrow-bold"
+                              classname="cxd-Icon icon icon-down-arrow-bold"
                               icon="down-arrow-bold"
                             />
                           </div>
@@ -1095,7 +1095,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -1140,7 +1140,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             class="cxd-Tree-itemArrow"
                           >
                             <icon-mock
-                              classname="icon icon-down-arrow-bold"
+                              classname="cxd-Icon icon icon-down-arrow-bold"
                               icon="down-arrow-bold"
                             />
                           </div>
@@ -1153,7 +1153,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -1206,7 +1206,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -1259,7 +1259,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -1312,7 +1312,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -1365,7 +1365,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                             />
                             <i>
                               <div
-                                class="checkbox-icon icon"
+                                class="cxd-Icon checkbox-icon icon"
                               />
                             </i>
                             <span
@@ -1448,7 +1448,7 @@ exports[`Renderer:TabsTransferPicker: dialog open 1`] = `
                     data-index="0"
                   >
                     <icon-mock
-                      classname="icon icon-close"
+                      classname="cxd-Icon icon icon-close"
                       icon="close"
                     />
                   </a>

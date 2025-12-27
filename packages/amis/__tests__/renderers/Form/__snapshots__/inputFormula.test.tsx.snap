@@ -528,7 +528,7 @@ exports[`Renderer:input-formula input-group 1`] = `
                         class="cxd-InputBox-clear"
                       >
                         <icon-mock
-                          classname="icon icon-input-clear"
+                          classname="cxd-Icon icon icon-input-clear"
                           icon="input-clear"
                         />
                       </a>
@@ -537,7 +537,7 @@ exports[`Renderer:input-formula input-group 1`] = `
                       class="cxd-FormulaPicker-toggler"
                     >
                       <icon-mock
-                        classname="icon icon-function"
+                        classname="cxd-Icon icon icon-function"
                         icon="function"
                       />
                     </a>

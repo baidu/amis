@@ -62,7 +62,7 @@ exports[`Renderer:checkbox 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -148,7 +148,7 @@ exports[`Renderer:checkbox with checked 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span
@@ -233,7 +233,7 @@ exports[`Renderer:checkbox with optionType 1`] = `
               />
               <i>
                 <div
-                  class="checkbox-icon icon"
+                  class="cxd-Icon checkbox-icon icon"
                 />
               </i>
               <span

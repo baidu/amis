@@ -776,7 +776,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
                 class="cxd-Number--enhance-left-icon"
               >
                 <icon-mock
-                  classname="icon icon-minus cxd-InputNumber-enhance-minus icon"
+                  classname="cxd-Icon icon icon-minus cxd-InputNumber-enhance-minus icon"
                   icon="minus"
                 />
               </div>
@@ -829,7 +829,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
                 class="cxd-Number--enhance-right-icon"
               >
                 <icon-mock
-                  classname="icon icon-plus cxd-InputNumber-enhance-plus icon"
+                  classname="cxd-Icon icon icon-plus cxd-InputNumber-enhance-plus icon"
                   icon="plus"
                 />
               </div>
@@ -976,7 +976,7 @@ exports[`Renderer:number with unitOptions 1`] = `
                 class="cxd-Select-arrow"
               >
                 <icon-mock
-                  classname="icon icon-right-arrow-bold"
+                  classname="cxd-Icon icon icon-right-arrow-bold"
                   icon="right-arrow-bold"
                 />
               </span>

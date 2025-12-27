@@ -86,7 +86,7 @@ exports[`Renderer: chained select 1`] = `
                           class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -206,7 +206,7 @@ exports[`Renderer:select associated 1`] = `
                           class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -313,7 +313,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                   class="cxd-ResultBox-pc-arrow"
                 >
                   <icon-mock
-                    classname="icon icon-right-arrow-bold"
+                    classname="cxd-Icon icon icon-right-arrow-bold"
                     icon="right-arrow-bold"
                   />
                 </span>
@@ -667,7 +667,7 @@ exports[`Renderer:select chained 1`] = `
                           class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -774,7 +774,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                   class="cxd-ResultBox-pc-arrow"
                 >
                   <icon-mock
-                    classname="icon icon-right-arrow-bold"
+                    classname="cxd-Icon icon icon-right-arrow-bold"
                     icon="right-arrow-bold"
                   />
                 </span>
@@ -1020,7 +1020,7 @@ exports[`Renderer:select group 1`] = `
                           class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -1127,7 +1127,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                   class="cxd-ResultBox-pc-arrow"
                 >
                   <icon-mock
-                    classname="icon icon-right-arrow-bold"
+                    classname="cxd-Icon icon icon-right-arrow-bold"
                     icon="right-arrow-bold"
                   />
                 </span>
@@ -1337,7 +1337,7 @@ exports[`Renderer:select menutpl 1`] = `
                         class="cxd-Select-arrow"
                       >
                         <icon-mock
-                          classname="icon icon-right-arrow-bold"
+                          classname="cxd-Icon icon icon-right-arrow-bold"
                           icon="right-arrow-bold"
                         />
                       </span>
@@ -1456,7 +1456,7 @@ exports[`Renderer:select table 1`] = `
                           class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -1563,7 +1563,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
                   class="cxd-ResultBox-pc-arrow"
                 >
                   <icon-mock
-                    classname="icon icon-right-arrow-bold"
+                    classname="cxd-Icon icon icon-right-arrow-bold"
                     icon="right-arrow-bold"
                   />
                 </span>
@@ -1792,7 +1792,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                     data-index="0"
                   >
                     <icon-mock
-                      classname="icon icon-close"
+                      classname="cxd-Icon icon icon-close"
                       icon="close"
                     />
                   </a>
@@ -1810,7 +1810,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                     data-index="1"
                   >
                     <icon-mock
-                      classname="icon icon-close"
+                      classname="cxd-Icon icon icon-close"
                       icon="close"
                     />
                   </a>
@@ -1823,7 +1823,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                   class="cxd-ResultBox-pc-arrow"
                 >
                   <icon-mock
-                    classname="icon icon-right-arrow-bold"
+                    classname="cxd-Icon icon icon-right-arrow-bold"
                     icon="right-arrow-bold"
                   />
                 </span>
@@ -1864,7 +1864,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1896,7 +1896,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1930,7 +1930,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1964,7 +1964,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1998,7 +1998,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -2032,7 +2032,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -2066,7 +2066,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -2207,7 +2207,7 @@ exports[`Renderer:select tree 1`] = `
                           class="cxd-ResultBox-pc-arrow"
                         >
                           <icon-mock
-                            classname="icon icon-right-arrow-bold"
+                            classname="cxd-Icon icon icon-right-arrow-bold"
                             icon="right-arrow-bold"
                           />
                         </span>
@@ -2315,7 +2315,7 @@ exports[`Renderer:select virtual 1`] = `
                 class="cxd-Select-arrow"
               >
                 <icon-mock
-                  classname="icon icon-right-arrow-bold"
+                  classname="cxd-Icon icon icon-right-arrow-bold"
                   icon="right-arrow-bold"
                 />
               </span>

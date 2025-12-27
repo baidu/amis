@@ -436,7 +436,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
                 class="cxd-TextControl-revealPassword"
               >
                 <icon-mock
-                  classname="cxd-TextControl-icon-invisible icon-invisible cxd-TextControl-icon-invisible"
+                  classname="cxd-Icon cxd-TextControl-icon-invisible icon-invisible cxd-TextControl-icon-invisible"
                   icon="invisible"
                 />
               </a>
@@ -534,7 +534,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
                 class="cxd-TextControl-revealPassword"
               >
                 <icon-mock
-                  classname="cxd-TextControl-icon-view icon-view cxd-TextControl-icon-view"
+                  classname="cxd-Icon cxd-TextControl-icon-view icon-view cxd-TextControl-icon-view"
                   icon="view"
                 />
               </a>
@@ -921,7 +921,7 @@ exports[`Renderer:text with clearable 1`] = `
                 class="cxd-TextControl-clear"
               >
                 <icon-mock
-                  classname="icon icon-input-clear"
+                  classname="cxd-Icon icon icon-input-clear"
                   icon="input-clear"
                 />
               </a>
@@ -1594,7 +1594,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                   OptionA
                 </span>
                 <icon-mock
-                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  classname="cxd-Icon cxd-TextControl-valueIcon icon icon-close"
                   icon="close"
                 />
               </div>
@@ -1933,7 +1933,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                   OptionA
                 </span>
                 <icon-mock
-                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  classname="cxd-Icon cxd-TextControl-valueIcon icon icon-close"
                   icon="close"
                 />
               </div>
@@ -2102,7 +2102,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                   OptionA
                 </span>
                 <icon-mock
-                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  classname="cxd-Icon cxd-TextControl-valueIcon icon icon-close"
                   icon="close"
                 />
               </div>
@@ -2115,7 +2115,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                   OptionB
                 </span>
                 <icon-mock
-                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  classname="cxd-Icon cxd-TextControl-valueIcon icon icon-close"
                   icon="close"
                 />
               </div>
@@ -2273,7 +2273,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                   OptionA
                 </span>
                 <icon-mock
-                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  classname="cxd-Icon cxd-TextControl-valueIcon icon icon-close"
                   icon="close"
                 />
               </div>
@@ -2286,7 +2286,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                   OptionB
                 </span>
                 <icon-mock
-                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  classname="cxd-Icon cxd-TextControl-valueIcon icon icon-close"
                   icon="close"
                 />
               </div>
@@ -2299,7 +2299,7 @@ exports[`Renderer:text with options and multiple Renderer:text with options and 
                   AbCd
                 </span>
                 <icon-mock
-                  classname="cxd-TextControl-valueIcon icon icon-close"
+                  classname="cxd-Icon cxd-TextControl-valueIcon icon icon-close"
                   icon="close"
                 />
               </div>

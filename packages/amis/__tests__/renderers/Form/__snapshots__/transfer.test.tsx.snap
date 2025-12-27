@@ -85,7 +85,7 @@ exports[`Renderer:transfer 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -117,7 +117,7 @@ exports[`Renderer:transfer 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -147,7 +147,7 @@ exports[`Renderer:transfer 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -177,7 +177,7 @@ exports[`Renderer:transfer 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -207,7 +207,7 @@ exports[`Renderer:transfer 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -237,7 +237,7 @@ exports[`Renderer:transfer 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -267,7 +267,7 @@ exports[`Renderer:transfer 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -441,7 +441,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                       value=""
                     />
                     <icon-mock
-                      classname="icon icon-search"
+                      classname="cxd-Icon icon icon-search"
                       icon="search"
                     />
                   </div>
@@ -469,7 +469,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -480,7 +480,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-folder"
+                                  classname="cxd-Icon icon icon-folder"
                                   icon="folder"
                                 />
                               </i>
@@ -513,7 +513,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -540,7 +540,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -551,7 +551,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-folder"
+                                  classname="cxd-Icon icon icon-folder"
                                   icon="folder"
                                 />
                               </i>
@@ -584,7 +584,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -617,7 +617,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                               >
                                 <icon-mock
-                                  classname="icon icon-file"
+                                  classname="cxd-Icon icon icon-file"
                                   icon="file"
                                 />
                               </i>
@@ -664,7 +664,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -695,7 +695,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -726,7 +726,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -757,7 +757,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -945,7 +945,7 @@ exports[`Renderer:transfer chained 1`] = `
                               value=""
                             />
                             <icon-mock
-                              classname="icon icon-search"
+                              classname="cxd-Icon icon icon-search"
                               icon="search"
                             />
                           </div>
@@ -1320,7 +1320,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1351,7 +1351,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1382,7 +1382,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1413,7 +1413,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -1567,7 +1567,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                       />
                       <i>
                         <div
-                          class="checkbox-icon icon"
+                          class="cxd-Icon checkbox-icon icon"
                         />
                       </i>
                       <span
@@ -1598,7 +1598,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                       value=""
                     />
                     <icon-mock
-                      classname="icon icon-search"
+                      classname="cxd-Icon icon icon-search"
                       icon="search"
                     />
                   </div>
@@ -1620,7 +1620,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrow"
                         >
                           <icon-mock
-                            classname="icon icon-down-arrow-bold"
+                            classname="cxd-Icon icon icon-down-arrow-bold"
                             icon="down-arrow-bold"
                           />
                         </div>
@@ -1633,7 +1633,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -1679,7 +1679,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -1717,7 +1717,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrow"
                         >
                           <icon-mock
-                            classname="icon icon-down-arrow-bold"
+                            classname="cxd-Icon icon icon-down-arrow-bold"
                             icon="down-arrow-bold"
                           />
                         </div>
@@ -1730,7 +1730,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -1776,7 +1776,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -1822,7 +1822,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -1860,7 +1860,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           class="cxd-Tree-itemArrow"
                         >
                           <icon-mock
-                            classname="icon icon-down-arrow-bold"
+                            classname="cxd-Icon icon icon-down-arrow-bold"
                             icon="down-arrow-bold"
                           />
                         </div>
@@ -1873,7 +1873,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -1919,7 +1919,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -1965,7 +1965,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2011,7 +2011,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2087,7 +2087,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -2110,7 +2110,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                               >
                                 <a>
                                   <icon-mock
-                                    classname="icon icon-minus"
+                                    classname="cxd-Icon icon icon-minus"
                                     icon="minus"
                                   />
                                 </a>
@@ -2147,7 +2147,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                               >
                                 <a>
                                   <icon-mock
-                                    classname="icon icon-minus"
+                                    classname="cxd-Icon icon icon-minus"
                                     icon="minus"
                                   />
                                 </a>
@@ -2257,7 +2257,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                       />
                       <i>
                         <div
-                          class="checkbox-icon icon"
+                          class="cxd-Icon checkbox-icon icon"
                         />
                       </i>
                       <span
@@ -2288,7 +2288,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                       value=""
                     />
                     <icon-mock
-                      classname="icon icon-search"
+                      classname="cxd-Icon icon icon-search"
                       icon="search"
                     />
                   </div>
@@ -2310,7 +2310,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrow"
                         >
                           <icon-mock
-                            classname="icon icon-down-arrow-bold"
+                            classname="cxd-Icon icon icon-down-arrow-bold"
                             icon="down-arrow-bold"
                           />
                         </div>
@@ -2323,7 +2323,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2369,7 +2369,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2407,7 +2407,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrow"
                         >
                           <icon-mock
-                            classname="icon icon-down-arrow-bold"
+                            classname="cxd-Icon icon icon-down-arrow-bold"
                             icon="down-arrow-bold"
                           />
                         </div>
@@ -2420,7 +2420,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2466,7 +2466,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2512,7 +2512,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2550,7 +2550,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           class="cxd-Tree-itemArrow"
                         >
                           <icon-mock
-                            classname="icon icon-down-arrow-bold"
+                            classname="cxd-Icon icon icon-down-arrow-bold"
                             icon="down-arrow-bold"
                           />
                         </div>
@@ -2563,7 +2563,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2609,7 +2609,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2655,7 +2655,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2701,7 +2701,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                           />
                           <i>
                             <div
-                              class="checkbox-icon icon"
+                              class="cxd-Icon checkbox-icon icon"
                             />
                           </i>
                           <span
@@ -2772,7 +2772,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                       />
                       <a>
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -2798,7 +2798,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                               class="cxd-Tree-itemArrow"
                             >
                               <icon-mock
-                                classname="icon icon-down-arrow-bold"
+                                classname="cxd-Icon icon icon-down-arrow-bold"
                                 icon="down-arrow-bold"
                               />
                             </div>
@@ -2821,7 +2821,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                               >
                                 <a>
                                   <icon-mock
-                                    classname="icon icon-minus"
+                                    classname="cxd-Icon icon icon-minus"
                                     icon="minus"
                                   />
                                 </a>
@@ -2858,7 +2858,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                               >
                                 <a>
                                   <icon-mock
-                                    classname="icon icon-minus"
+                                    classname="cxd-Icon icon icon-minus"
                                     icon="minus"
                                   />
                                 </a>
@@ -2968,7 +2968,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                       />
                       <i>
                         <div
-                          class="checkbox-icon icon"
+                          class="cxd-Icon checkbox-icon icon"
                         />
                       </i>
                       <span
@@ -3016,7 +3016,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -3055,7 +3055,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -3094,7 +3094,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -3133,7 +3133,7 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 />
                                 <i>
                                   <div
-                                    class="checkbox-icon icon"
+                                    class="cxd-Icon checkbox-icon icon"
                                   />
                                 </i>
                                 <span
@@ -3321,7 +3321,7 @@ exports[`Renderer:transfer left tree 1`] = `
                               value=""
                             />
                             <icon-mock
-                              classname="icon icon-search"
+                              classname="cxd-Icon icon icon-search"
                               icon="search"
                             />
                           </div>
@@ -3349,7 +3349,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                       class="cxd-Tree-itemArrow"
                                     >
                                       <icon-mock
-                                        classname="icon icon-down-arrow-bold"
+                                        classname="cxd-Icon icon icon-down-arrow-bold"
                                         icon="down-arrow-bold"
                                       />
                                     </div>
@@ -3360,7 +3360,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-folder"
+                                          classname="cxd-Icon icon icon-folder"
                                           icon="folder"
                                         />
                                       </i>
@@ -3393,7 +3393,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-file"
+                                          classname="cxd-Icon icon icon-file"
                                           icon="file"
                                         />
                                       </i>
@@ -3420,7 +3420,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                       class="cxd-Tree-itemArrow"
                                     >
                                       <icon-mock
-                                        classname="icon icon-down-arrow-bold"
+                                        classname="cxd-Icon icon icon-down-arrow-bold"
                                         icon="down-arrow-bold"
                                       />
                                     </div>
@@ -3431,7 +3431,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-folder"
+                                          classname="cxd-Icon icon icon-folder"
                                           icon="folder"
                                         />
                                       </i>
@@ -3464,7 +3464,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-file"
+                                          classname="cxd-Icon icon icon-file"
                                           icon="file"
                                         />
                                       </i>
@@ -3497,7 +3497,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-file"
+                                          classname="cxd-Icon icon icon-file"
                                           icon="file"
                                         />
                                       </i>
@@ -3524,7 +3524,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                       class="cxd-Tree-itemArrow"
                                     >
                                       <icon-mock
-                                        classname="icon icon-down-arrow-bold"
+                                        classname="cxd-Icon icon icon-down-arrow-bold"
                                         icon="down-arrow-bold"
                                       />
                                     </div>
@@ -3535,7 +3535,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-folderIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-folder"
+                                          classname="cxd-Icon icon icon-folder"
                                           icon="folder"
                                         />
                                       </i>
@@ -3568,7 +3568,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-file"
+                                          classname="cxd-Icon icon icon-file"
                                           icon="file"
                                         />
                                       </i>
@@ -3601,7 +3601,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-file"
+                                          classname="cxd-Icon icon icon-file"
                                           icon="file"
                                         />
                                       </i>
@@ -3634,7 +3634,7 @@ exports[`Renderer:transfer left tree 1`] = `
                                         class="cxd-Tree-itemIcon cxd-Tree-leafIcon"
                                       >
                                         <icon-mock
-                                          classname="icon icon-file"
+                                          classname="cxd-Icon icon icon-file"
                                           icon="file"
                                         />
                                       </i>
@@ -3835,7 +3835,7 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                       <i>
                                         <div
-                                          class="checkbox-icon icon"
+                                          class="cxd-Icon checkbox-icon icon"
                                         />
                                       </i>
                                       <span
@@ -3867,7 +3867,7 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                       <i>
                                         <div
-                                          class="checkbox-icon icon"
+                                          class="cxd-Icon checkbox-icon icon"
                                         />
                                       </i>
                                       <span
@@ -3905,7 +3905,7 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                       <i>
                                         <div
-                                          class="checkbox-icon icon"
+                                          class="cxd-Icon checkbox-icon icon"
                                         />
                                       </i>
                                       <span
@@ -3943,7 +3943,7 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                       <i>
                                         <div
-                                          class="checkbox-icon icon"
+                                          class="cxd-Icon checkbox-icon icon"
                                         />
                                       </i>
                                       <span
@@ -3981,7 +3981,7 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                       <i>
                                         <div
-                                          class="checkbox-icon icon"
+                                          class="cxd-Icon checkbox-icon icon"
                                         />
                                       </i>
                                       <span
@@ -4019,7 +4019,7 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                       <i>
                                         <div
-                                          class="checkbox-icon icon"
+                                          class="cxd-Icon checkbox-icon icon"
                                         />
                                       </i>
                                       <span
@@ -4057,7 +4057,7 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                       <i>
                                         <div
-                                          class="checkbox-icon icon"
+                                          class="cxd-Icon checkbox-icon icon"
                                         />
                                       </i>
                                       <span
@@ -4244,7 +4244,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -4303,7 +4303,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4342,7 +4342,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4382,7 +4382,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4421,7 +4421,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4461,7 +4461,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4500,7 +4500,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4540,7 +4540,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4579,7 +4579,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4619,7 +4619,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4658,7 +4658,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4698,7 +4698,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -4779,7 +4779,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="0"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4802,7 +4802,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="1"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4825,7 +4825,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="2"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4848,7 +4848,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="3"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4871,7 +4871,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="4"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4894,7 +4894,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="5"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4917,7 +4917,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="6"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4940,7 +4940,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="7"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4963,7 +4963,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="8"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -4986,7 +4986,7 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                         data-index="9"
                       >
                         <icon-mock
-                          classname="icon icon-close"
+                          classname="cxd-Icon icon icon-close"
                           icon="close"
                         />
                       </a>
@@ -5116,7 +5116,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -5175,7 +5175,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -5214,7 +5214,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -5254,7 +5254,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -5293,7 +5293,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                                     />
                                     <i>
                                       <div
-                                        class="checkbox-icon icon"
+                                        class="cxd-Icon checkbox-icon icon"
                                       />
                                     </i>
                                     <span
@@ -5384,7 +5384,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                               data-index="0"
                             >
                               <icon-mock
-                                classname="icon icon-close"
+                                classname="cxd-Icon icon icon-close"
                                 icon="close"
                               />
                             </a>
@@ -5408,7 +5408,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                               data-index="1"
                             >
                               <icon-mock
-                                classname="icon icon-close"
+                                classname="cxd-Icon icon icon-close"
                                 icon="close"
                               />
                             </a>
@@ -5432,7 +5432,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                               data-index="2"
                             >
                               <icon-mock
-                                classname="icon icon-close"
+                                classname="cxd-Icon icon icon-close"
                                 icon="close"
                               />
                             </a>
@@ -5456,7 +5456,7 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                               data-index="3"
                             >
                               <icon-mock
-                                classname="icon icon-close"
+                                classname="cxd-Icon icon icon-close"
                                 icon="close"
                               />
                             </a>
@@ -5577,7 +5577,7 @@ exports[`Renderer:transfer tree 1`] = `
                               />
                               <i>
                                 <div
-                                  class="checkbox-icon icon"
+                                  class="cxd-Icon checkbox-icon icon"
                                 />
                               </i>
                               <span
@@ -5611,7 +5611,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-down-arrow-bold"
+                                    classname="cxd-Icon icon icon-down-arrow-bold"
                                     icon="down-arrow-bold"
                                   />
                                 </div>
@@ -5624,7 +5624,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -5670,7 +5670,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -5708,7 +5708,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-down-arrow-bold"
+                                    classname="cxd-Icon icon icon-down-arrow-bold"
                                     icon="down-arrow-bold"
                                   />
                                 </div>
@@ -5721,7 +5721,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -5767,7 +5767,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -5813,7 +5813,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -5851,7 +5851,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   class="cxd-Tree-itemArrow"
                                 >
                                   <icon-mock
-                                    classname="icon icon-down-arrow-bold"
+                                    classname="cxd-Icon icon icon-down-arrow-bold"
                                     icon="down-arrow-bold"
                                   />
                                 </div>
@@ -5864,7 +5864,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -5910,7 +5910,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -5956,7 +5956,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -6002,7 +6002,7 @@ exports[`Renderer:transfer tree 1`] = `
                                   />
                                   <i>
                                     <div
-                                      class="checkbox-icon icon"
+                                      class="cxd-Icon checkbox-icon icon"
                                     />
                                   </i>
                                   <span
@@ -6136,7 +6136,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                 />
                 <i>
                   <div
-                    class="checkbox-icon icon"
+                    class="cxd-Icon checkbox-icon icon"
                   />
                 </i>
                 <span
@@ -6178,7 +6178,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -6224,7 +6224,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -6270,7 +6270,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                     />
                     <i>
                       <div
-                        class="checkbox-icon icon"
+                        class="cxd-Icon checkbox-icon icon"
                       />
                     </i>
                     <span
@@ -6347,7 +6347,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                   data-index="0"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -6370,7 +6370,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                   data-index="1"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -6393,7 +6393,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                   data-index="2"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>
@@ -6416,7 +6416,7 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                   data-index="3"
                 >
                   <icon-mock
-                    classname="icon icon-close"
+                    classname="cxd-Icon icon icon-close"
                     icon="close"
                   />
                 </a>

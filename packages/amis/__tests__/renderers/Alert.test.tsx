@@ -66,7 +66,7 @@ test('Renderer:alert var', () => {
   );
   expect(container.querySelector('.cxd-Alert-icon icon-mock')).toHaveAttribute(
     'classname',
-    'icon icon-copy'
+    'cxd-Icon icon icon-copy'
   );
   expect(container.querySelector('.cxd-Alert-content')).toHaveTextContent(
     '百度一下，你就知道'
@@ -150,7 +150,7 @@ test('Renderer:alert with title & showIcon & icon & iconClassName', () => {
   expect(container.querySelector('.cxd-Alert-icon')).toBeInTheDocument();
   expect(container.querySelector('.cxd-Alert-icon icon-mock')).toHaveAttribute(
     'classname',
-    'icon icon-alert-info'
+    'cxd-Icon icon icon-alert-info'
   );
 
   rerender(
@@ -164,7 +164,7 @@ test('Renderer:alert with title & showIcon & icon & iconClassName', () => {
 
   expect(container.querySelector('.cxd-Alert-icon icon-mock')).toHaveAttribute(
     'classname',
-    'icon icon-star'
+    'cxd-Icon icon icon-star'
   );
   expect(container.querySelector('.cxd-Alert-icon')).toHaveClass('starClass');
 
@@ -214,24 +214,29 @@ test('Renderer:alert with showCloseButton & closeButtonClassName', () => {
 });
 
 test('Renderer:alert with actions', () => {
-
-  const {container} = render(amisRender({
-    "type": "alert",
-    "level": "success",
-    "className": "mb-3",
-    "showIcon": true,
-    "showCloseButton": true,
-    "title": "标题",
-    "body": "创建成功",
-    "actions": [
+  const {container} = render(
+    amisRender(
       {
-        "type": "button",
-        "label": "查看详情",
-        "size": "xs",
-        "level": "link"
-      }
-    ]
-  }, {}, makeEnv({})));
+        type: 'alert',
+        level: 'success',
+        className: 'mb-3',
+        showIcon: true,
+        showCloseButton: true,
+        title: '标题',
+        body: '创建成功',
+        actions: [
+          {
+            type: 'button',
+            label: '查看详情',
+            size: 'xs',
+            level: 'link'
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
 
   const alert = container.querySelector('.cxd-Alert');
   expect(alert).toBeInTheDocument();

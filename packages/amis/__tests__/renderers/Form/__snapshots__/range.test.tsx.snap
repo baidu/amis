@@ -84,7 +84,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
                             class="cxd-InputRange-handle-icon"
                           >
                             <icon-mock
-                              classname="icon icon-slider-handle"
+                              classname="cxd-Icon icon icon-slider-handle"
                               icon="slider-handle"
                             />
                           </div>
@@ -152,7 +152,7 @@ exports[`Renderer: range with min & max & step by variables 1`] = `
                       class="cxd-InputRange-clear is-active"
                     >
                       <icon-mock
-                        classname="icon icon-close"
+                        classname="cxd-Icon icon icon-close"
                         icon="close"
                       />
                     </a>
@@ -260,7 +260,7 @@ exports[`Renderer:range with marks 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>
@@ -436,7 +436,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>
@@ -456,7 +456,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>
@@ -524,7 +524,7 @@ exports[`Renderer:range with min & max & step & joinValues 1`] = `
               class="cxd-InputRange-clear"
             >
               <icon-mock
-                classname="icon icon-close"
+                classname="cxd-Icon icon icon-close"
                 icon="close"
               />
             </a>
@@ -660,7 +660,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>
@@ -680,7 +680,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>
@@ -829,7 +829,7 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>
@@ -902,7 +902,7 @@ exports[`Renderer:range with showInput & showInputUnit 1`] = `
               class="cxd-InputRange-clear is-active"
             >
               <icon-mock
-                classname="icon icon-close"
+                classname="cxd-Icon icon icon-close"
                 icon="close"
               />
             </a>
@@ -1010,7 +1010,7 @@ exports[`Renderer:range with showSteps 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>
@@ -1078,7 +1078,7 @@ exports[`Renderer:range with showSteps 1`] = `
               class="cxd-InputRange-clear"
             >
               <icon-mock
-                classname="icon icon-close"
+                classname="cxd-Icon icon icon-close"
                 icon="close"
               />
             </a>
@@ -1148,7 +1148,7 @@ exports[`Renderer:range with tooltipVisible & tooltipPlacement 1`] = `
                     class="cxd-InputRange-handle-icon"
                   >
                     <icon-mock
-                      classname="icon icon-slider-handle"
+                      classname="cxd-Icon icon icon-slider-handle"
                       icon="slider-handle"
                     />
                   </div>

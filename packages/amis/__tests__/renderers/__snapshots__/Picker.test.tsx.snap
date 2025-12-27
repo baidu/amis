@@ -42,7 +42,7 @@ exports[`1. Renderer:Picker base 1`] = `
               class="cxd-Picker-btn"
             >
               <icon-mock
-                classname="icon icon-window-restore"
+                classname="cxd-Icon icon icon-window-restore"
                 icon="window-restore"
               />
             </span>
@@ -70,7 +70,7 @@ exports[`1. Renderer:Picker base 1`] = `
           data-tooltip="关闭"
         >
           <icon-mock
-            classname="icon icon-close"
+            classname="cxd-Icon icon icon-close"
             icon="close"
           />
         </a>
@@ -120,7 +120,7 @@ exports[`1. Renderer:Picker base 1`] = `
                         />
                         <i>
                           <div
-                            class="radio-icon icon"
+                            class="cxd-Icon radio-icon icon"
                           />
                         </i>
                         <span
@@ -155,7 +155,7 @@ exports[`1. Renderer:Picker base 1`] = `
                         />
                         <i>
                           <div
-                            class="radio-icon icon"
+                            class="cxd-Icon radio-icon icon"
                           />
                         </i>
                         <span
@@ -190,7 +190,7 @@ exports[`1. Renderer:Picker base 1`] = `
                         />
                         <i>
                           <div
-                            class="radio-icon icon"
+                            class="cxd-Icon radio-icon icon"
                           />
                         </i>
                         <span
@@ -296,7 +296,7 @@ exports[`1. Renderer:Picker base 2`] = `
             class="cxd-Picker-btn"
           >
             <icon-mock
-              classname="icon icon-window-restore"
+              classname="cxd-Icon icon icon-window-restore"
               icon="window-restore"
             />
           </span>

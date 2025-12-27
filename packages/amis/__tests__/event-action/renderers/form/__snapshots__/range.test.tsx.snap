@@ -41,7 +41,7 @@ exports[`EventAction:inputRange 1`] = `
                       class="cxd-InputRange-handle-icon"
                     >
                       <icon-mock
-                        classname="icon icon-slider-handle"
+                        classname="cxd-Icon icon icon-slider-handle"
                         icon="slider-handle"
                       />
                     </div>
@@ -109,7 +109,7 @@ exports[`EventAction:inputRange 1`] = `
                 class="cxd-InputRange-clear"
               >
                 <icon-mock
-                  classname="icon icon-close"
+                  classname="cxd-Icon icon icon-close"
                   icon="close"
                 />
               </a>
