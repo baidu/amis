@@ -1,0 +1,13 @@
+{
+    "status": 0,
+    "msg": "",
+    "data": {
+        "step": "step2",
+        "status": {
+            "step1": "finish",
+            "step2": "error",
+            "step3": "wait",
+            "step4": "error"
+        }
+    }
+}
