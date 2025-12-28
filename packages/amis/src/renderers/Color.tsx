@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
-import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
 
 /**

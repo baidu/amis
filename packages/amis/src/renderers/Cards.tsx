@@ -9,15 +9,12 @@ import {
   getPropValue
 } from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
-import {Button, Spinner, SpinnerExtraProps} from 'amis-ui';
+import {Button, Spinner} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
-import {Action} from '../types';
 import {
   anyChanged,
-  getScrollParent,
   difference,
   ucFirst,
-  autobind,
   createObject,
   CustomStyle,
   setThemeClassName
@@ -30,13 +27,7 @@ import {
 import Sortable from 'sortablejs';
 import {filter} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {
-  BaseSchema,
-  AMISClassName,
-  SchemaExpression,
-  SchemaTpl,
-  SchemaTokenizeableString
-} from '../Schema';
+import {AMISClassName, SchemaTpl} from '../Schema';
 import {AMISCardSchemaBase, CardProps} from './Card';
 import {AMISCard2Schema, Card2Props} from './Card2';
 import type {
@@ -739,7 +730,6 @@ export default class Cards extends React.Component<GridProps, object> {
     const {
       header,
       headerClassName,
-      headerToolbar,
       headerToolbarRender,
       showHeader,
       render,
@@ -788,7 +778,6 @@ export default class Cards extends React.Component<GridProps, object> {
     const {
       footer,
       footerClassName,
-      footerToolbar,
       footerToolbarRender,
       render,
       showFooter,
@@ -872,15 +861,7 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   renderDragToggler() {
-    const {
-      store,
-      multiple,
-      selectable,
-      popOverContainer,
-      env,
-      translate: __,
-      dragIcon
-    } = this.props;
+    const {store, popOverContainer, env, translate: __, dragIcon} = this.props;
 
     if (!store.draggable || store.items.length < 2) {
       return null;
@@ -910,7 +891,7 @@ export default class Cards extends React.Component<GridProps, object> {
     );
   }
 
-  renderToolbar(toolbar: SchemaNode, index: number) {
+  renderToolbar(toolbar: SchemaNode) {
     const type = (toolbar as Schema).type || (toolbar as string);
 
     if (type === 'drag-toggler') {
@@ -1184,7 +1165,6 @@ export class CardsRenderer extends Cards {
 
   receive(values: any, subPath?: string) {
     const scoped = this.context as IScopedContext;
-    const parents = scoped?.parent?.getComponents();
 
     /**
      * 因为Cards在scope上注册，导致getComponentByName查询组件时会优先找到Cards，和CRUD联动的动作都会失效
@@ -1208,7 +1188,6 @@ export class CardsRenderer extends Cards {
     replace?: boolean,
     args?: any
   ) {
-    const {store} = this.props;
     if (args?.index || args?.condition) {
       // 局部刷新
       // todo 后续考虑添加局部刷新

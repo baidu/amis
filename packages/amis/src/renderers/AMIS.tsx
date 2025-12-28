@@ -8,8 +8,6 @@ import {
   AMISSchemaCollection
 } from 'amis-core';
 import React from 'react';
-import {BaseSchema, SchemaObject, SchemaIcon} from '../Schema';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 /**
  * 渲染数据里的 amis schema

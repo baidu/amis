@@ -7,7 +7,6 @@ import {
   AMISSchemaCollection,
   AMISClassName,
   AMISIcon,
-  AMISLegacyActionSchema,
   AMISButtonSchema
 } from 'amis-core';
 import {Alert2 as Alert} from 'amis-ui';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer} from 'amis-core';
-import {SchemaObject, BaseSchema} from '../Schema';
+import {SchemaObject} from '../Schema';
 import {DateControlRenderer} from './Form/InputDate';
 import type {AMISClassName, AMISSchemaBase} from 'amis-core';
 

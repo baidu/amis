@@ -3,9 +3,7 @@ import upperFirst from 'lodash/upperFirst';
 import {AMISSchemaBase, AMISUrlPath, Renderer, RendererProps} from 'amis-core';
 import {autobind, detectPropValueChanged, getPropValue} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {resolveVariable} from 'amis-core';
 import {filter} from 'amis-core';
-import {BaseSchema, SchemaUrlPath} from '../Schema';
 
 /**
  * Audio 音频渲染器。

@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
-import {filter, BaseSchemaWithoutType} from 'amis-core';
+import {SchemaIcon, SchemaUrlPath} from '../Schema';
+import {filter} from 'amis-core';
 import {resolveVariableAndFilter} from 'amis-core';
 import {Breadcrumb} from 'amis-ui';
 import type {AMISClassName, AMISSchemaBase, TestIdBuilder} from 'amis-core';

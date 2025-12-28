@@ -16,7 +16,7 @@ import {
   replaceText,
   AMISSchemaBase
 } from 'amis-core';
-import {BaseSchema, SchemaApi, AMISClassName} from '../Schema';
+import {AMISClassName} from '../Schema';
 import {IScopedContext, ScopedContext} from 'amis-core';
 import {AppStore, IAppStore} from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
@@ -320,15 +320,7 @@ export class App extends React.Component<AppProps, object> {
   }
 
   renderHeader() {
-    const {
-      classnames: cx,
-      brandName,
-      header,
-      render,
-      store,
-      logo,
-      env
-    } = this.props;
+    const {classnames: cx, brandName, header, render, store, logo} = this.props;
 
     if (!header && !logo && !brandName) {
       return null;
@@ -382,10 +374,13 @@ export class App extends React.Component<AppProps, object> {
         {asideBefore ? render('aside-before', asideBefore) : null}
         <AsideNav
           navigations={store.navigations}
-          renderLink={(
-            {link, active, toggleExpand, classnames: cx, depth, subHeader}: any,
-            key: any
-          ) => {
+          renderLink={({
+            link,
+            toggleExpand,
+            classnames: cx,
+            depth,
+            subHeader
+          }: any) => {
             let children = [];
 
             if (link.visible === false) {

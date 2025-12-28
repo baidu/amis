@@ -1,13 +1,11 @@
 import React from 'react';
 import omit from 'lodash/omit';
-import extend from 'lodash/extend';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
+import {ActionObject, PlainObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {Checkbox} from 'amis-ui';
-import {padArr, isVisible, isDisabled, noop, hashCode} from 'amis-core';
+import {padArr, isVisible, isDisabled, hashCode} from 'amis-core';
 import {
-  resolveVariable,
   resolveVariableAndFilter,
   filterClassNameObject,
   AMISSchemaCollection,
@@ -18,15 +16,7 @@ import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
-import {
-  BaseSchema,
-  AMISClassName,
-  SchemaExpression,
-  SchemaObject,
-  SchemaTpl,
-  SchemaUrlPath
-} from '../Schema';
-import {ActionSchema} from './Action';
+import {AMISClassName, SchemaUrlPath} from '../Schema';
 import {Card} from 'amis-ui';
 import {findDomCompat as findDOMNode} from 'amis-core';
 import {Icon} from 'amis-ui';
@@ -794,7 +784,6 @@ export class CardRenderer extends React.Component<CardProps> {
       headerClassName,
       secondaryClassName,
       footerClassName,
-      mediaClassName,
       media,
       ...rest
     } = this.props;
@@ -878,19 +867,16 @@ export class CardItemFieldRenderer extends TableCell {
 
   render() {
     let {
-      type,
       className,
       render,
       style,
       wrapperComponent: Component,
       contentsOnly,
-      labelClassName,
       value,
       data,
       children,
       width,
       innerClassName,
-      label,
       tabIndex,
       onKeyUp,
       field,

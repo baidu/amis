@@ -7,14 +7,13 @@ import {
   ScopedContext,
   autobind,
   resolveEventData,
-  isPureVariable,
   AMISSchemaCollection,
   setThemeClassName,
   CustomStyle,
   AMISSchemaBase
 } from 'amis-core';
 import {Collapse as BasicCollapse, Icon} from 'amis-ui';
-import {BaseSchema, SchemaTpl, SchemaObject} from '../Schema';
+import {SchemaTpl, SchemaObject} from '../Schema';
 import classNames from 'classnames';
 
 export interface AMISCollapseSchemaBase extends AMISSchemaBase {
@@ -162,12 +161,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     onCollapse?.(collapsed);
   }
 
-  doAction(
-    action: ActionObject,
-    data: object,
-    throwErrors: boolean,
-    args: object
-  ): any {
+  doAction(action: ActionObject): any {
     if (this.props.disabled || this.props.collapsable === false) {
       return;
     }
@@ -207,7 +201,6 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       bodyClassName,
       render,
       collapsable,
-      translate: __,
       mountOnEnter,
       unmountOnExit,
       showArrow,
