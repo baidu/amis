@@ -5,9 +5,6 @@ import {
   RendererProps,
   normalizeDate
 } from 'amis-core';
-import moment from 'moment';
-import {BaseSchema} from '../Schema';
-import {getPropValue} from 'amis-core';
 
 /**
  * DateRange 展示渲染器。

@@ -6,9 +6,8 @@ import {
   CustomStyle,
   setThemeClassName
 } from 'amis-core';
-import moment, {Moment} from 'moment';
+import {Moment} from 'moment';
 import 'moment-timezone';
-import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
 import {AMISSchemaBase} from 'amis-core';
 
@@ -128,12 +127,10 @@ export class DateField extends React.Component<DateProps, DateState> {
       locale,
       translate: __,
       displayTimeZone,
-      data,
       id,
       wrapperCustomStyle,
       env,
-      themeCss,
-      baseControlClassName
+      themeCss
     } = this.props;
     let viewValue: React.ReactNode = (
       <span className="text-muted">{placeholder}</span>

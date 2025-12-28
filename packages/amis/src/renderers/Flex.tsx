@@ -12,8 +12,7 @@ import {
   AMISSchemaBase,
   AMISSchemaCollection
 } from 'amis-core';
-import {Schema} from 'amis-core';
-import {BaseSchema, SchemaObject} from '../Schema';
+import {SchemaObject} from '../Schema';
 
 /**
  * Flex 弹性布局组件，简化版 Flex 布局，主要用于不熟悉 CSS 的开发者
@@ -101,7 +100,7 @@ export default class Flex extends React.Component<FlexProps, object> {
   }
 
   renderItems() {
-    const {items, render, disabled, classnames: cx} = this.props;
+    const {items, render, disabled} = this.props;
     let children = Array.isArray(items) ? items : items ? [items] : [];
 
     return children.map((item, key) =>
@@ -114,15 +113,12 @@ export default class Flex extends React.Component<FlexProps, object> {
 
   render() {
     const {
-      items,
       direction,
       justify,
       alignItems,
       alignContent,
       style,
       className,
-      render,
-      disabled,
       data,
       id,
       wrapperCustomStyle,
@@ -231,7 +227,7 @@ export class FlexItem extends React.Component<FlexItemProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx, style} = this.props;
+    const {className, style} = this.props;
 
     return (
       <div className={className} style={style}>

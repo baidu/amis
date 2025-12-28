@@ -3,16 +3,13 @@ import {
   ScopedContext,
   IScopedContext,
   filterTarget,
-  isPureVariable,
-  resolveVariableAndFilter,
   setThemeClassName,
-  ValidateError,
   RendererEvent,
   AMISSchema,
   AMISButtonSchema
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, ActionObject} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import {Drawer as DrawerContainer, SpinnerExtraProps} from 'amis-ui';
 import {
   guid,
@@ -27,8 +24,6 @@ import {IModalStore, ModalStore} from 'amis-core';
 import {filter} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {IServiceStore, CustomStyle} from 'amis-core';
-import {BaseSchema, AMISClassName, SchemaName} from '../Schema';
-import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import {AMISDrawerSchemaBase, AMISSchemaCollection} from 'amis-core';
 
@@ -302,7 +297,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     store.closeDialog(args[1]);
   }
 
-  handleChildFinished(value: any, action: ActionObject) {
+  handleChildFinished(_value: any, _action: ActionObject) {
     // 下面会覆盖
   }
 
@@ -501,7 +496,6 @@ export default class Drawer extends React.Component<DrawerProps> {
       classnames: cx,
       drawerContainer,
       loadingConfig,
-      popOverContainer,
       themeCss,
       id,
       ...rest
@@ -820,7 +814,7 @@ export class DrawerRenderer extends Drawer {
     return false;
   }
 
-  doAction(action: ActionObject, data: object, throwErrors: boolean): any {
+  doAction(action: ActionObject, data: object): any {
     this.handleAction(undefined, action, data);
   }
 
@@ -1011,11 +1005,7 @@ export class DrawerRenderer extends Drawer {
     }
   }
 
-  handleDrawerConfirm(
-    values: object[],
-    action: ActionObject,
-    ...rest: Array<any>
-  ) {
+  handleDrawerConfirm(values: object[], action: ActionObject) {
     super.handleDrawerConfirm(values, action);
     const store = this.props.store;
     const scoped = store.getDialogScoped() || (this.context as IScopedContext);

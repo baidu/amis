@@ -357,7 +357,6 @@ export default class DropDownButton extends React.Component<
       classPrefix: ns,
       children,
       body,
-      align,
       closeOnClick,
       closeOnOutside,
       menuClassName,

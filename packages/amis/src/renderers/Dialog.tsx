@@ -3,15 +3,11 @@ import {
   ScopedContext,
   IScopedContext,
   filterTarget,
-  isPureVariable,
-  resolveVariableAndFilter,
-  setVariable,
   setThemeClassName,
-  ValidateError,
   RendererEvent
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, Schema, ActionObject} from 'amis-core';
+import {Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
 import {Modal, SpinnerExtraProps} from 'amis-ui';
 import {
@@ -34,8 +30,6 @@ import {
   CustomStyle,
   AMISButtonSchema
 } from 'amis-core';
-import {BaseSchema, AMISClassName, SchemaName, SchemaTpl} from '../Schema';
-import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 
 /**
@@ -146,7 +140,7 @@ export default class Dialog extends React.Component<DialogProps> {
   }
 
   buildActions(): Array<AMISButtonSchema> {
-    const {actions, confirm, translate: __, testIdBuilder} = this.props;
+    const {actions, confirm, translate: __} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
@@ -358,7 +352,7 @@ export default class Dialog extends React.Component<DialogProps> {
     });
   }
 
-  handleChildFinished(value: any, action: ActionObject) {
+  handleChildFinished(_value: any, _action: ActionObject) {
     // 下面会覆盖
   }
 
@@ -520,8 +514,6 @@ export default class Dialog extends React.Component<DialogProps> {
       confirmText,
       confirmBtnLevel,
       cancelBtnLevel,
-      popOverContainer,
-      inDesign,
       themeCss,
       allowFullscreen,
       draggable,
@@ -934,7 +926,7 @@ export class DialogRenderer extends Dialog {
     return false;
   }
 
-  doAction(action: ActionObject, data: object, throwErrors: boolean): any {
+  doAction(action: ActionObject, data: object): any {
     this.handleAction(undefined, action, data);
   }
 
@@ -1178,11 +1170,7 @@ export class DialogRenderer extends Dialog {
     }
   }
 
-  handleDrawerConfirm(
-    values: object[],
-    action: ActionObject,
-    ...rest: Array<any>
-  ) {
+  handleDrawerConfirm(values: object[], action: ActionObject) {
     super.handleDrawerConfirm(values, action);
     const store = this.props.store;
     const scoped = store.getDialogScoped() || (this.context as IScopedContext);

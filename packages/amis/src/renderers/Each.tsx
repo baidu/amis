@@ -10,9 +10,8 @@ import {
   AMISSchemaCollection
 } from 'amis-core';
 import {Schema} from 'amis-core';
-import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
+import {resolveVariableAndFilter} from 'amis-core';
 import {createObject, getPropValue, isObject} from 'amis-core';
-import {BaseSchema} from '../Schema';
 
 export interface EachExtraProps extends RendererProps {
   items: any;

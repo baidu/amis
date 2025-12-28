@@ -2725,7 +2725,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
-      return this.renderBulkActions(childProps);
+      return this.renderBulkActions();
     } else if (type === 'pagination') {
       return this.renderPagination(toolbar as AMISPaginationSchema);
     } else if (type === 'statistics') {
