@@ -9,8 +9,8 @@ import {
   RendererProps
 } from 'amis-core';
 import {Avatar} from 'amis-ui';
-import {BadgeObject, withBadge} from 'amis-ui';
-import {BaseSchema, AMISClassName} from '../Schema';
+import {withBadge} from 'amis-ui';
+import {AMISClassName} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter, autobind} from 'amis-core';
 
 /**

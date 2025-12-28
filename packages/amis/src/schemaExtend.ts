@@ -7,7 +7,7 @@ import {addSchemaFilter} from 'amis-core';
 import {isObject} from 'amis-core';
 
 // input-kv 实际上是 combo 的一种扩展
-addSchemaFilter(function (schema: Schema, renderer, props?: any) {
+addSchemaFilter(function (schema: Schema) {
   if (schema && schema.type === 'input-kv') {
     const autoParseJSON = schema.autoParseJSON ?? true;
     return {
@@ -107,7 +107,7 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
  * 很多属性是给单个值设置的，比如 valuePlaceholder 导致
  * 耦合在一起会导致配置项混乱，所以新增了这个组件专门支持 value 是对象或数组的场景
  */
-addSchemaFilter(function (schema: Schema, renderer, props?: any) {
+addSchemaFilter(function (schema: Schema) {
   if (schema && schema.type === 'input-kvs') {
     const keyItem = schema.keyItem || {};
     const valueItems = schema.valueItems || [];

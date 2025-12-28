@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import memoize from 'lodash/memoize';
 import isString from 'lodash/isString';
-import {AMISSchemaBase, Renderer, RendererProps} from 'amis-core';
-import {BaseSchema} from '../Schema';
+import {AMISSchemaBase, Renderer} from 'amis-core';
 import {FormControlProps} from 'amis-core';
 import isEqual from 'lodash/isEqual';
 
@@ -213,7 +212,6 @@ export class Custom extends React.Component<CustomProps, object> {
       id,
       wrapperComponent,
       inline,
-      translate: __,
       classnames: cx
     } = this.props;
     const Component = wrapperComponent || inline ? 'span' : 'div';

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Api,
   ActionObject,
@@ -31,15 +30,7 @@ import {
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {createObject, findObjectsWithKey} from 'amis-core';
-import {
-  BaseSchema,
-  SchemaApi,
-  SchemaExpression,
-  SchemaFunction,
-  SchemaName,
-  SchemaTokenizeableString
-} from '../Schema';
-import {ActionSchema} from './Action';
+import {SchemaApi} from '../Schema';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import pick from 'lodash/pick';
@@ -371,14 +362,8 @@ export class Chart extends React.Component<ChartProps> {
 
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
-    const {
-      chartTheme,
-      onChartWillMount,
-      onChartUnMount,
-      env,
-      loadBaiduMap,
-      data
-    } = this.props;
+    const {chartTheme, onChartWillMount, onChartUnMount, env, loadBaiduMap} =
+      this.props;
     let {mapURL, mapName} = this.props;
 
     let onChartMount = this.props.onChartMount || this.onChartMount;
@@ -470,7 +455,7 @@ export class Chart extends React.Component<ChartProps> {
     this.ref = ref;
   }
 
-  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
+  doAction(action: ActionObject, data: object) {
     return this.echarts?.dispatchAction?.({
       type: action.actionType,
       ...data
@@ -664,8 +649,7 @@ export class Chart extends React.Component<ChartProps> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss,
-      baseControlClassName
+      themeCss
     } = this.props;
     let style = this.props.style || {};
     style.width = style.width || width || '100%';

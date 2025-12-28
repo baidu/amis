@@ -24,11 +24,10 @@ import {
   AMISLegacyReloadActionButton,
   AMISLegacyEmailActionButton,
   AMISLegacyBehaviorActionButton,
-  AMISLegacyActionSchema,
   AMISButtonSchema
 } from 'amis-core';
 import {filter} from 'amis-core';
-import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
+import {Button, SpinnerExtraProps} from 'amis-ui';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 
@@ -101,19 +100,8 @@ const ActionProps = [
   'downloadFileName'
 ];
 import {filterContents} from './Remark';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
-import {
-  BaseSchema,
-  FeedbackDialog,
-  SchemaApi,
-  AMISClassName,
-  SchemaExpression,
-  SchemaIcon,
-  SchemaReload,
-  SchemaTooltip,
-  SchemaTpl
-} from '../Schema';
 import {ToastSchemaBase} from '../Schema';
 import {withBadge, Icon} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
@@ -628,12 +616,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
   /**
    * 动作处理
    */
-  doAction(
-    action: ActionObject,
-    args: {
-      value?: string | {[key: string]: string};
-    }
-  ) {
+  doAction(action: ActionObject) {
     const actionType = action?.actionType as any;
 
     if (actionType === 'click') {

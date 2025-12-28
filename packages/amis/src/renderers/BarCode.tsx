@@ -3,7 +3,6 @@
  */
 import React, {Suspense} from 'react';
 import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
 import {AMISSchemaBase} from 'amis-core';
 const BarCode = React.lazy(() => import('amis-ui/lib/components/BarCode'));
@@ -43,14 +42,7 @@ export interface BarCodeProps
 
 export class BarCodeField extends React.Component<BarCodeProps, object> {
   render() {
-    const {
-      className,
-      style,
-      width,
-      height,
-      classnames: cx,
-      options
-    } = this.props;
+    const {className, style, classnames: cx, options} = this.props;
     const value = getPropValue(this.props);
 
     return (

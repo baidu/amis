@@ -1,7 +1,7 @@
 import React from 'react';
 import {Checkbox} from 'amis-ui';
 import {Renderer, RendererProps, AMISSchemaCollection} from 'amis-core';
-import {BaseSchema, AMISClassName} from '../Schema';
+import {AMISClassName} from '../Schema';
 import {autobind} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {AMISSchemaBase} from 'amis-core';
@@ -88,7 +88,7 @@ export default class Card2<T> extends React.Component<Card2Props & T, object> {
   };
 
   @autobind
-  handleClick(e: React.MouseEvent<HTMLDivElement>) {
+  handleClick() {
     const {checkOnItemClick, selectable} = this.props;
 
     // 控制选中

@@ -22,7 +22,7 @@ import {
 } from 'amis-core';
 import {ActionObject, AMISSchemaCollection} from 'amis-core';
 import {Icon} from 'amis-ui';
-import {BaseSchema, SchemaName} from '../Schema';
+import {SchemaName} from '../Schema';
 import {Html} from 'amis-ui';
 import Image from '../renderers/Image';
 import {ScopedContext, IScopedContext} from 'amis-core';

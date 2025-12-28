@@ -2,13 +2,11 @@ import React from 'react';
 import ButtonGroup from './Form/ButtonGroupSelect';
 import {
   AMISExpression,
-  AMISLegacyActionSchema,
   AMISSchemaBase,
   Renderer,
   AMISButtonSchema
 } from 'amis-core';
-import {BaseSchema, AMISClassName, SchemaExpression} from '../Schema';
-import {ActionSchema} from './Action';
+import {AMISClassName} from '../Schema';
 
 /**
  * Button Group 渲染器。

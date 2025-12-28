@@ -41,14 +41,7 @@ import {
 } from 'amis-core';
 import pickBy from 'lodash/pickBy';
 import {Html, PullRefresh, SpinnerExtraProps} from 'amis-ui';
-import {
-  BaseSchema,
-  SchemaApi,
-  SchemaExpression,
-  SchemaName,
-  SchemaObject,
-  SchemaTokenizeableString
-} from '../Schema';
+import {SchemaName, SchemaObject} from '../Schema';
 import {BaseCardsSchema} from './Cards';
 import {AMISListBase} from './List';
 import {BaseTableSchema2} from './Table2';
@@ -404,14 +397,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
   constructor(props: T) {
     super(props);
 
-    const {
-      location,
-      store,
-      syncLocation,
-      pageField,
-      perPageField,
-      parsePrimitiveQuery
-    } = props;
+    const {location, store, syncLocation, pageField, perPageField} = props;
     const parseQueryOptions = this.getParseQueryOptions(props);
 
     this.mounted = true;
@@ -483,7 +469,6 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
   componentDidUpdate(prevProps: CRUD2Props) {
     const props = this.props;
     const store = prevProps.store;
-    const {parsePrimitiveQuery} = props;
 
     if (prevProps.columns !== props.columns) {
       store.updateColumns(props.columns);
@@ -701,15 +686,15 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
     this.reload();
   }
 
-  reloadTarget(target: string, data: any) {
+  reloadTarget(_target: string, _data: any) {
     // implement this.
   }
 
-  closeTarget(target: string) {
+  closeTarget(_target: string) {
     // implement this.
   }
 
-  updateQuery(newQuery: any = {}) {
+  updateQuery() {
     this.props.store;
   }
 
@@ -735,12 +720,10 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
       interval,
       stopAutoRefreshWhen,
       silentPolling,
-      syncLocation,
       syncResponse2Query,
       keepItemSelectionOnPageChange,
       stopAutoRefreshWhenModalIsOpen,
       pickerMode,
-      env,
       loadType,
       loadDataOnce,
       source,
@@ -1178,7 +1161,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
   }
 
   @autobind
-  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
+  doAction(action: ActionObject, data: object) {
     if (
       action.actionType &&
       [
@@ -1211,7 +1194,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
         'loadMore'
       ].includes(action.actionType as any)
     ) {
-      return this.doAction(action, ctx, throwErrors);
+      return this.doAction(action, ctx);
     } else {
       return this.props.onAction(
         e,
@@ -1241,7 +1224,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
     return this.props.dispatchEvent(e, data, renderer, scoped);
   }
 
-  unSelectItem(item: any, index: number) {
+  unSelectItem(item: any) {
     const {store} = this.props;
     const selected = store.selectedItems.concat();
     const unSelected = store.unSelectedItems.concat();
@@ -1446,8 +1429,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
       labelField,
       labelTpl,
       primaryField,
-      translate: __,
-      env
+      translate: __
     } = this.props;
 
     if (!store.selectedItems.length) {
@@ -1615,27 +1597,18 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
       render,
       store,
       mode = 'table2',
-      syncLocation,
-      children,
-      bulkActions,
       pickerMode,
       selectable,
       multiple,
-      valueField,
       primaryField,
-      value,
-      hideQuickSaveBtn,
       itemActions,
       classnames: cx,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
       onEvent,
-      onAction,
       popOverContainer,
       translate: __,
-      onQuery,
       autoGenerateFilter,
-      onSelect,
       autoFillHeight,
       showSelection,
       headerToolbar,

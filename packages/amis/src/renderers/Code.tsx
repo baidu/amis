@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import isPlainObject from 'lodash/isPlainObject';
-import {BaseSchema} from '../Schema';
 import {AMISSchemaBase, Renderer, RendererProps, anyChanged} from 'amis-core';
 import {getPropValue} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -196,7 +195,7 @@ export default class Code extends React.Component<CodeProps> {
     import('monaco-editor').then(monaco => this.handleMonaco(monaco));
   }
 
-  async componentDidUpdate(preProps: CodeProps) {
+  async componentDidUpdate() {
     const props = this.props;
     const dom = this.codeRef.current;
 

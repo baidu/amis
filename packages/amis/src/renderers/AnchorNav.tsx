@@ -1,9 +1,9 @@
 import React from 'react';
-import {Renderer, RendererProps, BaseSchemaWithoutType} from 'amis-core';
+import {Renderer, RendererProps} from 'amis-core';
 import {AnchorNav as CAnchorNav, AnchorNavSection} from 'amis-ui';
 import {isVisible, autobind} from 'amis-core';
 import {filter, AMISSchemaCollection, AMISSchemaBase} from 'amis-core';
-import {BaseSchema, AMISClassName} from '../Schema';
+import {AMISClassName} from '../Schema';
 
 /**
  * AnchorNavSection 锚点区域渲染器
@@ -168,13 +168,7 @@ export default class AnchorNav extends React.Component<
   }
 
   renderSections(links: AnchorNavSectionSchema[], parentIdx?: string | number) {
-    const {
-      classnames: cx,
-      classPrefix: ns,
-      sectionRender,
-      render,
-      data
-    } = this.props;
+    const {sectionRender, render, data} = this.props;
 
     links = Array.isArray(links) ? links : [links];
     let children: Array<JSX.Element | null> = [];
@@ -215,10 +209,7 @@ export default class AnchorNav extends React.Component<
       style,
       linkClassName,
       sectionClassName,
-      direction,
-      sectionRender,
-      render,
-      data
+      direction
     } = this.props;
 
     let links = this.props.links;

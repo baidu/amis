@@ -11,7 +11,7 @@ import {
   AMISSchemaCollection,
   AMISSchemaBase
 } from 'amis-core';
-import {BaseSchema, SchemaObject} from '../Schema';
+import {SchemaObject} from '../Schema';
 import {CollapseGroup} from 'amis-ui';
 import cx from 'classnames';
 

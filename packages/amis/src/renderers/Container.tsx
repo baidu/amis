@@ -13,7 +13,7 @@ import {
   AMISSchemaBase
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
-import {BaseSchema, AMISClassName} from '../Schema';
+import {AMISClassName} from '../Schema';
 
 /** 容器拖拽配置 */
 export interface ContainerDraggableConfig {
