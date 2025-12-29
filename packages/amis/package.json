@@ -63,7 +63,7 @@
     "mobx-state-tree": "^7.0.2",
     "moment": "^2.19.4",
     "moment-timezone": "^0.5.34",
-    "mpegts.js": "^1.6.10",
+    "mpegts.js": "1.7.3",
     "office-viewer": "*",
     "prop-types": "^15.6.1",
     "qrcode-react-next": "1.0.0",
