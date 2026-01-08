@@ -1,0 +1,83 @@
+[36mvite v4.5.14 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 98 modules transformed.
+[32m✓ built in 1.61s[39m
+[31m[vite:react-babel] D:\zmn\amis\packages\amis\src\renderers\Form\Editor.tsx: Support for the experimental syntax 'decorators' isn't currently enabled (278:3):
+
+[0m [90m 276 |[31m
+ [90m 277 |[31m   prevHeight [33m=[31m [35m0[31m[33m;[31m
+[31m[1m>[22m[31m[90m 278 |[31m   [33m@[31mautobind
+ [90m     |[31m   [31m[1m^[22m[31m
+ [90m 279 |[31m   updateContainerSize(editor[33m:[31m any[33m,[31m monaco[33m:[31m any) {
+ [90m 280 |[31m     [36mif[31m ([33m![31m[36mthis[31m[33m.[31mdivRef[33m.[31mcurrent) {
+ [90m 281 |[31m       [36mreturn[31m[33m;[31m[0m
+
+Add @babel/plugin-proposal-decorators (https://github.com/babel/babel/tree/main/packages/babel-plugin-proposal-decorators) to the 'plugins' section of your Babel config to enable transformation.
+If you want to leave it as-is, add @babel/plugin-syntax-decorators (https://github.com/babel/babel/tree/main/packages/babel-plugin-syntax-decorators) to the 'plugins' section to enable parsing.
+
+If you already added the plugin for this syntax to your config, it's possible that your config isn't being loaded.
+You can re-run Babel with the BABEL_SHOW_CONFIG_FOR environment variable to show the loaded configuration:
+	npx cross-env BABEL_SHOW_CONFIG_FOR=D:\zmn\amis\packages\amis\src\renderers\Form\Editor.tsx <your build command>
+See https://babeljs.io/docs/configuration#print-effective-configs for more info.
+[39m
+file: [36mD:/zmn/amis/packages/amis/src/renderers/Form/Editor.tsx:278:2[39m
+[31merror during build:
+SyntaxError: D:\zmn\amis\packages\amis\src\renderers\Form\Editor.tsx: Support for the experimental syntax 'decorators' isn't currently enabled (278:3):
+
+[0m [90m 276 |[31m
+ [90m 277 |[31m   prevHeight [33m=[31m [35m0[31m[33m;[31m
+[31m[1m>[22m[31m[90m 278 |[31m   [33m@[31mautobind
+ [90m     |[31m   [31m[1m^[22m[31m
+ [90m 279 |[31m   updateContainerSize(editor[33m:[31m any[33m,[31m monaco[33m:[31m any) {
+ [90m 280 |[31m     [36mif[31m ([33m![31m[36mthis[31m[33m.[31mdivRef[33m.[31mcurrent) {
+ [90m 281 |[31m       [36mreturn[31m[33m;[31m[0m
+
+Add @babel/plugin-proposal-decorators (https://github.com/babel/babel/tree/main/packages/babel-plugin-proposal-decorators) to the 'plugins' section of your Babel config to enable transformation.
+If you want to leave it as-is, add @babel/plugin-syntax-decorators (https://github.com/babel/babel/tree/main/packages/babel-plugin-syntax-decorators) to the 'plugins' section to enable parsing.
+
+If you already added the plugin for this syntax to your config, it's possible that your config isn't being loaded.
+You can re-run Babel with the BABEL_SHOW_CONFIG_FOR environment variable to show the loaded configuration:
+	npx cross-env BABEL_SHOW_CONFIG_FOR=D:\zmn\amis\packages\amis\src\renderers\Form\Editor.tsx <your build command>
+See https://babeljs.io/docs/configuration#print-effective-configs for more info.
+
+    at constructor (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:367:19)
+    at TypeScriptParserMixin.raise (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:6624:19)
+    at TypeScriptParserMixin.expectOnePlugin (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:6658:18)
+    at TypeScriptParserMixin.parseDecorator (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13024:10)
+    at D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13584:32
+    at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:12477:14)
+    at TypeScriptParserMixin.parseClassBody (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13575:10)
+    at TypeScriptParserMixin.parseClass (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13550:22)
+    at TypeScriptParserMixin.parseClass (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:10136:20)
+    at TypeScriptParserMixin.parseExportDefaultExpression (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13990:19)
+    at TypeScriptParserMixin.parseExportDefaultExpression (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:9463:18)
+    at TypeScriptParserMixin.parseExport (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13904:25)
+    at TypeScriptParserMixin.parseExport (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:9446:20)
+    at TypeScriptParserMixin.parseStatementContent (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:12954:27)
+    at TypeScriptParserMixin.parseStatementContent (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:9569:18)
+    at TypeScriptParserMixin.parseStatementLike (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:12843:17)
+    at TypeScriptParserMixin.parseModuleItem (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:12820:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13392:36)
+    at TypeScriptParserMixin.parseBlockBody (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:13385:10)
+    at TypeScriptParserMixin.parseProgram (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:12698:10)
+    at TypeScriptParserMixin.parseTopLevel (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:12688:25)
+    at TypeScriptParserMixin.parse (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:14568:25)
+    at TypeScriptParserMixin.parse (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:10183:18)
+    at parse (D:\zmn\amis\node_modules\@babel\parser\lib\index.js:14602:38)
+    at parser (D:\zmn\amis\node_modules\@babel\core\lib\parser\index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (D:\zmn\amis\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (D:\zmn\amis\node_modules\@babel\core\lib\transformation\index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (D:\zmn\amis\node_modules\@babel\core\lib\transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (D:\zmn\amis\node_modules\gensync\index.js:261:32)
+    at D:\zmn\amis\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (D:\zmn\amis\node_modules\gensync\index.js:223:11)
+    at D:\zmn\amis\node_modules\gensync\index.js:189:28
+    at D:\zmn\amis\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+    at D:\zmn\amis\node_modules\gensync\index.js:113:33
+    at step (D:\zmn\amis\node_modules\gensync\index.js:287:14)
+    at D:\zmn\amis\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (D:\zmn\amis\node_modules\gensync\index.js:223:11)[39m

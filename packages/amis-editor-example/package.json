@@ -1,0 +1,33 @@
+{
+	"name": "amis-editor-example",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview",
+		"test": "vitest"
+	},
+	"dependencies": {
+		"amis": "*",
+		"amis-core": "*",
+		"amis-editor": "*",
+		"amis-editor-core": "*",
+		"amis-formula": "*",
+		"amis-ui": "*",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-router-dom": "^5.3.0"
+	},
+	"devDependencies": {
+		"@babel/plugin-proposal-class-properties": "^7.18.6",
+		"@babel/plugin-proposal-decorators": "^7.28.0",
+		"@types/react": "^18.0.24",
+		"@types/react-dom": "^18.0.8",
+		"@vitejs/plugin-react": "^2.2.0",
+		"typescript": "^5.0.0",
+		"vite": "^4.3.9",
+		"vite-plugin-svgr": "^4.5.0",
+		"vitest": "^0.32.0"
+	}
+}

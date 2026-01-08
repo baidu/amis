@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": false,
+    "experimentalDecorators": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "amis": ["../amis/src"],
+      "amis-ui": ["../amis-ui/src"],
+      "amis-core": ["../amis-core/src"],
+      "amis-editor": ["../amis-editor/src"],
+      "amis-editor-core": ["../amis-editor-core/src"],
+      "amis-formula": ["../amis-formula/src"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"]
+}
