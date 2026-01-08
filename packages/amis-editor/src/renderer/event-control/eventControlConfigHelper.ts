@@ -377,7 +377,8 @@ export const actionConfigInitFormatterHoc =
         'submit',
         'clear',
         'reset',
-        'validate'
+        'validate',
+        'validateFormItem'
       ].includes(action.actionType)
     ) {
       const node = findTree(
@@ -608,7 +609,8 @@ export const actionConfigSubmitFormatterHoc =
         'submit',
         'clear',
         'reset',
-        'validate'
+        'validate',
+        'validateFormItem'
       ].includes(action.actionType)
     ) {
       // 处理一下自行输入组件id的转换
