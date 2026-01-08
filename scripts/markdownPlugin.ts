@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs';
 import type {Plugin} from 'vite';
 import * as marked from 'marked';
 import * as prism from 'prismjs';
@@ -141,17 +143,7 @@ function markdown2js(content: string, file: string) {
   let index = 1;
 
   content = content
-    .replace(/\!\!\!include\s*\(([^\)]+?)\)\!\!\!/g, (_, val) => {
-      // todo
-      // const result =  null;
-
-      // if (result) {
-      //   // 暂时不支持嵌套 include
-      //   return result.file.getContent();
-      // }
-
-      return _;
-    })
+    .replace(/\!\!\!include\s*\(([^\)]+?)\)\!\!\!/g, resolveInclude)
     .replace(
       /```(schema|html)(?::(.*?))?[\n|\r\n]([\s\S]*?)```/g,
       function (_, lang, attr, code) {
@@ -219,6 +211,38 @@ function markdown2js(content: string, file: string) {
   info.toc = toc;
 
   return 'export default ' + JSON.stringify(info, null, 2) + ';';
+}
+
+/**
+ * 解析并读取 include 文件内容
+ *
+ * @param subString 原始匹配字符串
+ * @param includePath include 路径参数
+ * @returns 读取到的文件内容或原始字符串
+ */
+function resolveInclude(subString: string, includePath: string) {
+  let filepath = '';
+  // 查找路径优先级：
+  // 1. packages 目录
+  // 2. 项目根目录
+  const roots = [
+    path.resolve(__dirname, '../packages'),
+    path.resolve(__dirname, '..')
+  ];
+
+  for (const root of roots) {
+    const current = path.resolve(root, includePath);
+    if (fs.existsSync(current)) {
+      filepath = current;
+      break;
+    }
+  }
+
+  if (filepath) {
+    return fs.readFileSync(filepath, 'utf8');
+  }
+
+  return subString;
 }
 
 export default function markdownPlugin(options: {} = {}): Plugin {
