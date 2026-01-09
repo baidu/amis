@@ -17,6 +17,13 @@ import {
 } from 'react-router-dom';
 import Doc from './examples/component/Doc';
 
+// 样式导入
+import '../amis-ui/scss/themes/cxd.scss';
+import '../amis-ui/scss/helper.scss';
+import '../amis-editor-core/scss/editor.scss';
+import '../../examples/doc.css';
+import './examples/style.scss';
+
 function MDComponent(fN: () => Promise<{default: {raw: string}}>) {
   return React.lazy(() =>
     fN().then(ret => ({default: () => <Doc children={ret.default.raw} />}))

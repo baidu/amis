@@ -20,6 +20,7 @@
     }
   },
   "scripts": {
+    "dev": "vite",
     "test": "echo \"Warnings: no test specified\"",
     "build": "npm run clean-dist && cross-env NODE_ENV=production rollup -c ",
     "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
@@ -49,6 +50,9 @@
     "mobx-state-tree": "^3.17.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.28.0",
+    "@babel/plugin-transform-class-properties": "^7.27.1",
+    "@babel/plugin-transform-typescript": "^7.28.5",
     "@fortawesome/fontawesome-free": "^6.1.1",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -69,6 +73,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/sortablejs": "^1.10.7",
     "@types/tinycolor2": "^1.4.3",
+    "@vitejs/plugin-react": "^4.7.0",
     "ajv": "^8.8.2",
     "axios": "0.21.1",
     "concurrently": "^6.2.0",
@@ -95,7 +100,10 @@
     "ts-loader": "^9.2.5",
     "ts-node": "^10.5.0",
     "tslib": "^2.3.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vite": "^6.4.1",
+    "vite-plugin-monaco-editor": "^1.1.0",
+    "vite-plugin-svgr": "^4.5.0"
   },
   "peerDependencies": {
     "amis": "*",
