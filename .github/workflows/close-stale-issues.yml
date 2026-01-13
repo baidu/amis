@@ -1,0 +1,22 @@
+name: Close Stale Issues
+on:
+  schedule:
+    - cron: '0 0 * * *' # 每天运行
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  close-stale-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-issue-stale: 30
+          days-before-issue-close: 7
+          stale-issue-label: 'stale'
+          stale-issue-message: '此 issue 已经30天没有活动。如果7天内没有更新，将被自动关闭。'
+          close-issue-message: '由于超过37天没有活动，此 issue 已被自动关闭。如果需要重新打开，请评论。'
+          operations-per-run: 100
