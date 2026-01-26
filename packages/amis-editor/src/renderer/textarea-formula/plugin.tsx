@@ -4,6 +4,7 @@
 
 import {TextareaFormulaControlProps} from './TextareaFormulaControl';
 import {FormulaEditor} from 'amis-ui';
+import {escapeHtml} from 'amis-core';
 import type {VariableItem, CodeMirror} from 'amis-ui';
 
 export function editorFactory(
@@ -232,7 +233,7 @@ export class FormulaPlugin {
       true,
       false
     ) || {
-      html: expression
+      html: escapeHtml(expression)
     };
 
     const wrap = document.createElement('span');

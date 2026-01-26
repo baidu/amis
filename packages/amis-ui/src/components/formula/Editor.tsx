@@ -5,7 +5,8 @@ import React from 'react';
 import {
   eachTree,
   resolveVariableAndFilterForAsync,
-  uncontrollable
+  uncontrollable,
+  escapeHtml
 } from 'amis-core';
 import {
   parse,
@@ -208,7 +209,8 @@ export class FormulaEditor extends React.Component<
       .filter(item => item)
       .sort((a, b) => b.length - a.length);
 
-    const content = value || '';
+    // XSS 防护：对用户输入进行转义
+    const content = escapeHtml(value || '');
     let html = '';
 
     // 标记方法调用
