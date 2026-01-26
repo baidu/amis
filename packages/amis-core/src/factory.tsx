@@ -12,6 +12,7 @@ import {
   isMobile,
   TestIdBuilder
 } from './utils/helper';
+import {escapeHtml} from './utils/escapeHtml';
 import {
   fetcherResult,
   SchemaNode,
@@ -556,7 +557,7 @@ export const defaultOptions: RenderOptions = {
   /**
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
-  filterHtml: (input: string) => input,
+  filterHtml: (input: string) => escapeHtml(input),
   isMobile: isMobile,
   getPageId: getPageId,
   pageMetaEffect: (meta: AMISPageMeta) => {
