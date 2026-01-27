@@ -227,6 +227,8 @@ export class FormulaPlugin {
       this.config;
 
     const variables = getProps()?.variables as VariableItem[];
+    // 获取用户传入的 filterHtml，用于 XSS 过滤
+    const filterHtml = getProps()?.env?.filterHtml || ((html: string) => html);
     const highlightValue = FormulaEditor.highlightValue(
       expression,
       variables,
@@ -240,7 +242,8 @@ export class FormulaPlugin {
     wrap.className = className;
     const text = document.createElement('span');
     text.className = `${className}-text`;
-    text.innerHTML = highlightValue.html;
+    // 使用 filterHtml 进行 XSS 过滤
+    text.innerHTML = filterHtml(highlightValue.html);
     text.setAttribute('data-expression', expression);
     text.onmouseenter = e => {
       const brace = this.getExpressionBrace(expression);
@@ -261,8 +264,8 @@ export class FormulaPlugin {
     if (showPopover) {
       // 添加popover
       const popoverEl = document.createElement('div');
-      // bca-disable-next-line
-      popoverEl.innerHTML = highlightValue.html;
+      // 使用 filterHtml 进行 XSS 过滤
+      popoverEl.innerHTML = filterHtml(highlightValue.html);
       popoverEl.classList.add('cm-expression-popover');
       const arrow = document.createElement('div');
       arrow.classList.add('cm-expression-popover-arrow');
