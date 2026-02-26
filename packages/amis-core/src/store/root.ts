@@ -165,10 +165,14 @@ export const RootStore = ServiceStore.named('RootStore')
           yield ret;
         }
       } catch (e) {
-        self.runtimeError = e.message;
-        self.runtimeErrorStack = e.stack;
+        if (isAlive(self)) {
+          self.runtimeError = e.message;
+          self.runtimeErrorStack = e.stack;
+        }
       } finally {
-        self.ready = true;
+        if (isAlive(self)) {
+          self.ready = true;
+        }
       }
     });
 
