@@ -270,7 +270,7 @@ export default class CustomCheckbox extends React.Component {
 
 #### OptionsControl
 
-如果你的表单组件性质和 amis 的 Select、Checkboxes、List 差不多，用户配置配置 source 可通过 API 拉取选项，你可以用 OptionsControl 取代 FormItem 这个注解。
+如果你的表单组件性质和 amis 的 Select、Checkboxes、List 差不多，用户配置 source 可通过 API 拉取选项，你可以用 OptionsControl 取代 FormItem 这个注解。
 
 用法是一样，功能方面主要多了以下功能。
 

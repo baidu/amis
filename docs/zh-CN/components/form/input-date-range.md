@@ -350,7 +350,7 @@ function transform(value, config, props, data) {
 | embed                    | `boolean`                                                                          | `false`                                                         | 是否内联模式                                                                 |
 | animation                | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                             | `2.2.0`                 |
 | extraName                | `string`                                                                           |                                                                 | 是否存成两个字段                                                             | `3.3.0`                 |
-| transform                | `string`                                                                           |                                                                 | 日期数据处理函数，用来处理选择日期之后的的值，返回值为 `Moment`对象          | `3.5.0`                 |
+| transform                | `string`                                                                           |                                                                 | 日期数据处理函数，用来处理选择日期之后的值，返回值为 `Moment`对象            | `3.5.0`                 |
 | popOverContainerSelector | `string`                                                                           |                                                                 | 弹层挂载位置选择器，会通过`querySelector`获取                                | `6.4.0`                 |
 
 ## 事件表

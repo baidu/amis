@@ -76,6 +76,6 @@ order: 71
 | loop               | `boolean` |           | 是否循环播放                                                              |
 | autoPlay           | `boolean` |           | 是否自动播放                                                              |
 | rates              | `array`   |           | 倍数，格式为`[1.0, 1.5, 2.0]`                                             |
-| frames             | `object`  |           | key 是时刻信息，value 可以可以为空，可有设置为图片地址，请看上方示例      |
+| frames             | `object`  |           | key 是时刻信息，value 可以为空，也可设置为图片地址，请看上方示例          |
 | jumpBufferDuration | `boolean` |           | 点击帧的时候默认是跳转到对应的时刻，如果想提前 3 秒钟，可以设置这个值为 3 |
 | stopOnNextFrame    | `boolean` |           | 到了下一帧默认是接着播放，配置这个会自动停止                              |

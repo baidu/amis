@@ -8,6 +8,6 @@ title: 辅助类 - 响应式设计
 {
   "type": "tpl",
   "className": "text-blue-500 m:text-red-500",
-  "tpl": "这段文字在 pc 端是蓝色的，在移动端则是是红色的。"
+  "tpl": "这段文字在 pc 端是蓝色的，在移动端则是红色的。"
 }
 ```
