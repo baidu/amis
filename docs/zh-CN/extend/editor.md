@@ -47,7 +47,7 @@ render() {
 - `schemas?: JSONSchemaObject` 用来定义有哪些全局变量，辅助编辑器格式化绑定全局数据。
 - `theme?: string` amis 主题
 - `schemaFilter?: (schema: any, isPreview?: boolean) => any` 配置过滤器。可以用来实现 api proxy，比如原始配置中请求地址是 `http://baidu.com` 如果直接给编辑器预览请求，很可能会报跨域，可以自动转成 `/api/proxy?_url=xxxx`，走 proxy 解决。
-- `amisEnv?: any` 这是是给 amis 的 Env 对象，具体请前往 [env 说明](../start/getting-started#env)
+- `amisEnv?: any` 这是给 amis 的 Env 对象，具体请前往 [env 说明](../start/getting-started#env)
 - `disableBultinPlugin?: boolean` 是否禁用内置插件
 - `disablePluginList?: Array<string> | (id: string, plugin: PluginClass) => boolean` 禁用插件列表
 - `plugins?: Array<PluginClass>` 额外的自定义插件，具体看下面的说明。
