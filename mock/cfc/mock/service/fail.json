@@ -1,0 +1,9 @@
+{
+  "status": 500,
+  "msg": "Service fetch failed",
+  "error": {
+    "message": "Service fetch failed",
+    "code": 500
+  },
+  "data": null
+}
