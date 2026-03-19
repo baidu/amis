@@ -395,12 +395,15 @@ export function immutableExtends(to: any, from: any, deep = false) {
   Object.keys(from).forEach(key => {
     const origin = to[key];
     const value = from[key];
+    let newValue = value;
+    if (deep && isObject(origin) && isObject(value)) {
+      newValue = immutableExtends(origin, value, deep);
+    }
 
-    // todo 支持深度merge
-    if (origin !== value) {
+    if (origin !== newValue) {
       // 一旦有修改，就创建个新对象。
       ret = ret !== to ? ret : {...to};
-      ret[key] = value;
+      ret[key] = newValue;
     }
   });
 
@@ -466,7 +469,7 @@ export function isVisible(
     const name = filter(schema.name, data);
 
     const visible = isAlive(statusStore)
-      ? statusStore.visibleState[id] ?? statusStore.visibleState[name]
+      ? (statusStore.visibleState[id] ?? statusStore.visibleState[name])
       : undefined;
 
     if (typeof visible !== 'undefined') {
@@ -539,8 +542,11 @@ export function hasAbility(
   return schema.hasOwnProperty(ability)
     ? schema[ability]
     : schema.hasOwnProperty(`${ability}On`)
-    ? evalExpressionWithConditionBuilder(schema[`${ability}On`], data || schema)
-    : defaultValue;
+      ? evalExpressionWithConditionBuilder(
+          schema[`${ability}On`],
+          data || schema
+        )
+      : defaultValue;
 }
 
 export function makeHorizontalDeeper(
@@ -1675,8 +1681,8 @@ export function chainFunctions(
         ret === false
           ? false
           : typeof fn == 'function'
-          ? fn(...args)
-          : undefined,
+            ? fn(...args)
+            : undefined,
       undefined
     );
 }

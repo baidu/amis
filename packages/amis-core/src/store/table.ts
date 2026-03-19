@@ -58,7 +58,7 @@ function initChildren(
           item
         };
     const id = String(
-      getEntryId ? getEntryId(item, index) : item.__id ?? guid()
+      getEntryId ? getEntryId(item, index) : (item.__id ?? guid())
     );
 
     return {
@@ -423,7 +423,7 @@ export const Row = types
     },
 
     change(values: object, savePristine?: boolean) {
-      let data = immutableExtends(self.data, values);
+      let data = immutableExtends(self.data, values, true);
 
       Object.isExtensible(data) &&
         !data.__pristine &&
@@ -653,13 +653,13 @@ export const TableStore = iRendererStore
               !self.hideCheckToggler &&
               self.rows.length
             : item.type === '__dragme'
-            ? self.dragging
-            : item.type === '__expandme'
-            ? getFootableColumns().length && !self.dragging
-            : (item.toggled || !item.toggable) &&
-              (!self.footable ||
-                !item.breakpoint ||
-                !isBreakpoint(item.breakpoint)))
+              ? self.dragging
+              : item.type === '__expandme'
+                ? getFootableColumns().length && !self.dragging
+                : (item.toggled || !item.toggable) &&
+                  (!self.footable ||
+                    !item.breakpoint ||
+                    !isBreakpoint(item.breakpoint)))
       );
     }
 
@@ -1434,8 +1434,8 @@ export const TableStore = iRendererStore
           typeof column.pristine.width === 'number'
             ? `width: ${column.pristine.width}px;`
             : column.pristine.width
-            ? `width: ${column.pristine.width};min-width: ${column.pristine.width};`
-            : '' // todo 可能需要让修改过列宽的保持相应宽度，目前这样相当于重置了
+              ? `width: ${column.pristine.width};min-width: ${column.pristine.width};`
+              : '' // todo 可能需要让修改过列宽的保持相应宽度，目前这样相当于重置了
         }`;
       });
 
@@ -1582,7 +1582,7 @@ export const TableStore = iRendererStore
         }
 
         let id = String(
-          getEntryId ? getEntryId(item, index) : item.__id ?? guid()
+          getEntryId ? getEntryId(item, index) : (item.__id ?? guid())
         );
         return {
           // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
