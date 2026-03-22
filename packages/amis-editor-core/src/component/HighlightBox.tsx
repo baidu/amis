@@ -225,16 +225,22 @@ export default observer(function ({
     (isActive && !store.activeElement) || ~store.selections.indexOf(id);
 
   React.useLayoutEffect(() => {
-    if (!node.draggable || !isSelected || !isAlive(node)) {
-      return;
-    }
-    const dom = node.getTarget() as HTMLElement;
-    const targets = Array.isArray(dom) ? dom : dom ? [dom] : [];
-    targets.forEach(item => {
-      item.setAttribute('draggable', 'true');
-      item.addEventListener('dragstart', handleDragStart as any);
-    });
+    let targets: HTMLElement[] = [];
+
+    const timer = setTimeout(() => {
+      if (!node.draggable || !isSelected || !isAlive(node)) {
+        return;
+      }
+      const dom = node.getTarget() as HTMLElement;
+      targets = Array.isArray(dom) ? dom : dom ? [dom] : [];
+      targets.forEach(item => {
+        item.setAttribute('draggable', 'true');
+        item.addEventListener('dragstart', handleDragStart as any);
+      });
+    }, 150);
+
     return () => {
+      clearTimeout(timer);
       targets.forEach(item => {
         item.removeAttribute('draggable');
         item.removeEventListener('dragstart', handleDragStart as any);
