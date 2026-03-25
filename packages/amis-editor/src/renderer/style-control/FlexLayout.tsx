@@ -80,7 +80,7 @@ function FlexLayouts({
         setCurrentLayout(value);
       }
     }
-  }, []);
+  }, [value]);
 
   const flexDirection = data.style?.flexDirection || 'row';
 
