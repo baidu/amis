@@ -22,7 +22,14 @@ import {
   isEffectiveApi,
   getVariable
 } from 'amis-core';
-import {Icon, SpinnerExtraProps, Input, Spinner, OverflowTpl} from 'amis-ui';
+import {
+  Icon,
+  SpinnerExtraProps,
+  Input,
+  Spinner,
+  OverflowTpl,
+  TooltipWrapper
+} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi, SchemaObject} from '../../Schema';
 import {supportStatic} from './StaticHoc';
@@ -127,6 +134,16 @@ export interface AMISInputTextSchema extends AMISFormItemWithOptions {
 
   /** 内容为空时清除值 */
   clearValueOnEmpty?: boolean;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover?: object;
 }
 
 export type InputTextRendererEvent =
@@ -139,7 +156,7 @@ export type InputTextRendererEvent =
   | 'enter';
 
 export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
-  placeholder?: string | { [propName: string]: string; };
+  placeholder?: string | {[propName: string]: string};
   addOn?: ActionObject & {
     position?: 'left' | 'right';
     label?: string;
@@ -163,6 +180,11 @@ export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
   nativeInputClassName?: string;
 
   popOverContainer?: any;
+
+  /** 标签的最大展示数量 */
+  maxTagCount?: number;
+  /** 收纳标签的Popover配置 */
+  overflowTagPopover?: object;
 }
 
 export interface TextState {
@@ -792,7 +814,9 @@ export default class TextControl extends React.PureComponent<
       css,
       id,
       nativeAutoComplete,
-      testIdBuilder
+      testIdBuilder,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
@@ -883,25 +907,89 @@ export default class TextControl extends React.PureComponent<
                   </div>
                 ) : null}
 
-                {selectedOptions.map((item, index) =>
-                  multiple ? (
-                    <div className={cx('TextControl-value')} key={index}>
-                      <OverflowTpl
-                        className={cx('TextControl-valueLabel')}
-                        tooltip={`${item[labelField || 'label']}`}
+                {multiple ? (
+                  <>
+                    {(typeof maxTagCount === 'number' && maxTagCount > 0
+                      ? selectedOptions.slice(0, maxTagCount)
+                      : selectedOptions
+                    ).map((item, index) => (
+                      <div className={cx('TextControl-value')} key={index}>
+                        <OverflowTpl
+                          className={cx('TextControl-valueLabel')}
+                          tooltip={`${item[labelField || 'label']}`}
+                        >
+                          {`${item[labelField || 'label']}`}
+                        </OverflowTpl>
+                        <Icon
+                          icon="close"
+                          className={cx('TextControl-valueIcon', 'icon')}
+                          onClick={this.removeItem.bind(this, index)}
+                        />
+                      </div>
+                    ))}
+                    {typeof maxTagCount === 'number' &&
+                    maxTagCount > 0 &&
+                    selectedOptions.length > maxTagCount ? (
+                      <TooltipWrapper
+                        container={popOverContainer}
+                        placement="top"
+                        tooltip={{
+                          tooltipClassName: cx('TextControl-overflow-wrapper'),
+                          children: () => (
+                            <div className={cx('TextControl-overflow')}>
+                              {selectedOptions
+                                .slice(maxTagCount)
+                                .map((item, index) => (
+                                  <div
+                                    className={cx('TextControl-overflow-value')}
+                                    key={index + maxTagCount}
+                                  >
+                                    <span
+                                      className={cx(
+                                        'TextControl-overflow-valueLabel'
+                                      )}
+                                    >
+                                      {`${item[labelField || 'label']}`}
+                                    </span>
+                                    <Icon
+                                      icon="close"
+                                      className={cx(
+                                        'TextControl-overflow-valueIcon',
+                                        'icon'
+                                      )}
+                                      onClick={this.removeItem.bind(
+                                        this,
+                                        index + maxTagCount
+                                      )}
+                                    />
+                                  </div>
+                                ))}
+                            </div>
+                          ),
+                          ...overflowTagPopover
+                        }}
+                        trigger="hover"
                       >
-                        {`${item[labelField || 'label']}`}
-                      </OverflowTpl>
-                      <Icon
-                        icon="close"
-                        className={cx('TextControl-valueIcon', 'icon')}
-                        onClick={this.removeItem.bind(this, index)}
-                      />
-                    </div>
-                  ) : (inputValue && isOpen) || creatable !== false ? null : (
-                    <div className={cx('TextControl-value')} key={index}>
-                      {item.label}
-                    </div>
+                        <div
+                          className={cx(
+                            'TextControl-value',
+                            'TextControl-value--overflow'
+                          )}
+                        >
+                          <span className={cx('TextControl-valueLabel')}>
+                            +{selectedOptions.length - maxTagCount}
+                          </span>
+                        </div>
+                      </TooltipWrapper>
+                    ) : null}
+                  </>
+                ) : (
+                  selectedOptions.map((item, index) =>
+                    (inputValue && isOpen) || creatable !== false ? null : (
+                      <div className={cx('TextControl-value')} key={index}>
+                        {item.label}
+                      </div>
+                    )
                   )
                 )}
 

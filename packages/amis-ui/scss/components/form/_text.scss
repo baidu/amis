@@ -506,3 +506,44 @@ input.#{$ns}TextControl-input-password {
     color: var(--Form-input-onDisabled-color);
   }
 }
+
+// 多选模式下收纳标签的浮层样式
+.#{$ns}TextControl-overflow-wrapper {
+  .#{$ns}TextControl-overflow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-xs);
+    max-width: px2rem(300px);
+  }
+
+  .#{$ns}TextControl-overflow-value {
+    display: inline-flex;
+    align-items: center;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
+    );
+    font-size: var(--Form-selectValue-fontSize);
+    background: var(--Form-select-multiple-bgColor);
+    border-radius: px2rem(2px);
+    padding: 0 var(--gap-sm);
+    max-width: 100%;
+    word-break: break-all;
+  }
+
+  .#{$ns}TextControl-overflow-valueLabel {
+    line-height: var(--gap-xl);
+    word-break: break-all;
+  }
+
+  .#{$ns}TextControl-overflow-valueIcon {
+    cursor: pointer;
+    margin-left: var(--gap-sm);
+    min-width: px2rem(10px);
+    color: var(--default-icon-color);
+    flex-shrink: 0;
+
+    &:hover {
+      color: var(--danger);
+    }
+  }
+}
