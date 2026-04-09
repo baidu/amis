@@ -3194,7 +3194,11 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
         headerToolbarRender: this.renderHeaderToolbar,
         footerToolbarRender: this.renderFooterToolbar,
         data: store.mergedData,
-        loading: store.loading,
+        loading: this.props.loading === false ? false : store.loading,
+        loadingConfig: {
+          ...this.props.loadingConfig,
+          ...(typeof this.props.loading === 'object' ? this.props.loading : {})
+        },
         offset: store.offset,
         host: this,
         filterItemIndex: this.filterItemIndex,
@@ -3220,7 +3224,7 @@ export default class CRUD<T extends CRUDProps> extends React.Component<T, any> {
     return (
       <div
         className={cx('Crud', className, {
-          'is-loading': store.loading,
+          'is-loading': this.props.loading === false ? false : store.loading,
           'is-mobile': mobileUI
         })}
         style={style}

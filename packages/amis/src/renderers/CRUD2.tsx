@@ -1741,7 +1741,11 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
         onAction: this.handleAction,
         dispatchEvent: this.dispatchEvent,
         data: store.mergedData,
-        loading: store.loading,
+        loading: this.props.loading === false ? false : store.loading,
+        loadingConfig: {
+          ...this.props.loadingConfig,
+          ...(typeof this.props.loading === 'object' ? this.props.loading : {})
+        },
         host: this
       }
     );
@@ -1749,7 +1753,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
     return (
       <div
         className={cx('Crud2', className, {
-          'is-loading': store.loading,
+          'is-loading': this.props.loading === false ? false : store.loading,
           'is-mobile': mobileUI,
           'is-mobile-cards':
             mobileMode === 'cards' || mobileModeProps?.type === 'cards'
@@ -1789,7 +1793,7 @@ export default class CRUD2<T extends CRUD2Props> extends React.Component<
             translate={__}
             onRefresh={this.handlePullRefresh}
             direction={pullRefresh.gestureDirection ?? 'up'}
-            loading={store.loading}
+            loading={this.props.loading === false ? false : store.loading}
             completed={
               !store.loading &&
               store.lastPage > 0 &&

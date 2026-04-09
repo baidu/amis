@@ -23,6 +23,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: var(--Spinner-color);
   opacity: 0;
   transition: ease-out opacity var(--animation-duration);
 
@@ -53,14 +54,14 @@
       .icon {
         width: 100%;
         height: 100%;
-        color: var(--Spinner-color);
+        color: inherit;
       }
 
       svg.icon {
         top: 0;
 
         path {
-          fill: var(--Spinner-color);
+          fill: currentColor;
         }
       }
 
@@ -116,7 +117,7 @@
     word-break: keep-all;
     white-space: nowrap;
     font-size: var(--spinner-base-fontSize);
-    color: var(--Spinner-color);
+    color: inherit;
     font-weight: var(--spinner-base-fontWeight);
   }
 

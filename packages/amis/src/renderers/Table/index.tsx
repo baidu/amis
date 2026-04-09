@@ -497,7 +497,7 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
   canAccessSuperData?: boolean;
   reUseRow?: boolean;
   itemBadge?: BadgeObject;
-  loading?: boolean;
+  loading?: boolean | any;
   autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
@@ -2959,7 +2959,13 @@ export default class Table<
           translate={translate}
           dispatchEvent={dispatchEvent}
           onEvent={onEvent}
-          loading={store.loading} // store 的同步较慢，所以统一用 store 来下发，否则会出现 props 和 store 变化触发子节点两次 re-rerender
+          loading={this.props.loading === false ? false : store.loading}
+          loadingConfig={{
+            ...loadingConfig,
+            ...(typeof this.props.loading === 'object'
+              ? this.props.loading
+              : {})
+          }}
         >
           {renderItemActions({
             store,
@@ -2969,7 +2975,16 @@ export default class Table<
           })}
         </TableContent>
 
-        <Spinner loadingConfig={loadingConfig} overlay show={store.loading} />
+        <Spinner
+          loadingConfig={{
+            ...loadingConfig,
+            ...(typeof this.props.loading === 'object'
+              ? this.props.loading
+              : {})
+          }}
+          overlay
+          show={this.props.loading === false ? false : store.loading}
+        />
       </>
     );
   }

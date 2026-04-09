@@ -1553,9 +1553,24 @@ export interface AMISTrackConfig {
  * AMIS 加载效果配置
  */
 export interface AMISSpinnerConfig {
+  /**
+   * 是否显示加载状态
+   */
+  loading?: boolean | AMISSchema;
+
+  /**
+   * 加载效果配置
+   */
   loadingConfig?: {
     root?: string;
     show?: boolean;
+    icon?: string;
+    tip?: string;
+    tipPlacement?: 'top' | 'right' | 'bottom' | 'left';
+    delay?: number;
+    size?: 'sm' | 'lg' | '';
+    className?: string;
+    spinnerClassName?: string;
   };
 }
 
