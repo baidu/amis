@@ -43,6 +43,13 @@ export interface SpinnerExtraProps {
   loadingConfig?: {
     root?: string;
     show?: boolean;
+    icon?: string;
+    tip?: string;
+    tipPlacement?: 'top' | 'right' | 'bottom' | 'left';
+    delay?: number;
+    size?: 'sm' | 'lg' | '';
+    className?: string;
+    spinnerClassName?: string;
   };
 }
 
@@ -110,10 +117,10 @@ export class Spinner extends React.Component<
     show: true,
     className: '',
     spinnerClassName: '',
-    size: '' as '',
+    size: '' as const,
     icon: '',
     tip: '',
-    tipPlacement: 'bottom' as 'bottom',
+    tipPlacement: 'bottom' as const,
     delay: 0,
     overlay: false,
     loadingConfig: {},
@@ -199,17 +206,27 @@ export class Spinner extends React.Component<
   renderBody() {
     const {
       classnames: cx,
-      className,
-      spinnerClassName,
-      size = '',
+      className: propClassName,
+      spinnerClassName: propSpinnerClassName,
       overlay,
-      delay,
-      icon: iconConfig,
-      tip,
-      tipPlacement = '',
       loadingConfig,
-      disabled
+      disabled,
+      size: propSize,
+      tip: propTip,
+      tipPlacement: propTipPlacement,
+      delay: propDelay,
+      icon: propIcon
     } = this.props;
+
+    const size = propSize || loadingConfig?.size || '';
+    const tip = propTip || loadingConfig?.tip || '';
+    const tipPlacement = propTipPlacement || loadingConfig?.tipPlacement || '';
+    const delay = propDelay ?? loadingConfig?.delay ?? 0;
+    const iconConfig = propIcon || loadingConfig?.icon || '';
+    const className = propClassName || loadingConfig?.className || '';
+    const spinnerClassName =
+      propSpinnerClassName || loadingConfig?.spinnerClassName || '';
+
     // 定义了挂载位置时只能使用默认icon
     const icon = loadingConfig?.root ? undefined : iconConfig;
     const isCustomIcon = icon && React.isValidElement(icon);
