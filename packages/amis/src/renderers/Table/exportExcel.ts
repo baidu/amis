@@ -402,6 +402,8 @@ export async function exportExcel(
   }
   // 用于 mapping source 的情况
   const remoteMappingCache: any = {};
+  // 用于记录列宽（用于展宽图片列）
+  const maxColumnWidths: Record<number, number> = {};
   // 数据从第二行开始
   let rowIndex = 1;
   if (toolbar.rowSlice) {
@@ -415,6 +417,7 @@ export async function exportExcel(
     const rowData = createObject(data, row.data);
     rowIndex += 1;
     const sheetRow = worksheet.getRow(rowIndex);
+    let maxRowHeight = 0;
     let columIndex = 0;
     for (const column of filteredColumns) {
       columIndex += 1;
@@ -442,53 +445,121 @@ export async function exportExcel(
 
       const type = (column as AMISSchema).type || 'plain';
       // TODO: 这里很多组件都是拷贝对应渲染的逻辑实现的，导致每种都得实现一遍
-      if ((type === 'image' || (type as any) === 'static-image') && value) {
-        try {
-          const imageData = await toDataURL(value);
-          const imageDimensions = await getImageDimensions(imageData);
-          let imageWidth = imageDimensions.width;
-          let imageHeight = imageDimensions.height;
-          // 限制一下图片高宽
-          const imageMaxSize = 100;
-          if (imageWidth > imageHeight) {
-            if (imageWidth > imageMaxSize) {
-              imageHeight = (imageMaxSize * imageHeight) / imageWidth;
-              imageWidth = imageMaxSize;
-            }
+      if (
+        (type === 'image' ||
+          (type as any) === 'static-image' ||
+          type === 'images' ||
+          (type as any) === 'static-images') &&
+        value
+      ) {
+        let list: Array<any> = [];
+        if (type === 'images' || (type as any) === 'static-images') {
+          const delimiter = column.pristine.delimiter || ',';
+          if (typeof value === 'string') {
+            list = value.split(delimiter);
+          } else if (Array.isArray(value)) {
+            list = value;
           } else {
-            if (imageHeight > imageMaxSize) {
-              imageWidth = (imageMaxSize * imageWidth) / imageHeight;
-              imageHeight = imageMaxSize;
+            list = [value];
+          }
+        } else {
+          list = [value];
+        }
+
+        const srcKey = column.pristine.src || 'image';
+        const gap = 5; // 图片间距（像素）
+
+        // 第一遍：收集所有图片数据和尺寸
+        const imageItems: Array<{
+          imageId: number;
+          imageWidth: number;
+          imageHeight: number;
+          linkURL: string;
+        }> = [];
+        for (const item of list) {
+          const src =
+            typeof item === 'string'
+              ? item
+              : (item && (item[srcKey] || item.src)) || item;
+          if (!src) continue;
+
+          try {
+            const imageData = await toDataURL(src);
+            const imageDimensions = await getImageDimensions(imageData);
+            let imageWidth = imageDimensions.width;
+            let imageHeight = imageDimensions.height;
+            // 限制一下图片高宽
+            const imageMaxSize = 100;
+            if (imageWidth > imageHeight) {
+              if (imageWidth > imageMaxSize) {
+                imageHeight = (imageMaxSize * imageHeight) / imageWidth;
+                imageWidth = imageMaxSize;
+              }
+            } else {
+              if (imageHeight > imageMaxSize) {
+                imageWidth = (imageMaxSize * imageWidth) / imageHeight;
+                imageHeight = imageMaxSize;
+              }
             }
+            const imageMatch = imageData.match(/data:image\/(.*);/);
+            let imageExt = 'png';
+            if (imageMatch) {
+              imageExt = imageMatch[1];
+              if (imageExt === 'jpg') {
+                imageExt = 'jpeg';
+              }
+            }
+            // 目前 excel 只支持这些格式，所以其它格式直接输出 url
+            if (imageExt != 'png' && imageExt != 'jpeg' && imageExt != 'gif') {
+              sheetRow.getCell(columIndex).value = src;
+              continue;
+            }
+            const imageId = workbook.addImage({
+              base64: imageData,
+              extension: imageExt as any
+            });
+            imageItems.push({
+              imageId,
+              imageWidth,
+              imageHeight,
+              linkURL: getAbsoluteUrl(src)
+            });
+            maxRowHeight = Math.max(maxRowHeight, imageHeight * 0.75);
+          } catch (e) {
+            console.warn(e);
+            sheetRow.getCell(columIndex).value = src;
           }
-          const imageMatch = imageData.match(/data:image\/(.*);/);
-          let imageExt = 'png';
-          if (imageMatch) {
-            imageExt = imageMatch[1];
-          }
-          // 目前 excel 只支持这些格式，所以其它格式直接输出 url
-          if (imageExt != 'png' && imageExt != 'jpeg' && imageExt != 'gif') {
-            sheetRow.getCell(columIndex).value = value;
-            continue;
-          }
-          const imageId = workbook.addImage({
-            base64: imageData,
-            extension: imageExt
-          });
-          const linkURL = getAbsoluteUrl(value);
-          worksheet.addImage(imageId, {
-            // 这里坐标位置是从 0 开始的，所以要减一
-            tl: {col: columIndex - 1, row: rowIndex - 1},
-            ext: {
-              width: imageWidth,
-              height: imageHeight
+        }
+
+        if (imageItems.length === 0) continue;
+
+        // 计算总像素宽度（用于列宽自适应）
+        const totalPixelWidth =
+          imageItems.reduce((sum, img) => sum + img.imageWidth, 0) +
+          Math.max(0, imageItems.length - 1) * gap;
+
+        // Excel 列宽单位约等于 7 像素，更新最大列宽记录
+        maxColumnWidths[columIndex] = Math.max(
+          maxColumnWidths[columIndex] || 0,
+          totalPixelWidth / 7
+        );
+
+        // 使用 nativeColOff（EMU 单位，1 像素 = 9525 EMU）直接写入 XML
+        // 这种方式完全绕过 exceljs 内部的 col 宽度依赖计算，定位最为准确
+        let xOffset = 0;
+        for (const img of imageItems) {
+          worksheet.addImage(img.imageId, {
+            tl: {
+              nativeCol: columIndex - 1,
+              nativeColOff: Math.round(xOffset * 9525),
+              nativeRow: rowIndex - 1,
+              nativeRowOff: 0
             },
-            hyperlinks: {
-              tooltip: linkURL
-            }
-          });
-        } catch (e) {
-          console.warn(e);
+            ext: {width: img.imageWidth, height: img.imageHeight},
+            editAs: 'oneCell',
+            hyperlinks: {tooltip: img.linkURL}
+          } as any);
+          xOffset += img.imageWidth + gap;
         }
       } else if (type == 'link' || (type as any) === 'static-link') {
         const href = column.pristine.href;
@@ -620,7 +691,19 @@ export async function exportExcel(
         sheetRow.getCell(columIndex).numFmt = '0';
       }
     }
+
+    if (maxRowHeight) {
+      sheetRow.height = maxRowHeight;
+    }
   }
+
+  // 应用列宽
+  Object.keys(maxColumnWidths).forEach(colIndex => {
+    const width = maxColumnWidths[parseInt(colIndex, 10)];
+    if (width > 0) {
+      worksheet.getColumn(parseInt(colIndex, 10)).width = width;
+    }
+  });
 
   // 后置总结行
   renderSummary(worksheet, data, affixRow, rowIndex);
