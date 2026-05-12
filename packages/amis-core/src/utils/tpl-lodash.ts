@@ -21,8 +21,26 @@ const imports = {
 
     return Math.ceil((date.getTime() - now) / (1000 * 60 * 60 * 24)) + '天';
   },
-  formatDate: (value: any, format: string = 'LLL', inputFormat: string = '') =>
-    moment(value, inputFormat).format(format)
+  formatDate: (
+    value: any,
+    format: string = 'LLL',
+    inputFormat: string = ''
+  ) => {
+    // 当模板里 value 是用户配置 / 接口返回的脏数据时：
+    //   1) 字符串解析失败时 moment(value, inputFormat) 返回 invalid moment，
+    //      .format() 静默返回字符串 "Invalid date" 直接渲染到页面里。
+    //   2) value 为 null/undefined 时 moment 默认会回退到 "现在"（now），
+    //      会让 typo 字段（如 data.creatAt）静默渲染成今天的日期。
+    // 这里两种情况都做守卫：null/undefined 回显空串，无法解析回显原值。
+    if (value == null || value === '') {
+      return '';
+    }
+    const m = moment(value, inputFormat);
+    if (!m.isValid()) {
+      return String(value);
+    }
+    return m.format(format);
+  }
 };
 
 // 缓存一下提升性能
