@@ -145,8 +145,18 @@ extendsFilters({
       [modifier === 'add' ? 'add' : 'subtract'](parseInt(amount, 10) || 0, unit)
       .toDate();
   },
-  date: (input, format = 'LLL', inputFormat = 'X') =>
-    moment(input, inputFormat).format(format),
+  date: (input, format = 'LLL', inputFormat = 'X') => {
+    // 与 tpl-lodash.ts formatDate 一致的守卫：
+    // input 为空 / 解析失败时不要静默渲染 "Invalid date" 字符串。
+    if (input == null || input === '') {
+      return '';
+    }
+    const m = moment(input, inputFormat);
+    if (!m.isValid()) {
+      return String(input);
+    }
+    return m.format(format);
+  },
   number: input => {
     let parts = String(input).split('.');
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
