@@ -71,7 +71,8 @@ import {
   getTheme,
   themeable,
   makeClassnames,
-  defaultTheme
+  defaultTheme,
+  ThemeContext
 } from './theme';
 import type {ClassNamesFn, ThemeProps} from './theme';
 const classPrefix = getClassPrefix();
@@ -213,6 +214,7 @@ export {
   setDefaultTheme,
   theme,
   themeable,
+  ThemeContext,
   ThemeProps,
   getTheme,
   classPrefix,
