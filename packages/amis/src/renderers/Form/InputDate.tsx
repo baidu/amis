@@ -27,6 +27,11 @@ export interface AMISInputDateSchemaBase extends AMISFormItem {
   clearable?: boolean;
 
   /**
+   * 清空后写入表单的值，默认空字符串
+   */
+  emptyValue?: any;
+
+  /**
    * 存储格式
    */
   format?: string;
@@ -408,7 +413,8 @@ export default class DateControl extends React.PureComponent<
         step: 1
       }
     },
-    clearable: true
+    clearable: true,
+    emptyValue: ''
   };
 
   dateRef?: any;
@@ -609,7 +615,10 @@ export default class DateControl extends React.PureComponent<
   // 值的变化
   @autobind
   async handleChange(nextValue: any) {
-    const {dispatchEvent} = this.props;
+    const {dispatchEvent, emptyValue} = this.props;
+    if (nextValue === '' || nextValue == null) {
+      nextValue = emptyValue;
+    }
     const dispatcher = dispatchEvent(
       'change',
       resolveEventData(this.props, {value: nextValue})
