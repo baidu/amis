@@ -74,7 +74,7 @@
     "sortablejs": "1.15.0",
     "tslib": "^2.3.1",
     "video-react": "0.15.0",
-    "xlsx": "^0.18.5",
+    "xlsx": "npm:@stackline/xlsx@^1.0.6",
     "mobx-react-lite": "^2.2.0"
   },
   "devDependencies": {
