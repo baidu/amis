@@ -341,6 +341,7 @@ export const ListStore = iRendererStore
     }
 
     function reset() {
+      self.items.replace(self.items.slice().sort((a, b) => a.index - b.index));
       self.items.forEach(item => item.reset());
       self.dragging = false;
     }
