@@ -71,6 +71,10 @@ export class QueryBuilder extends React.Component<
   config = {...defaultConfig, ...this.props.config};
 
   dragTarget?: HTMLElement;
+  dragContext?: {
+    value?: AMISConditionGroupValue;
+    onChange: (value: AMISConditionGroupValue) => void;
+  };
   // dragNextSibling: Element | null;
   ghost?: HTMLElement;
   host: HTMLElement;
@@ -79,10 +83,15 @@ export class QueryBuilder extends React.Component<
   lastMoveAt: number = 0;
 
   @autobind
-  handleDragStart(e: React.DragEvent) {
+  handleDragStart(
+    e: React.DragEvent,
+    value: AMISConditionGroupValue | undefined,
+    onChange: (value: AMISConditionGroupValue) => void
+  ) {
     const {draggable = true} = this.props;
     // draggable为false时不可拖拽
     if (!draggable) return;
+    this.dragContext = {value, onChange};
     const target = e.currentTarget;
     const item = target.closest('[data-id]') as HTMLElement;
     this.dragTarget = item;
@@ -182,7 +191,7 @@ export class QueryBuilder extends React.Component<
 
   @autobind
   handleDragDrop() {
-    const onChange = this.props.onChange;
+    const onChange = this.dragContext!.onChange;
     const fromId = this.dragTarget!.getAttribute('data-id')!;
     const toId = this.host.getAttribute('data-group-id')!;
     const children = [].slice.call(this.ghost!.parentElement!.children);
@@ -193,7 +202,7 @@ export class QueryBuilder extends React.Component<
     }
 
     const toIndex = children.indexOf(this.ghost);
-    let value = this.props.value!;
+    let value = this.dragContext!.value!;
 
     const indexes = findTreeIndex([value], item => item.id === fromId);
 
@@ -228,6 +237,7 @@ export class QueryBuilder extends React.Component<
     //   this.dragTarget.parentElement!.appendChild(this.dragTarget);
     // }
     delete this.dragTarget;
+    delete this.dragContext;
     // delete this.dragNextSibling;
     this.ghost!.parentElement?.removeChild(this.ghost!);
     delete this.ghost;
@@ -327,7 +337,9 @@ export class QueryBuilder extends React.Component<
         classnames={cx}
         fieldClassName={fieldClassName}
         removeable={false}
-        onDragStart={this.handleDragStart}
+        onDragStart={(e: React.DragEvent) =>
+          this.handleDragStart(e, normalizedValue, onChange)
+        }
         showANDOR={showANDOR}
         showNot={showNot}
         data={data}
