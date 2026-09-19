@@ -85,6 +85,11 @@ export interface QuickEditState {
 let inited: boolean = false;
 let currentOpened: any;
 
+export function isTextInputTarget(target: EventTarget | null) {
+  const tagName = (target as HTMLElement | null)?.tagName;
+  return tagName === 'INPUT' || tagName === 'TEXTAREA';
+}
+
 export const getQuickEditApi = (
   saveImmediately?: SchemaQuickEditObject['saveImmediately'],
   quickSaveItemApi?: SchemaApi
@@ -181,10 +186,7 @@ export const HocQuickEdit =
           return;
         }
 
-        if (
-          keycode(e) === 'space' &&
-          !~['INPUT', 'TEXTAREA'].indexOf(el.tagName)
-        ) {
+        if (keycode(e) === 'space' && !isTextInputTarget(e.target)) {
           e.preventDefault();
           e.stopPropagation();
         }

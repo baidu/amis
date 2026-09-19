@@ -4,7 +4,10 @@
  * @description QuickEdit组件单元测试，主要测试getQuickEditApi函数
  */
 
-import {getQuickEditApi} from '../../src/renderers/QuickEdit';
+import {
+  getQuickEditApi,
+  isTextInputTarget
+} from '../../src/renderers/QuickEdit';
 
 describe('getQuickEditApi函数测试', () => {
   test('saveImmediately为true时返回quickSaveItemApi', () => {
@@ -23,4 +26,17 @@ describe('getQuickEditApi函数测试', () => {
   test('saveImmediately不存在时,返回undefined', () => {
     expect(getQuickEditApi()).toBeUndefined();
   });
+});
+
+test('recognizes text input targets inside table quick edits', () => {
+  expect(isTextInputTarget({tagName: 'INPUT'} as unknown as EventTarget)).toBe(
+    true
+  );
+  expect(
+    isTextInputTarget({tagName: 'TEXTAREA'} as unknown as EventTarget)
+  ).toBe(true);
+  expect(isTextInputTarget({tagName: 'TD'} as unknown as EventTarget)).toBe(
+    false
+  );
+  expect(isTextInputTarget(null)).toBe(false);
 });
