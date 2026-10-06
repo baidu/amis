@@ -193,7 +193,8 @@ const CityArea = memo<AreaProps>(props => {
         values[1] = code;
       }
 
-      if (code % 100 && allowDistrict) {
+      // Direct counties already occupy the city column and have no district.
+      if (code % 100 && allowDistrict && code !== values[1]) {
         values[2] = code;
       }
       setValues(values);
