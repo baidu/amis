@@ -123,6 +123,11 @@ test('formula:math', async () => {
   expect(await evalFormual('CEIL(3.456789)')).toBe(3.46);
   expect(await evalFormual('FLOOR(3.456789)')).toBe(3.45);
 
+  // 浮点乘法尾差导致的取整错误：https://github.com/baidu/amis/issues/21533
+  expect(await evalFormual('CEIL(1.1, 2)')).toBe(1.1);
+  expect(await evalFormual('CEIL(0.07, 2)')).toBe(0.07);
+  expect(await evalFormual('CEIL(1.1)')).toBe(1.1);
+
   expect(await evalFormual('SQRT(4)')).toBe(2);
   expect(await evalFormual('AVG(4, 6, 10, 10, 10)')).toBe(8);
 
@@ -136,7 +141,14 @@ test('formula:math', async () => {
   expect(await evalFormual('LARGE([1,3,5,4,7,6], 3)')).toBe(5);
   expect(await evalFormual('LARGE([1,3,5,4,7,6], 1)')).toBe(7);
 
-  expect(await evalFormual('UPPERMONEY(7682.01)')).toBe('柒仟陆佰捌拾贰元壹分');
+  // 浮点乘法尾差导致角/分取错，以及角为零分不为零时补「零」：baidu/amis#21533
+  expect(await evalFormual('UPPERMONEY(19.99)')).toBe('壹拾玖元玖角玖分');
+  expect(await evalFormual('UPPERMONEY(1.13)')).toBe('壹元壹角叁分');
+  expect(await evalFormual('UPPERMONEY(0.57)')).toBe('伍角柒分');
+  expect(await evalFormual('UPPERMONEY(1.05)')).toBe('壹元零伍分');
+  expect(await evalFormual('UPPERMONEY(100.05)')).toBe('壹佰元零伍分');
+
+  expect(await evalFormual('UPPERMONEY(7682.01)')).toBe('柒仟陆佰捌拾贰元零壹分');
   expect(await evalFormual('UPPERMONEY(7682)')).toBe('柒仟陆佰捌拾贰元整');
 
   expect(await evalFormual('POW(2,3)')).toBe(8);

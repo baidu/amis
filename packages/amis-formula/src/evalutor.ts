@@ -843,7 +843,9 @@ export class Evaluator {
 
     if (bResult) {
       const c = Math.pow(10, bResult);
-      return Math.ceil(a * c) / c;
+      // 与 FLOOR 一致，先消除浮点乘法产生的尾差，避免 1.1 * 100 这类
+      // 恰好等于整数的值被向上多进一位
+      return Math.ceil(parseFloat((a * c).toFixed(10))) / c;
     }
 
     return Math.ceil(a);
@@ -1005,11 +1007,20 @@ export class Evaluator {
     ];
     const head = n < 0 ? '欠' : '';
     n = Math.abs(n);
+    // 与 FLOOR/CEIL 一致，先消除浮点乘法产生的尾差，避免 19.99 * 100
+    // 这类值在 floor 后取错角/分
+    const jiaoDigit = Math.floor(parseFloat((n * 10).toFixed(10))) % 10;
+    const fenDigit = Math.floor(parseFloat((n * 100).toFixed(10))) % 10;
     let s = '';
     for (let i = 0; i < fraction.length; i++) {
-      s += (
-        digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]
-      ).replace(/零./, '');
+      const d = i === 0 ? jiaoDigit : fenDigit;
+      // 角为零、分不为零且存在整数部分时保留「零角」，后续统一的
+      // 「零」归一处理会把它输出成「元零X分」（如 1.05 → 壹元零伍分）
+      if (i === 0 && jiaoDigit === 0 && fenDigit !== 0 && Math.floor(n) > 0) {
+        s += digit[d] + fraction[i];
+      } else {
+        s += (digit[d] + fraction[i]).replace(/零./, '');
+      }
     }
     s = s || '整';
     n = Math.floor(n);
