@@ -1,0 +1,21 @@
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number",
+        "title": "ID"
+      },
+      "name": {
+        "type": "string",
+        "title": "名称"
+      },
+      "description": {
+        "type": "string",
+        "title": "描述"
+      }
+    }
+  }
+}
