@@ -475,6 +475,9 @@ export default class PickerControl extends React.PureComponent<
     this.setState({
       isFocused: true
     });
+    if (!this.props.disabled) {
+      this.open();
+    }
   }
 
   @autobind
