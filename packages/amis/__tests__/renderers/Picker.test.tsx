@@ -20,6 +20,48 @@ afterEach(() => {
   clearStoresCache();
 });
 
+test('Renderer:Picker opens when clicking the field after a value is selected', () => {
+  const {baseElement, container} = render(
+    amisRender({
+      type: 'picker',
+      name: 'picker',
+      value: 'a',
+      options: [
+        {label: 'A', value: 'a'},
+        {label: 'B', value: 'b'}
+      ]
+    })
+  );
+
+  expect(container.querySelector('.cxd-Picker-value')).toHaveTextContent('A');
+  expect(
+    baseElement.querySelector('.cxd-Modal .cxd-Crud')
+  ).not.toBeInTheDocument();
+
+  fireEvent.click(container.querySelector('.cxd-Picker-valueWrap input')!);
+
+  expect(baseElement.querySelector('.cxd-Modal .cxd-Crud')).toBeInTheDocument();
+});
+
+test('Renderer:Picker does not open a disabled field with a selected value', () => {
+  const {baseElement, container} = render(
+    amisRender({
+      type: 'picker',
+      name: 'picker',
+      disabled: true,
+      value: 'a',
+      options: [{label: 'A', value: 'a'}]
+    })
+  );
+
+  expect(container.querySelector('.cxd-Picker-value')).toHaveTextContent('A');
+  fireEvent.click(container.querySelector('.cxd-Picker-valueWrap input')!);
+
+  expect(
+    baseElement.querySelector('.cxd-Modal .cxd-Crud')
+  ).not.toBeInTheDocument();
+});
+
 test('1. Renderer:Picker base', async () => {
   const {container, rerender, getByText, getByPlaceholderText, baseElement} =
     render(
